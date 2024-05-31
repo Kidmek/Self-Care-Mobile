@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "ride",
-    "slug": "ride",
+    "name": "sage",
+    "slug": "sage",
     "version": "1.0.0",
 
-    "scheme": "ride",
+    "scheme": "sage",
     "web": {
       "bundler": "metro",
       "output": "static",

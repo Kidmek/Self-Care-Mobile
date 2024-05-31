@@ -1,0 +1,103 @@
+import { useStoreActions, useStoreState } from 'easy-peasy';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, ScrollView } from 'react-native';
+import { useToast } from 'react-native-toast-notifications';
+
+import { authStyles } from './auth.style';
+
+import { postSkeleton } from '~/api/apiConfig';
+import { getUserData } from '~/api/storage';
+import CustomButton from '~/common/button/CustomButton';
+import CustomInput from '~/common/input/CustomInput';
+import { AUTH_STRINGS } from '~/constants/strings/auth';
+import { AUTH_STAGE } from '~/constants/strings/common';
+import { COLORS, SIZES } from '~/constants/theme';
+
+export default function NewPass({ setStep, otp }) {
+  const { t: i18n } = useTranslation();
+  const toast = useToast();
+  const [confirmPass, setConfirmPass] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
+
+  const setLoading = useStoreActions((actions) => actions.setLoading);
+  const setForgotPass = useStoreActions((actions) => actions.setForgotPass);
+  const isForgotPass = useStoreState((state) => state.isForgotPass);
+
+  const handleResetPass = async () => {
+    if (!Object.keys(errors).length) {
+      setErrors({});
+      const user = await getUserData();
+
+      postSkeleton({
+        url: 'auth/change-pass',
+        dataToSend: { email: user.email, otp, password },
+        errorMsg: 'Unable to change password',
+        successMsg: `Password changed`,
+        onSuccess: () => {
+          setForgotPass(false);
+          setStep(AUTH_STAGE.LOGIN);
+        },
+        toast,
+        setLoading,
+      });
+    }
+  };
+
+  useEffect(() => {
+    const prev = {};
+    if (password && password.length < 5) {
+      prev.password = 'Password must be atleast 5 characters';
+    } else if (password && confirmPass !== password) {
+      prev.confirmPass = "Passwords Don't Match";
+      prev.password = false;
+    }
+    setErrors(prev);
+  }, [confirmPass, password]);
+  return (
+    <View style={authStyles.container}>
+      <Text style={authStyles.header}>
+        {isForgotPass ? i18n(AUTH_STRINGS.FORGOT_PASSWORD) : i18n(AUTH_STRINGS.LOGIN)}
+      </Text>
+      <ScrollView contentContainerStyle={authStyles.body} showsVerticalScrollIndicator={false}>
+        <View style={authStyles.inputContainer}>
+          <CustomInput
+            state={password}
+            setState={(v) => {
+              setPassword(v);
+            }}
+            label={i18n(AUTH_STRINGS.PASSWORD)}
+            placeholder={i18n(AUTH_STRINGS.PASSWORD_LABEL)}
+            isPassword
+            error={errors['password']}
+          />
+          <CustomInput
+            state={confirmPass}
+            setState={(v) => {
+              setConfirmPass(v);
+            }}
+            label={i18n(AUTH_STRINGS.CONFIRM_PASSWORD)}
+            placeholder={i18n(AUTH_STRINGS.CONFIRM_PASSWORD_LABEL)}
+            isPassword
+            name="confirmPass"
+            error={errors['confirmPass']}
+          />
+        </View>
+
+        <View style={{ gap: SIZES.small }}>
+          <CustomButton title={i18n(AUTH_STRINGS.NEXT)} onPress={handleResetPass} />
+          <CustomButton
+            title={i18n(AUTH_STRINGS.CANCEL)}
+            onPress={() => {
+              setErrors({});
+              setForgotPass(false);
+              setStep(AUTH_STAGE.LOGIN);
+            }}
+            color={COLORS.gray}
+          />
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
