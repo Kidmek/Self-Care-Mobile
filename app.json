@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "sage",
-    "slug": "sage",
+    "name": "Self Care",
+    "slug": "Self Care",
     "version": "1.0.0",
 
-    "scheme": "sage",
+    "scheme": "Self Care",
     "web": {
       "bundler": "metro",
       "output": "static",

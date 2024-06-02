@@ -44,6 +44,8 @@ export default function CustomInput({
           placeholderTextColor={COLORS.placeholder}
           keyboardType={type}
           editable={type !== INPUT_TYPE.DATE}
+          multiline={type === INPUT_TYPE.MULTI}
+          numberOfLines={type === INPUT_TYPE.MULTI ? 4 : 1}
         />
         {(isPassword || type === INPUT_TYPE.DATE) && (
           <TouchableOpacity

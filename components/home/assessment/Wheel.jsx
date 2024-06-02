@@ -6,7 +6,7 @@ import LifeWheel from './LifeWheel';
 import { getWheelData, setWheelData } from '~/api/storage';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import WheelModal from '~/components/modal/WheelModal';
-import { WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
+import { WHEEL_SECTIONS } from '~/constants/strings/home/assessment/wheel';
 import { WHEEL_COLORS } from '~/constants/theme';
 
 export default function Wheel() {
@@ -19,9 +19,9 @@ export default function Wheel() {
 
   const fetchData = async () => {
     const data = await getWheelData();
-    if (!data) {
-      const segments = Object.keys(WHEEL_STRINGS).map((a, i) => {
-        const angle = 360 / Object.keys(WHEEL_STRINGS).length;
+    if (!data.length) {
+      const segments = Object.keys(WHEEL_SECTIONS).map((a, i) => {
+        const angle = 360 / Object.keys(WHEEL_SECTIONS).length;
         return {
           startAngle: i * angle,
           endAngle: (i + 1) * angle,

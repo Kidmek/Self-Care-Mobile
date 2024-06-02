@@ -1,8 +1,10 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Svg, Path, Text, G } from 'react-native-svg';
 
-import { COLORS, SIZES } from '~/constants/theme';
+import { assessmentStyle } from './assessment.style';
+
+import { COLORS } from '~/constants/theme';
 
 const LifeWheel = ({ segments, radius, handlePress }) => {
   const extraPadding = 40;
@@ -41,7 +43,7 @@ const LifeWheel = ({ segments, radius, handlePress }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={assessmentStyle.wheelContainer}>
       <Svg height={height} width={width}>
         <G>
           {segments.map((segment, index) => (
@@ -89,6 +91,7 @@ const LifeWheel = ({ segments, radius, handlePress }) => {
                     fontSize="16"
                     fontWeight="bold"
                     textAnchor="middle"
+                    style={assessmentStyle.outerWheel}
                     alignmentBaseline="bottom">
                     {segment.value}
                   </Text>
@@ -96,7 +99,7 @@ const LifeWheel = ({ segments, radius, handlePress }) => {
                 <Text
                   x={x}
                   y={y}
-                  style={styles.outer}
+                  style={assessmentStyle.outerWheel}
                   fill={COLORS.uiElementColors.text.primary}
                   transform={`rotate(${rotation}, ${x}, ${y})`}>
                   {`${segment.label} `}
@@ -109,20 +112,5 @@ const LifeWheel = ({ segments, radius, handlePress }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  outer: {
-    textAnchor: 'middle',
-    alignmentBaseline: 'middle',
-    fontSize: SIZES.medium,
-    fontWeight: 'bold',
-    // fontFamily: FONT.bold,
-    color: COLORS.uiElementColors.text.secondary,
-  },
-});
 
 export default LifeWheel;

@@ -4,23 +4,37 @@ import { COLORS, FONT, SIZES } from '~/constants/theme';
 
 export const homeStyle = StyleSheet.create({
   container: {
-    flex: 1,
-    marginBottom: SIZES.tabHeight,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: SIZES.smallPicture,
+    // flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    gap: SIZES.large,
+    paddingHorizontal: SIZES.xxLarge,
+    paddingTop: SIZES.xLarge,
   },
-  cardContainer: {
+  singleCardContainer: {
     borderWidth: StyleSheet.hairlineWidth,
-    width: '80%',
-    paddingVertical: SIZES.xxLarge,
+    paddingVertical: SIZES.xLarge,
     borderRadius: SIZES.large,
     backgroundColor: COLORS.primaryColors.lightBlue + '8A',
     alignItems: 'center',
   },
-  cardTitle: {
-    fontFamily: FONT.bold,
+  singleCardTitle: {
+    fontFamily: FONT.regular,
     fontSize: SIZES.large,
     color: COLORS.uiElementColors.text.primary,
+  },
+  cardsContainerTitle: {
+    fontFamily: FONT.bold,
+    fontSize: SIZES.xLarge,
+    color: COLORS.circleAndInfo,
+  },
+  cardsContainer: {
+    gap: SIZES.large,
+  },
+  cardsContainerHeader: {
+    gap: SIZES.large,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

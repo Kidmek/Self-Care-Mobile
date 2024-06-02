@@ -12,8 +12,8 @@ export default function _layout() {
         headerLeft: () => <HeaderIcon type={HEADER_TYPES.BACK} />,
         headerTitle: '',
       }}>
-      <Stack.Screen name="tracking" options={{}} />
-      <Stack.Screen name="wheel" options={{}} />
+      <Stack.Screen name="journaling" options={{}} />
+      <Stack.Screen name="sleeping" options={{}} />
     </Stack>
   );
 }

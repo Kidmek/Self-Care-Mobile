@@ -1,9 +1,9 @@
 import React from 'react';
 import { ImageBackground } from 'react-native';
 
-import { SIZES } from '~/constants/theme';
+import { SIZES, width, height } from '~/constants/theme';
 
-export default function ImageContainer({ children }) {
+export default function ImageContainer({ hasTab, children }) {
   return (
     <ImageBackground
       source={require('~/assets/images/bg.png')}
@@ -11,6 +11,12 @@ export default function ImageContainer({ children }) {
       style={{
         flex: 1,
         paddingTop: SIZES.navHeight,
+        paddingBottom: hasTab ? SIZES.tabHeight : 0,
+        // position: 'absolute',
+        width,
+        height,
+        top: 0,
+        left: 0,
       }}>
       {children}
     </ImageBackground>

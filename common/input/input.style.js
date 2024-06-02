@@ -19,6 +19,7 @@ export default StyleSheet.create({
       fontSize: SIZES.medium,
       flex: 1,
       borderColor: error ? COLORS.red : null,
+      textAlignVertical: 'top',
     };
   },
   passContainer: {

@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { ADMIN, LANGUAGE_KEY, ROLE_KEY, TOKEN_KEY, USER_KEY } from '~/constants/strings/api';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
+import { TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
 
 export const setToken = async (token) => {
   if (token) {
@@ -59,4 +60,30 @@ export const setWheelData = async (data) => {
 export const getWheelData = async () => {
   const wheelData = await AsyncStorage.getItem(ASSESSMENT_STRINGS.LIFE_WHEEL);
   return JSON.parse(wheelData);
+};
+
+// export const deleteTrackingInfo = async (id)=>{
+//   await
+// }
+
+export const setTrackingInfo = async (data) => {
+  await AsyncStorage.setItem(ASSESSMENT_STRINGS.MOOD_TRACKING, JSON.stringify(data));
+};
+
+export const getTrackingInfo = async () => {
+  const data = await AsyncStorage.getItem(ASSESSMENT_STRINGS.MOOD_TRACKING);
+  return JSON.parse(data);
+};
+
+export const setLocalJournals = async (data) => {
+  await AsyncStorage.setItem(TECHNIQUES_STRINGS.JOURNALING, JSON.stringify(data));
+};
+
+export const getLocalJournals = async () => {
+  const data = await AsyncStorage.getItem(TECHNIQUES_STRINGS.JOURNALING);
+  return JSON.parse(data);
+};
+export const addLocalJournal = async (data) => {
+  const prev = (await getLocalJournals()) ?? [];
+  setLocalJournals([...prev, data]);
 };

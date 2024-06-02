@@ -8,6 +8,7 @@ export enum AUTH_STAGE {
 export enum INPUT_TYPE {
   EMAIL = 'email-address',
   DATE = 'date',
+  MULTI = 'multi',
 }
 
 export enum MODAL_TYPES {

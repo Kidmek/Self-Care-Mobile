@@ -56,26 +56,13 @@ export const modalStyles = StyleSheet.create({
     paddingVertical: SIZES.xSmall,
     borderRadius: SIZES.small,
   },
-  driverBtn: {
-    paddingHorizontal: SIZES.large,
-    paddingVertical: SIZES.small,
-    borderRadius: SIZES.small,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: SIZES.small,
-  },
+
   btnContainer: {
     flexDirection: 'row',
     // justifyContent: 'space-between',
     gap: SIZES.xxLarge,
   },
-  mapContainer: {
-    // borderWidth: StyleSheet.hairlineWidth,
-    overflow: 'hidden',
-    borderRadius: SIZES.medium,
-    marginBottom: SIZES.medium,
-  },
+
   info: {
     paddingHorizontal: SIZES.small,
     marginBottom: SIZES.xxLarge,

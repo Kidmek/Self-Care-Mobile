@@ -19,13 +19,26 @@ export const commonStyles = StyleSheet.create({
     };
   },
   headerLeft: {
-    marginTop: SIZES.medium,
-    marginLeft: SIZES.medium,
+    // marginTop: SIZES.medium,
+    // marginHorizontal: SIZES.medium,
     borderRadius: SIZES.largePicture,
     borderWidth: StyleSheet.hairlineWidth,
     height: SIZES.xxLarge * 1.5,
     width: SIZES.xxLarge * 1.5,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  divider: (color) => {
+    return {
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: color ?? COLORS.circleAndInfo,
+      width: '100%',
+      marginVertical: SIZES.medium,
+    };
+  },
+  innerContainer: {
+    paddingHorizontal: SIZES.medium,
+    flex: 1,
   },
 });

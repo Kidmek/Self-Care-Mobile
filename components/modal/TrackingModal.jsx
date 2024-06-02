@@ -1,20 +1,20 @@
-import Slider from '@react-native-community/slider';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, Modal, TouchableOpacity } from 'react-native';
 
 import { modalStyles } from './modal.style';
 
-import { WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
+import CustomInput from '~/common/input/CustomInput';
+import { INPUT_TYPE } from '~/constants/strings/common';
+import { TRACKING, TRACKING_STRINGS } from '~/constants/strings/home/assessment/tracking';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
-import { COLORS, SIZES } from '~/constants/theme';
 
-export default function WheelModal({ visible, setVisible, save, segment }) {
+export default function TrackingModal({ visible, setVisible, save, selected }) {
   const { t: i18n } = useTranslation();
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState('');
   useEffect(() => {
-    if (segment?.value) {
-      setValue(segment.value);
+    if (visible) {
+      setValue('');
     }
   }, [visible]);
   return (
@@ -30,34 +30,19 @@ export default function WheelModal({ visible, setVisible, save, segment }) {
           style={{
             ...modalStyles.modalView,
             ...modalStyles.logoutContainer,
-            alignItems: 'center',
+            // alignItems: 'center',
           }}>
           <View style={{ ...modalStyles.textContainer }}>
-            {segment?.label && (
-              <Text style={modalStyles.modalHeader}>{WHEEL_STRINGS[segment?.label]}</Text>
-            )}
+            {selected && <Text style={modalStyles.modalHeader}>{TRACKING[selected]}</Text>}
 
-            <Text style={modalStyles.logoutText}>{i18n(WHEEL_STRINGS.SATISFIED_QNS)}</Text>
-            <Text
-              style={{
-                ...modalStyles.modalHeader,
-                textAlign: 'center',
-                color: COLORS.circleAndInfo,
-                fontSize: SIZES.xxLarge,
-              }}>
-              {value}
-            </Text>
-            <Slider
-              value={value}
-              onValueChange={setValue}
-              step={1}
-              minimumValue={1}
-              maximumValue={10}
-              minimumTrackTintColor={COLORS.circleAndInfo}
-              maximumTrackTintColor={COLORS.accentColors.softLavender}
-              thumbTintColor={COLORS.circleAndInfo}
-            />
+            <Text style={modalStyles.logoutText}>{i18n(TRACKING_STRINGS.ADDITIONAL_INFO)}</Text>
           </View>
+          <View style={modalStyles.btnContainer}>
+            <View style={{ flex: 1 }}>
+              <CustomInput state={value} setState={setValue} type={INPUT_TYPE.MULTI} />
+            </View>
+          </View>
+
           <View style={modalStyles.btnContainer}>
             <TouchableOpacity
               onPress={() => {

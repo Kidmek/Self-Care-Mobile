@@ -12,7 +12,7 @@ import LogoutModal from '~/components/modal/LogoutModal';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'auth',
+  initialRouteName: '(drawer)',
 };
 
 export default function RootLayout() {
@@ -44,9 +44,10 @@ export default function RootLayout() {
         renderToast={(toast) => <Toast toast={toast} />}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Stack>
-            <Stack.Screen name="auth" options={{ headerShown: false }} />
+            <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             <Stack.Screen name="assessment" options={{ headerShown: false }} />
+            <Stack.Screen name="techniques" options={{ headerShown: false }} />
           </Stack>
         </GestureHandlerRootView>
       </ToastProvider>

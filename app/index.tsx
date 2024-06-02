@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { Redirect, useRootNavigationState, useRouter } from 'expo-router';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -15,12 +15,19 @@ import '~/constants/strings/index';
 import { COLORS, SIZES } from '~/constants/theme';
 
 export default function Auth() {
-  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
   const { top } = useSafeAreaInsets();
   const [selected, setSelected] = useState('');
   const [languageOpen, setLanguageOpen] = useState(false);
   const [step, setStep] = useState<AUTH_STAGE>(AUTH_STAGE.LOGIN);
   const [otp, setOtp] = useState('');
+  const rootNavigationState = useRootNavigationState();
+  // Check connection TODO
+  // const unsubscribe = NetInfo.addEventListener((state) => {
+  //   console.log('Connection type', state.type);
+  //   console.log('Is connected?', state.isConnected);
+  // });
+
   const languages = [
     { value: 'en', label: 'English' },
     { value: 'am', label: 'Amharic' },
@@ -43,8 +50,13 @@ export default function Auth() {
   }, []);
   useEffect(() => {
     const isLoggedIn = async () => {
-      if (await getToken()) {
-        router.replace('(drawer)');
+      console.log('checking login');
+      // TODO
+      // if (await getToken()) {
+      if (true) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
       }
     };
     isLoggedIn();
@@ -54,6 +66,12 @@ export default function Auth() {
     setLanguage(selected);
     i18next.changeLanguage(selected);
   }, [selected]);
+  if (!rootNavigationState?.key || isLoggedIn === undefined) return null;
+
+  if (isLoggedIn) {
+    return <Redirect href="(drawer)" />;
+  }
+
   return (
     <View
       style={{
