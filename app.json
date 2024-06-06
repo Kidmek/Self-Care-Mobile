@@ -3,7 +3,6 @@
     "name": "Self Care",
     "slug": "Self Care",
     "version": "1.0.0",
-
     "scheme": "Self Care",
     "web": {
       "bundler": "metro",
@@ -13,15 +12,11 @@
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true,
-
       "tsconfigPaths": true
     },
-
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-
     "userInterfaceStyle": "light",
-
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

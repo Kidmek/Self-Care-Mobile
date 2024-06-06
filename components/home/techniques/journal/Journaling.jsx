@@ -1,14 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
-import { router, useNavigation } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import { router, useFocusEffect, useNavigation } from 'expo-router';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, Pressable, StyleSheet, Alert, FlatList } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 
-import { techniqueStyles } from '../techniques.style';
+import SingleHistory from '../../assessment/SingleHistory';
+import { assessmentStyle } from '../../assessment/assessment.style';
 
 import { getLocalJournals, setLocalJournals } from '~/api/storage';
-import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
 import { COLORS, SIZES } from '~/constants/theme';
@@ -51,17 +51,58 @@ export default function Journaling() {
     ]);
   };
 
-  const renderItem = () => {};
-  useEffect(() => {
+  const renderItem = (data) => {
+    data = data.item;
+    const { value, title, time } = data;
+    return (
+      <SingleHistory
+        time={time}
+        description={value}
+        title={title}
+        onPressDelete={hanldeDelete}
+        onPress={() => {
+          navigation.navigate('new', {
+            screen: 'journal',
+            params: data,
+          });
+        }}
+      />
+    );
+  };
+  useFocusEffect(() => {
     fetch();
-  }, []);
+  });
+
   return (
     <ImageContainer>
-      <View style={commonStyles.innerContainer}>
+      <View
+        style={{
+          flex: 1,
+        }}>
+        <FlatList
+          data={journals}
+          renderItem={renderItem}
+          contentContainerStyle={{
+            ...assessmentStyle.historyContainer,
+          }}
+          ListEmptyComponent={() => {
+            return (
+              <Text
+                style={{
+                  ...assessmentStyle.container,
+                  textAlign: 'center',
+                  ...assessmentStyle.headerQns,
+                }}>
+                {i18n(TECHNIQUES_STRINGS.EMPTY_HISTORY)}
+              </Text>
+            );
+          }}
+          // contentContainerStyle={{ ' }}
+        />
         <Pressable
           style={styles.addButton}
           onPress={() => {
-            router.push('techniques/new/journy');
+            router.push('techniques/new/journal');
           }}>
           <Ionicons name="add" size={SIZES.xxLarge} />
         </Pressable>

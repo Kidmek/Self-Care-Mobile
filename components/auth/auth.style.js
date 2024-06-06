@@ -11,7 +11,7 @@ export const authStyles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'space-evenly',
     paddingVertical: SIZES.xxLarge,
-    gap: SIZES.xxLarge,
+    // gap: SIZES.xxLarge,
   },
   header: {
     fontFamily: FONT.bold,

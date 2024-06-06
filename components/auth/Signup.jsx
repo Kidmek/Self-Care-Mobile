@@ -141,8 +141,8 @@ export default function SignUp({ setStep }) {
 
           <Dropdown
             options={[
-              { value: 'M', label: 'Male' },
-              { value: 'F', label: 'Female' },
+              { value: 'Male', label: 'Male' },
+              { value: 'Female', label: 'Female' },
             ]}
             selected={user.gender}
             setSelected={(g) => handleChange(g.value, 'gender')}

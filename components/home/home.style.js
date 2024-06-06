@@ -4,9 +4,6 @@ import { COLORS, FONT, SIZES } from '~/constants/theme';
 
 export const homeStyle = StyleSheet.create({
   container: {
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     gap: SIZES.large,
     paddingHorizontal: SIZES.xxLarge,
     paddingTop: SIZES.xLarge,
@@ -19,6 +16,7 @@ export const homeStyle = StyleSheet.create({
     alignItems: 'center',
   },
   singleCardTitle: {
+    textAlign: 'center',
     fontFamily: FONT.regular,
     fontSize: SIZES.large,
     color: COLORS.uiElementColors.text.primary,

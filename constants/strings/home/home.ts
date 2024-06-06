@@ -7,5 +7,7 @@ export enum HOME_STRINGS {
   SAVE = 'Save',
   LOGOUT = 'Logout',
   LOGOUT_QNS = 'Are you sure you want to log out?',
+  HOME = 'Home',
+  REMINDER = 'Reminder',
 }
 export const am_home_translations: { [placeholder in HOME_STRINGS]?: string } = {};

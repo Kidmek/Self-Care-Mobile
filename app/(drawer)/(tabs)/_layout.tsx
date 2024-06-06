@@ -1,16 +1,19 @@
 import { useStoreActions } from 'easy-peasy';
 import { Tabs } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 
 import { commonStyles } from '~/common/common.style';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import TabIcon from '~/common/tabIcon/TabIcon';
 import { HEADER_TYPES, MODAL_TYPES } from '~/constants/strings/common';
+import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { COLORS } from '~/constants/theme';
 
 export default function TabLayout() {
   // @ts-ignore
   const showModal = useStoreActions((action) => action.showModal);
+  const { t: i18n } = useTranslation();
 
   return (
     <Tabs
@@ -26,21 +29,21 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: i18n(HOME_STRINGS.HOME),
           tabBarIcon: ({ color }) => <TabIcon name="home" color={color} />,
         }}
       />
       <Tabs.Screen
         name="reminders"
         options={{
-          title: 'Reminder',
+          title: i18n(HOME_STRINGS.REMINDER),
           tabBarIcon: ({ color }) => <TabIcon name="timer" color={color} />,
         }}
       />
       <Tabs.Screen
         name="logout"
         options={{
-          title: 'Log out',
+          title: i18n(HOME_STRINGS.LOGOUT),
           tabBarIcon: ({ color }) => <TabIcon name="log-out" color={color} />,
         }}
         listeners={() => ({

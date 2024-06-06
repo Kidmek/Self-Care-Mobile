@@ -52,8 +52,8 @@ export default function Auth() {
     const isLoggedIn = async () => {
       console.log('checking login');
       // TODO
-      // if (await getToken()) {
-      if (true) {
+      if (await getToken()) {
+        // if (true) {
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);

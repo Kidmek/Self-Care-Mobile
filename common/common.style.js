@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { COLORS, FONT, SIZES } from '~/constants/theme';
+import { COLORS, FONT, SIZES, height, width } from '~/constants/theme';
 
 export const commonStyles = StyleSheet.create({
   largeImage: {
@@ -13,9 +13,10 @@ export const commonStyles = StyleSheet.create({
   },
   container: (top) => {
     return {
+      gap: SIZES.large,
+      paddingHorizontal: SIZES.xxLarge,
       paddingTop: top,
       flex: 1,
-      backgroundColor: COLORS.pureWhite,
     };
   },
   headerLeft: {
@@ -35,6 +36,13 @@ export const commonStyles = StyleSheet.create({
       backgroundColor: color ?? COLORS.circleAndInfo,
       width: '100%',
       marginVertical: SIZES.medium,
+    };
+  },
+  verticalDivider: (color) => {
+    return {
+      width: StyleSheet.hairlineWidth,
+      backgroundColor: color ?? COLORS.circleAndInfo,
+      height: '100%',
     };
   },
   innerContainer: {

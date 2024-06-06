@@ -88,10 +88,11 @@ export default function Login({ setStep }) {
 
   return (
     <View style={authStyles.container}>
-      <Text style={authStyles.header}>
-        {isForgotPass ? i18n(AUTH_STRINGS.FORGOT_PASSWORD) : i18n(AUTH_STRINGS.LOGIN)}
-      </Text>
       <ScrollView contentContainerStyle={authStyles.body} showsVerticalScrollIndicator={false}>
+        <Text style={authStyles.header}>
+          {isForgotPass ? i18n(AUTH_STRINGS.FORGOT_PASSWORD) : i18n(AUTH_STRINGS.LOGIN)}
+        </Text>
+
         <View style={authStyles.inputContainer}>
           <CustomInput
             state={username}

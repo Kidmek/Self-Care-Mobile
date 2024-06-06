@@ -13,7 +13,7 @@ export default function _layout() {
         headerTitle: '',
       }}>
       <Stack.Screen name="journaling" options={{}} />
-      <Stack.Screen name="sleeping" options={{}} />
+      <Stack.Screen name="tips" options={{}} />
     </Stack>
   );
 }

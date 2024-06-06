@@ -5,7 +5,7 @@ import { View, Text, Modal, TouchableOpacity } from 'react-native';
 
 import { modalStyles } from './modal.style';
 
-import { WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
+import { WHEEL_SECTIONS, WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { COLORS, SIZES } from '~/constants/theme';
 
@@ -34,7 +34,7 @@ export default function WheelModal({ visible, setVisible, save, segment }) {
           }}>
           <View style={{ ...modalStyles.textContainer }}>
             {segment?.label && (
-              <Text style={modalStyles.modalHeader}>{WHEEL_STRINGS[segment?.label]}</Text>
+              <Text style={modalStyles.modalHeader}>{WHEEL_SECTIONS[segment?.label]}</Text>
             )}
 
             <Text style={modalStyles.logoutText}>{i18n(WHEEL_STRINGS.SATISFIED_QNS)}</Text>

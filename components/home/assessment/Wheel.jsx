@@ -19,7 +19,7 @@ export default function Wheel() {
 
   const fetchData = async () => {
     const data = await getWheelData();
-    if (!data.length) {
+    if (!data?.length) {
       const segments = Object.keys(WHEEL_SECTIONS).map((a, i) => {
         const angle = 360 / Object.keys(WHEEL_SECTIONS).length;
         return {

@@ -1,6 +1,3 @@
-import { View } from 'react-native';
-
-import { commonStyles } from '~/common/common.style';
 import Home from '~/components/home/Home';
 
 export default function index() {
@@ -8,8 +5,6 @@ export default function index() {
 
   return (
     // @ts-ignore
-    <View style={commonStyles.container(0)}>
-      <Home />
-    </View>
+    <Home />
   );
 }

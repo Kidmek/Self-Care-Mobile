@@ -1,9 +1,7 @@
-import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import Animated from 'react-native-reanimated';
 import { useToast } from 'react-native-toast-notifications';
 
 import SingleHistory from './SingleHistory';
@@ -50,30 +48,13 @@ export default function Tracking() {
   };
   const renderHistory = (data) => {
     data = data.item;
-    const renderRightActions = (progress, dragX) => {
-      const scale = dragX.interpolate({
-        inputRange: [-100, -50, 0],
-        outputRange: [2, 1, 0],
-        extrapolate: 'clamp',
-      });
 
-      return (
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => hanldeDelete(data)}
-          style={assessmentStyle.rightAction}>
-          <Animated.View>
-            <Ionicons name="trash" color="red" size={30} />
-          </Animated.View>
-        </TouchableOpacity>
-      );
-    };
     const { description, mood, time } = data;
     return (
       <SingleHistory
         time={time}
         description={description}
-        mood={mood}
+        title={mood}
         onPressDelete={hanldeDelete}
       />
     );

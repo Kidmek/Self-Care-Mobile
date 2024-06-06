@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { ADMIN, LANGUAGE_KEY, ROLE_KEY, TOKEN_KEY, USER_KEY } from '~/constants/strings/api';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
+import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
 
 export const setToken = async (token) => {
@@ -49,8 +50,7 @@ export const setRole = async (role) => {
 };
 
 export const logout = async () => {
-  await AsyncStorage.removeItem(USER_KEY);
-  await AsyncStorage.removeItem(TOKEN_KEY);
+  await AsyncStorage.clear();
 };
 
 export const setWheelData = async (data) => {
@@ -85,5 +85,18 @@ export const getLocalJournals = async () => {
 };
 export const addLocalJournal = async (data) => {
   const prev = (await getLocalJournals()) ?? [];
+  setLocalJournals([...prev, data]);
+};
+
+export const setLocalReminders = async (data) => {
+  await AsyncStorage.setItem(HOME_STRINGS.REMINDER, JSON.stringify(data));
+};
+
+export const getLocalReminders = async () => {
+  const data = await AsyncStorage.getItem(HOME_STRINGS.REMINDER);
+  return JSON.parse(data);
+};
+export const addLocalReminder = async (data) => {
+  const prev = (await getLocalReminders()) ?? [];
   setLocalJournals([...prev, data]);
 };

@@ -10,7 +10,7 @@ import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
-import { TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
+import { TECHNIQUES_STRINGS, TipType } from '~/constants/strings/home/self care/techniques';
 import { COLORS, SIZES } from '~/constants/theme';
 
 export default function Home() {
@@ -27,6 +27,7 @@ export default function Home() {
     link: {
       name: string;
       screen: string;
+      type?: string;
     }
   ) => {
     return (
@@ -37,6 +38,9 @@ export default function Home() {
           // @ts-ignore
           navigation.navigate(link.name, {
             screen: link.screen,
+            params: {
+              type: link.type,
+            },
           });
         }}>
         <Text style={homeStyle.singleCardTitle}>{title}</Text>
@@ -50,6 +54,7 @@ export default function Home() {
       link: {
         name: string;
         screen: string;
+        type?: string;
       };
     }[]
   ) => {
@@ -85,7 +90,8 @@ export default function Home() {
   };
   return (
     <ImageContainer hasTab>
-      <ScrollView contentContainerStyle={homeStyle.container}>
+      {/* @ts-ignore */}
+      <ScrollView contentContainerStyle={commonStyles.container()}>
         {renderCardContainer(i18n(HOME_STRINGS.SELF_ASSESSMENT), [
           {
             title: i18n(ASSESSMENT_STRINGS.LIFE_WHEEL),
@@ -103,19 +109,19 @@ export default function Home() {
           },
           {
             title: i18n(TECHNIQUES_STRINGS.SLEEPING),
-            link: { name: 'techniques', screen: 'sleeping' },
+            link: { name: 'techniques', screen: 'tips', type: TipType.SLEEPING },
           },
           {
             title: i18n(TECHNIQUES_STRINGS.BREATHING),
-            link: { name: 'techniques', screen: 'breathing' },
+            link: { name: 'techniques', screen: 'tips', type: TipType.BREATHING },
           },
           {
             title: i18n(TECHNIQUES_STRINGS.MUSCLE),
-            link: { name: 'techniques', screen: 'musle' },
+            link: { name: 'techniques', screen: 'tips', type: TipType.MUSCLE },
           },
           {
             title: i18n(TECHNIQUES_STRINGS.GROUNDING),
-            link: { name: 'techniques', screen: 'grounding' },
+            link: { name: 'techniques', screen: 'tips', type: TipType.GROUNDING },
           },
         ])}
       </ScrollView>
