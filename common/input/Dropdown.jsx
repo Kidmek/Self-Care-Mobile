@@ -9,34 +9,36 @@ export default function Dropdown({
   selected,
   setSelected,
   placeholder,
-  onChange,
   label,
   error,
+  multiple,
+  zIndex,
+  setValue,
 }) {
   const [open, setOpen] = useState(false);
-
   return (
     <View style={inputStyle.container}>
       {label && <Text style={inputStyle.label}>{label}</Text>}
       <DropDownPicker
         listMode="SCROLLVIEW"
         style={inputStyle.input(error)}
-        containerStyle={inputStyle.dropdownContainer}
         value={selected}
         items={options}
         setOpen={setOpen}
+        setValue={typeof setValue == 'function' ? setValue : undefined}
         open={open}
         onSelectItem={setSelected}
-        onChangeValue={(value) => {
-          if (onChange) {
-            // onChange(value);
-          }
-        }}
         placeholder={placeholder}
         textStyle={inputStyle.label}
         labelStyle={inputStyle.labelStyle}
         placeholderStyle={inputStyle.placeholderStyle}
+        multiple={multiple}
+        zIndex={zIndex && zIndex.normal}
+        zIndexInverse={zIndex && zIndex.inverse}
+        max={2}
+        mode="BADGE"
       />
+      {typeof error == 'string' && <Text style={inputStyle.errorText}>{error}</Text>}
     </View>
   );
 }

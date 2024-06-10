@@ -9,6 +9,7 @@ export enum INPUT_TYPE {
   EMAIL = 'email-address',
   DATE = 'date',
   MULTI = 'multi',
+  TIME = 'time',
 }
 
 export enum MODAL_TYPES {
@@ -18,6 +19,7 @@ export enum MODAL_TYPES {
 export enum HEADER_TYPES {
   BACK,
   DRAWER,
+  INFO,
 }
 
 export const OTP_LENGTH = 6;

@@ -1,27 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { useNavigation } from 'expo-router';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import LifeWheel from './LifeWheel';
 
 import { getWheelData, setWheelData } from '~/api/storage';
+import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
+import InfoModal from '~/components/modal/InfoModal';
 import WheelModal from '~/components/modal/WheelModal';
-import { WHEEL_SECTIONS } from '~/constants/strings/home/assessment/wheel';
-import { WHEEL_COLORS } from '~/constants/theme';
+import { WHEEL_SECTIONS, WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
+import { FONT, SIZES, WHEEL_COLORS } from '~/constants/theme';
 
 export default function Wheel() {
   const [wheels, setWheels] = useState([]);
+  const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const radius = 160;
 
   const [visible, setVisible] = useState(false);
+  const [infoVisible, setInfoVisible] = useState(false);
   const [selected, setSelected] = useState();
 
   const fetchData = async () => {
     const data = await getWheelData();
     if (!data?.length) {
-      const segments = Object.keys(WHEEL_SECTIONS).map((a, i) => {
-        const angle = 360 / Object.keys(WHEEL_SECTIONS).length;
+      const segments = WHEEL_SECTIONS.map((a, i) => {
+        const angle = 360 / WHEEL_SECTIONS.length;
         return {
           startAngle: i * angle,
           endAngle: (i + 1) * angle,
@@ -57,6 +64,21 @@ export default function Wheel() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <HeaderIcon
+            name="help"
+            onPress={() => {
+              setInfoVisible(true);
+            }}
+          />
+        );
+      },
+    });
+  });
   return (
     <ImageContainer>
       <WheelModal
@@ -64,10 +86,43 @@ export default function Wheel() {
         setVisible={setVisible}
         segment={selected}
         save={handleChange}
+        t={t}
       />
-      <View style={{ flex: 1 }}>
+      <InfoModal visible={infoVisible} setVisible={setInfoVisible} t={t} />
+      <ScrollView style={{ flex: 1 }}>
         <LifeWheel segments={wheels} radius={radius} handlePress={handlePress} />
-      </View>
+        <View style={styles.descContainer}>
+          <Text style={styles.descHeader}>{t(WHEEL_STRINGS.DESCRIPTION)}</Text>
+          {WHEEL_SECTIONS.map((s, i) => {
+            return (
+              <View key={i} style={styles.singleDesc}>
+                <Text style={styles.descTitle}>
+                  {s.longName}: <Text style={styles.descBody}>{s.description}</Text>
+                </Text>
+              </View>
+            );
+          })}
+        </View>
+      </ScrollView>
     </ImageContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  descContainer: {
+    padding: SIZES.small,
+    gap: SIZES.small,
+  },
+  descHeader: {
+    fontFamily: FONT.bold,
+    fontSize: SIZES.xLarge,
+    textDecorationLine: 'underline',
+  },
+  descTitle: {
+    fontFamily: FONT.bold,
+    fontSize: SIZES.medium,
+  },
+  descBody: {
+    fontFamily: FONT.regular,
+  },
+});

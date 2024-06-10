@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { COLORS, FONT, SIZES } from '~/constants/theme';
+import { COLORS, FONT, SIZES, width } from '~/constants/theme';
 
 export default StyleSheet.create({
   container: {
@@ -17,7 +17,8 @@ export default StyleSheet.create({
       padding: SIZES.xSmall,
       fontFamily: FONT.regular,
       fontSize: SIZES.medium,
-      flex: 1,
+      // flex: !inside && 1,
+      width: '100%',
       borderColor: error ? COLORS.red : null,
       textAlignVertical: 'top',
     };
@@ -45,6 +46,9 @@ export default StyleSheet.create({
   placeholderStyle: {
     fontFamily: FONT.regular,
     color: COLORS.placeholder,
+  },
+  dropDownContainer: {
+    backgroundColor: 'blue',
   },
 
   //

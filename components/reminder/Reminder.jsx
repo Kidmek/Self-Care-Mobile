@@ -1,48 +1,72 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import { useStoreActions } from 'easy-peasy';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 
+import SingleReminder from './SingleReminder';
 import { assessmentStyle } from '../home/assessment/assessment.style';
 import ReminderModal from '../modal/ReminderModal';
 
 import { getLocalReminders, setLocalReminders } from '~/api/storage';
 import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
-import { REMINDER_STRINGS } from '~/constants/strings/home/reminder';
+import {
+  REMINDER_FREQUENCY,
+  REMINDER_STRINGS,
+  REMINDER_TYPES,
+} from '~/constants/strings/home/reminder';
 import { COLORS, SIZES } from '~/constants/theme';
 
 export default function Reminder() {
   const [visible, setVisible] = useState(false);
   const [reminders, setReminders] = useState([]);
-  const { t: i18n } = useTranslation();
+  const { t } = useTranslation();
   const toast = useToast();
+  const setLoading = useStoreActions((actions) => actions.setLoading);
+
   const fetch = async () => {
     if (false) {
       // Fetch from backend and save locally
     } else {
       //
+
+      setLoading(true);
       const data = (await getLocalReminders()) ?? [];
       setReminders([...data]);
+      setLoading(false);
     }
   };
-  const handleSave = () => {};
+  const handleSave = async (data) => {
+    if (false) {
+      // Fetch from backend and save locally
+    } else {
+      //
+      setLoading(true);
+      await setLocalReminders([data, ...reminders]);
+      setVisible(false);
+      fetch();
+      setLoading(false);
+    }
+  };
   const hanldeDelete = (id) => {
     if (false) {
       // delete from backend
     }
-    Alert.alert('', i18n(REMINDER_STRINGS.DELETE_PROMPT), [
+    Alert.alert('', t(REMINDER_STRINGS.DELETE_PROMPT), [
       {
         text: 'No',
         onPress: () => null,
       },
       {
         text: 'Yes',
-        onPress: () => {
-          const newData = [...reminders.filter((h) => h.time !== id)];
-          setLocalReminders(newData);
+        onPress: async () => {
+          setLoading(true);
+          const newData = [...reminders.filter((h) => h.createdAt !== id)];
+          await setLocalReminders(newData);
           setReminders(newData);
+          setLoading(false);
           toast.show('Deleted', {
             type: 'success',
           });
@@ -51,13 +75,19 @@ export default function Reminder() {
     ]);
   };
 
-  const renderItem = () => {};
+  const renderItem = ({ item }) => {
+    return <SingleReminder data={item} onPressDelete={hanldeDelete} onPress={() => {}} />;
+  };
+
+  useEffect(() => {
+    fetch();
+  }, []);
   return (
     <ImageContainer>
       <ReminderModal
         visible={visible}
         setVisible={setVisible}
-        i18n={i18n}
+        t={t}
         save={handleSave}
         // selected={selected}
       />
@@ -67,6 +97,7 @@ export default function Reminder() {
           renderItem={renderItem}
           contentContainerStyle={{
             ...assessmentStyle.historyContainer,
+            paddingHorizontal: 0,
           }}
           ListEmptyComponent={() => {
             return (
@@ -76,7 +107,7 @@ export default function Reminder() {
                   textAlign: 'center',
                   ...assessmentStyle.headerQns,
                 }}>
-                {i18n(REMINDER_STRINGS.EMPTY_HISTORY)}
+                {t(REMINDER_STRINGS.EMPTY_HISTORY)}
               </Text>
             );
           }}

@@ -7,17 +7,10 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { commonStyles } from '~/common/common.style';
 import { TRACKING_EMOJIS } from '~/constants/strings/home/assessment/tracking';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
+import { REMINDER_FREQUENCY, REMINDER_TYPES } from '~/constants/strings/home/reminder';
 import { COLORS, FONT, SIZES } from '~/constants/theme';
 
-const SingleHistory = ({
-  time,
-  title,
-  description,
-  onPressDelete,
-  onPressEdit,
-  isJournal,
-  onPress,
-}) => {
+const SingleReminder = ({ data, onPressDelete, onPressEdit, onPress }) => {
   const { t: i18n } = useTranslation();
 
   const renderRightActions = (_, dragX) => {
@@ -34,7 +27,7 @@ const SingleHistory = ({
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => onPressDelete(time)}
+        onPress={() => onPressDelete(data?.createdAt)}
         style={styles.rightAction}>
         <Animated.View style={[{ transform: [{ scale }], opacity, alignItems: 'center' }]}>
           <Ionicons name="trash" color="red" size={SIZES.medium} />
@@ -69,14 +62,19 @@ const SingleHistory = ({
   //   };
 
   const renderTime = () => {
-    const timeConverted = new Date(time)?.toUTCString()?.split(' ');
+    const timeConverted = new Date()?.toUTCString()?.split(' ');
+    const days = data?.day ? [data?.day] : data?.days;
     return (
       <View style={styles.dateContainer}>
-        <Text style={[styles.dateText, styles.dateNumber]}>{timeConverted[1]}</Text>
-        <Text style={[styles.dateText, styles.dateMonth]}>
-          {timeConverted[2]} {timeConverted[3]}
-        </Text>
-        <Text style={[styles.dateText, styles.dateDay]}>{timeConverted[0]?.replace(',', '')}</Text>
+        {days?.map((d) => {
+          return (
+            <Text key={d} style={[styles.dateText, styles.dateNumber]}>
+              {d}
+            </Text>
+          );
+        })}
+
+        <Text style={[styles.dateText, styles.dateDay]}>{data?.time}</Text>
       </View>
     );
   };
@@ -99,10 +97,10 @@ const SingleHistory = ({
         <View style={[commonStyles.verticalDivider(COLORS.black)]} />
         <View style={styles.historyTextContainer}>
           <Text numberOfLines={1} style={styles.historyTitle} ellipsizeMode="tail">
-            {title} {!isJournal && TRACKING_EMOJIS[title]}
+            {REMINDER_TYPES[data?.type]}
           </Text>
           <Text numberOfLines={2} style={styles.value} ellipsizeMode="tail">
-            {description}
+            {REMINDER_FREQUENCY[data?.frequency]}
           </Text>
         </View>
       </Pressable>
@@ -110,7 +108,7 @@ const SingleHistory = ({
   );
 };
 
-export default SingleHistory;
+export default SingleReminder;
 
 const styles = StyleSheet.create({
   historyTextContainer: {
@@ -130,13 +128,13 @@ const styles = StyleSheet.create({
   historyTitle: {
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
-    width: '25%',
+    minWidth: '25%',
   },
   value: {
     color: COLORS.uiElementColors.text.primary,
     fontFamily: FONT.medium,
-    fontSize: SIZES.large,
-    width: '25%',
+    fontSize: SIZES.medium,
+    minWidth: '25%',
   },
   rightAction: {
     flex: 0.2,

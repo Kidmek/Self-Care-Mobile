@@ -31,6 +31,13 @@ export enum AUTH_STRINGS {
   VERIFICATION = 'Verification',
   CANCEL = 'Cancel',
   NEXT = 'Next',
+  PASS_REQUIRED = 'Password Required',
+  USERNAME_REQUIRED = 'Username Required',
+  PASS_LENGTH = 'Password must be atleast 5 characters',
+  INVALID_EMAIL = 'Invalid Email',
+  UNABLE_TO_LOGIN = 'Unable to login',
+  LOGIN_SUCCESS = 'Successfully logged in',
+  TRY_AGAIN = 'Please try again',
 }
 
 // export const en_translations: { [placeholder in AUTH_STRINGS]: string } = makeObjects(

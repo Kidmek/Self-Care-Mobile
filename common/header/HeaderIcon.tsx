@@ -14,11 +14,13 @@ export default function HeaderIcon({
   name,
   onPress,
   color,
+  margin,
 }: {
-  type: HEADER_TYPES;
+  type?: HEADER_TYPES;
   name?: keyof typeof Ionicons.glyphMap | undefined;
   onPress?: (() => void) | undefined;
   color?: string;
+  margin?: boolean;
 }) {
   const navigation = useNavigation();
   return (
@@ -37,7 +39,7 @@ export default function HeaderIcon({
       }}
       style={{
         ...commonStyles.headerLeft,
-        marginHorizontal: type === HEADER_TYPES.DRAWER ? SIZES.medium : 0,
+        marginHorizontal: type === HEADER_TYPES.DRAWER || margin ? SIZES.medium : 0,
         backgroundColor: color ?? 'transparent',
       }}>
       <TabIcon

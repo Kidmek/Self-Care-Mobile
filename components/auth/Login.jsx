@@ -31,12 +31,12 @@ export default function Login({ setStep }) {
     const errors = {};
 
     if (!password.length) {
-      errors.password = 'Password Required';
+      errors.password = i18n(AUTH_STRINGS.PASS_REQUIRED);
     } else if (password.length < 5) {
-      errors.password = 'Password must be atleast 5 characters';
+      errors.password = i18n(AUTH_STRINGS.PASS_LENGTH);
     }
     if (!username.length) {
-      errors.username = 'Username Required';
+      errors.username = i18n(AUTH_STRINGS.USERNAME_REQUIRED);
     }
 
     setErrors(errors);
@@ -44,8 +44,8 @@ export default function Login({ setStep }) {
       postSkeleton({
         url: 'auth/login',
         dataToSend: { username, password },
-        errorMsg: 'Unable to login',
-        successMsg: 'Successfully logged in',
+        errorMsg: i18n(AUTH_STRINGS.UNABLE_TO_LOGIN),
+        successMsg: i18n(AUTH_STRINGS.LOGIN_SUCCESS),
         onSuccess: (data) => {
           setLoading(false);
           if (data.token) {
@@ -55,7 +55,7 @@ export default function Login({ setStep }) {
           } else if (data.user?.isActive === false) {
             setStep(AUTH_STAGE.OTP);
           } else {
-            toast.show('Please try again', {
+            toast.show(i18n(AUTH_STRINGS.TRY_AGAIN), {
               type: 'danger',
             });
           }
@@ -68,7 +68,7 @@ export default function Login({ setStep }) {
 
   const handleResetPass = async () => {
     if (!username.match(emailRegEx)) {
-      setErrors({ username: 'Invalid email' });
+      setErrors({ username: i18n(AUTH_STRINGS.INVALID_EMAIL) });
     } else {
       setErrors({});
       postSkeleton({

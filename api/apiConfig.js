@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { getToken } from './storage';
 
-import { API, LOGIN_API } from '~/constants/strings/api';
+import { API, LOGIN_API, TIMEOUT } from '~/constants/strings/api';
 
 export const postSkeleton = ({
   url,
@@ -33,6 +33,7 @@ export const postSkeleton = ({
         ...dataToSend,
       },
       {
+        timeout: TIMEOUT,
         params,
         headers:
           url === LOGIN_API
@@ -83,6 +84,7 @@ export const putSkeleton = ({
         ...dataToSend,
       },
       {
+        timeout: TIMEOUT,
         params,
         headers: {
           Authorization: 'Bearer ' + token,
@@ -115,6 +117,7 @@ export const getSkeleton = ({ url, params, setLoading, setData, toast, errorMsg,
   }
   axios
     .get(API + url, {
+      timeout: TIMEOUT,
       params,
       headers: {
         Authorization: 'Bearer ' + token,
@@ -157,6 +160,7 @@ export const deleteSkeleton = ({
   }
   axios
     .delete(API + url, {
+      timeout: TIMEOUT,
       data: dataToSend,
       params: { params },
       headers: {

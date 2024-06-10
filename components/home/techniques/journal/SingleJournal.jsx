@@ -29,7 +29,8 @@ export default function SingleJournal() {
     }
     const newData = {
       time: new Date(),
-      ...journey,
+      title: journey.title.trim(),
+      value: journey.value.trim(),
     };
 
     addLocalJournal(newData);
@@ -65,7 +66,7 @@ export default function SingleJournal() {
           <TextInput
             style={styles.input(!params.title)}
             value={journey.title}
-            onChangeText={(v) => setJourney({ ...journey, title: v.trim() })}
+            onChangeText={(v) => setJourney({ ...journey, title: v })}
             onSubmitEditing={() => ref.current.focus()}
             editable={!params.time}
           />
@@ -76,9 +77,9 @@ export default function SingleJournal() {
             ref={ref}
             style={[styles.input(!params.title), styles.textArea]}
             value={journey.value}
-            onChangeText={(v) => setJourney({ ...journey, value: v.trim() })}
+            onChangeText={(v) => setJourney({ ...journey, value: v })}
             multiline
-            numberOfLines={28}
+            numberOfLines={20}
             editable={!params.time}
           />
         </View>
@@ -88,7 +89,11 @@ export default function SingleJournal() {
             onPress={() => {
               handleSave();
             }}
-            style={[styles.btn]}>
+            disabled={!journey.title?.length || !journey.value?.length}
+            style={[
+              styles.btn,
+              (!journey.title?.length || !journey.value?.length) && styles.disabled,
+            ]}>
             <Ionicons name="save-outline" size={SIZES.large} color={COLORS.white} />
             <Text style={modalStyles.textStyle}>{i18n(HOME_STRINGS.SAVE)}</Text>
           </TouchableOpacity>
@@ -137,5 +142,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: SIZES.xLarge,
     marginBottom: SIZES.large,
+  },
+  disabled: {
+    backgroundColor: COLORS.gray,
   },
 });

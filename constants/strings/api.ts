@@ -5,4 +5,5 @@ export const LOGIN_API = 'auth/login';
 export const ROLE_KEY = 'sage_role';
 export const TOKEN_KEY = 'sage_jwt';
 export const USER_KEY = 'sage_user';
+export const TIMEOUT = 5000;
 export const LANGUAGE_KEY = 'sage_lang';

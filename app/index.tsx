@@ -1,4 +1,4 @@
-import { Redirect, useRootNavigationState, useRouter } from 'expo-router';
+import { Redirect, useRootNavigationState } from 'expo-router';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -52,8 +52,8 @@ export default function Auth() {
     const isLoggedIn = async () => {
       console.log('checking login');
       // TODO
-      if (await getToken()) {
-        // if (true) {
+      // if (await getToken()) {
+      if (true) {
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);

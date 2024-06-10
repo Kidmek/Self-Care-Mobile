@@ -1,5 +1,6 @@
 import { useStoreActions } from 'easy-peasy';
-import { Tabs } from 'expo-router';
+import { Tabs, router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 
@@ -13,7 +14,14 @@ import { COLORS } from '~/constants/theme';
 export default function TabLayout() {
   // @ts-ignore
   const showModal = useStoreActions((action) => action.showModal);
+  const [hasNotification, setHasNotification] = useState(false);
   const { t: i18n } = useTranslation();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setHasNotification(true);
+    }, 3000);
+  }, []);
 
   return (
     <Tabs
@@ -31,6 +39,15 @@ export default function TabLayout() {
         options={{
           title: i18n(HOME_STRINGS.HOME),
           tabBarIcon: ({ color }) => <TabIcon name="home" color={color} />,
+          headerRight: () => (
+            <HeaderIcon
+              name={hasNotification ? 'notifications' : 'notifications-outline'}
+              margin
+              onPress={() => {
+                router.push('/notification');
+              }}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -52,6 +69,13 @@ export default function TabLayout() {
             e.preventDefault();
           },
         })}
+      />
+      <Tabs.Screen
+        name="notification"
+        options={{
+          tabBarItemStyle: { display: 'none' },
+          headerLeft: () => <HeaderIcon type={HEADER_TYPES.BACK} margin />,
+        }}
       />
     </Tabs>
   );

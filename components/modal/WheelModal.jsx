@@ -1,6 +1,5 @@
 import Slider from '@react-native-community/slider';
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { View, Text, Modal, TouchableOpacity } from 'react-native';
 
 import { modalStyles } from './modal.style';
@@ -9,8 +8,7 @@ import { WHEEL_SECTIONS, WHEEL_STRINGS } from '~/constants/strings/home/assessme
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { COLORS, SIZES } from '~/constants/theme';
 
-export default function WheelModal({ visible, setVisible, save, segment }) {
-  const { t: i18n } = useTranslation();
+export default function WheelModal({ visible, setVisible, save, segment, t }) {
   const [value, setValue] = useState(1);
   useEffect(() => {
     if (segment?.value) {
@@ -34,10 +32,12 @@ export default function WheelModal({ visible, setVisible, save, segment }) {
           }}>
           <View style={{ ...modalStyles.textContainer }}>
             {segment?.label && (
-              <Text style={modalStyles.modalHeader}>{WHEEL_SECTIONS[segment?.label]}</Text>
+              <Text style={modalStyles.modalHeader}>
+                {WHEEL_SECTIONS.find((s) => s.shortName === segment.label).longName}
+              </Text>
             )}
 
-            <Text style={modalStyles.logoutText}>{i18n(WHEEL_STRINGS.SATISFIED_QNS)}</Text>
+            <Text style={modalStyles.logoutText}>{t(WHEEL_STRINGS.SATISFIED_QNS)}</Text>
             <Text
               style={{
                 ...modalStyles.modalHeader,
@@ -64,14 +64,14 @@ export default function WheelModal({ visible, setVisible, save, segment }) {
                 setVisible(false);
               }}
               style={[modalStyles.neutralBtn, modalStyles.btn]}>
-              <Text style={modalStyles.textStyle}>{i18n(HOME_STRINGS.CANCEL)}</Text>
+              <Text style={modalStyles.textStyle}>{t(HOME_STRINGS.CANCEL)}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 save(value);
               }}
               style={[modalStyles.acceptBtn, modalStyles.btn]}>
-              <Text style={modalStyles.textStyle}>{i18n(HOME_STRINGS.SAVE)}</Text>
+              <Text style={modalStyles.textStyle}>{t(HOME_STRINGS.SAVE)}</Text>
             </TouchableOpacity>
           </View>
         </View>

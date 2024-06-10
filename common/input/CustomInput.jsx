@@ -19,17 +19,23 @@ export default function CustomInput({
 }) {
   const [showPass, setShowPass] = useState(isPassword ?? false);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const isDate = () => {
+    return type === INPUT_TYPE.DATE;
+  };
+  const isTime = () => {
+    return type === INPUT_TYPE.TIME;
+  };
   return (
     <View style={inputStyle.container}>
       {showDatePicker && (
         <DateTimePicker
           value={new Date()}
-          mode="date"
+          mode={isDate() ? 'date' : 'time'}
           // is24Hour
           // dateFormat="longdate"
           onChange={(_, value) => {
             setShowDatePicker(false);
-            setState(value.toDateString(), name);
+            setState(isDate() ? value.toDateString() : value.toLocaleTimeString(), name);
           }}
         />
       )}
@@ -38,19 +44,19 @@ export default function CustomInput({
         <TextInput
           style={inputStyle.input(error)}
           value={state}
-          onChangeText={(value) => setState(value.trim(), name)}
+          onChangeText={(value) => setState(value, name)}
           placeholder={placeholder}
           secureTextEntry={showPass}
           placeholderTextColor={COLORS.placeholder}
           keyboardType={type}
-          editable={type !== INPUT_TYPE.DATE}
+          editable={!isDate() && !isTime()}
           multiline={type === INPUT_TYPE.MULTI}
           numberOfLines={type === INPUT_TYPE.MULTI ? 4 : 1}
         />
-        {(isPassword || type === INPUT_TYPE.DATE) && (
+        {(isPassword || isTime() || isDate()) && (
           <TouchableOpacity
             onPress={() => {
-              if (type === INPUT_TYPE.DATE) {
+              if (isDate() || isTime()) {
                 console.log('first');
 
                 setShowDatePicker(true);
@@ -60,11 +66,13 @@ export default function CustomInput({
             }}>
             <Ionicons
               name={
-                type === INPUT_TYPE.DATE
+                isDate()
                   ? 'calendar'
-                  : !showPass
-                    ? 'eye-off-outline'
-                    : 'eye-outline'
+                  : isTime()
+                    ? 'time'
+                    : !showPass
+                      ? 'eye-off-outline'
+                      : 'eye-outline'
               }
               color={COLORS.black}
               size={SIZES.inputIcons}
