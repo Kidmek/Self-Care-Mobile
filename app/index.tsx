@@ -6,6 +6,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { getLanguage, getToken, setLanguage } from '~/api/storage';
+import { useNotifications } from '~/common/useNotifications';
 import Login from '~/components/auth/Login';
 import NewPass from '~/components/auth/NewPass';
 import OTP from '~/components/auth/Otp';
@@ -22,6 +23,7 @@ export default function Auth() {
   const [step, setStep] = useState<AUTH_STAGE>(AUTH_STAGE.LOGIN);
   const [otp, setOtp] = useState('');
   const rootNavigationState = useRootNavigationState();
+
   // Check connection TODO
   // const unsubscribe = NetInfo.addEventListener((state) => {
   //   console.log('Connection type', state.type);

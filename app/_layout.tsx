@@ -1,5 +1,6 @@
 import { StoreProvider } from 'easy-peasy';
 import { useFonts } from 'expo-font';
+import * as Notifications from 'expo-notifications';
 import { SplashScreen, Stack } from 'expo-router';
 import { useCallback } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -14,6 +15,14 @@ export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(drawer)',
 };
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldPlaySound: true,
+    shouldShowAlert: true,
+    shouldSetBadge: true,
+  }),
+});
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -31,6 +40,7 @@ export default function RootLayout() {
   if (!fontsLoaded) {
     return null;
   }
+
   return (
     <StoreProvider store={store}>
       <LogoutModal />

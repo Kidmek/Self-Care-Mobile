@@ -12,12 +12,9 @@ import ReminderModal from '../modal/ReminderModal';
 import { getLocalReminders, setLocalReminders } from '~/api/storage';
 import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
-import {
-  REMINDER_FREQUENCY,
-  REMINDER_STRINGS,
-  REMINDER_TYPES,
-} from '~/constants/strings/home/reminder';
+import { REMINDER_STRINGS } from '~/constants/strings/home/reminder';
 import { COLORS, SIZES } from '~/constants/theme';
+import { cancelNotification, scheduleNotification } from '~/utils/notification';
 
 export default function Reminder() {
   const [visible, setVisible] = useState(false);
@@ -80,8 +77,10 @@ export default function Reminder() {
   };
 
   useEffect(() => {
+    scheduleNotification(true);
     fetch();
   }, []);
+
   return (
     <ImageContainer>
       <ReminderModal
