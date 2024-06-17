@@ -15,6 +15,7 @@ export enum REMINDER_STRINGS {
   TIME_REQUIRED = 'Time of reminder required',
   DAYS_REQUIRED = 'Two days to remind required',
   DAY_REQUIRED = 'Day for reminder required',
+  SELF_CARE_REMINDER = 'Self care reminder',
 }
 export enum DAYS {
   Monday = 'Monday',

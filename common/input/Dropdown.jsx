@@ -14,6 +14,7 @@ export default function Dropdown({
   multiple,
   zIndex,
   setValue,
+  disabled,
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -37,6 +38,8 @@ export default function Dropdown({
         zIndexInverse={zIndex && zIndex.inverse}
         max={2}
         mode="BADGE"
+        disabled={disabled}
+        showArrowIcon={!disabled}
       />
       {typeof error == 'string' && <Text style={inputStyle.errorText}>{error}</Text>}
     </View>

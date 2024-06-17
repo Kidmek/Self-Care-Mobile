@@ -1,51 +1,116 @@
 import * as Notifications from 'expo-notifications';
 
-import { DAYS } from '~/constants/strings/home/reminder';
+import { getLocalReminders, setLocalReminders } from '~/api/storage';
+import {
+  DAYS,
+  REMINDER_FREQUENCY,
+  REMINDER_STRINGS,
+  REMINDER_TYPES,
+} from '~/constants/strings/home/reminder';
 
-export async function scheduleNotification(now: boolean, day: string, time: string) {
-  //   const scheduledTime = getNextScheduledTime(day, time);
-  const [hour, minute] = time ? time.split(' ')[0]?.split(':') : ['0', '0'];
-  const id = await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "Don't forget!",
-      body: 'This is your scheduled notification.',
-      sound: true,
-    },
-    trigger: now
+export type Reminder = {
+  createdAt: Date;
+  frequency: keyof typeof REMINDER_FREQUENCY;
+  notificationId: string[];
+  time: string;
+  type: keyof typeof REMINDER_TYPES;
+  day?: string;
+  days?: string[];
+};
+
+export async function scheduleNotification(
+  now: boolean,
+  day: string | null,
+  time: string,
+  title: string,
+  body: string,
+  vibrate: boolean,
+  sound: boolean
+) {
+  const [timeString, AM_PM] = time ? time?.trim()?.split(/(\s+)/) : ['', ''];
+  const [hour, minute] = time ? timeString?.split(':').map(Number) : [0, 0];
+  const trigger = now
+    ? null
+    : day
       ? {
-          seconds: 5,
+          hour: hour + (AM_PM === 'AM' ? 0 : 12),
+          minute,
+          weekday: day ? Object.keys(DAYS).indexOf(day) + 2 : undefined,
+          repeats: true,
         }
       : {
-          hour: parseInt(hour, 10),
-          minute: parseInt(minute, 10),
-          day: Object.keys(DAYS).indexOf(day),
+          hour: hour + (AM_PM === 'AM' ? 0 : 12),
+          minute,
           repeats: true,
-        },
+        };
+
+  const id = await Notifications.scheduleNotificationAsync({
+    content: {
+      title,
+      body,
+    },
+    trigger,
+    // @ts-ignore
+    channelId:
+      vibrate && sound
+        ? 'default'
+        : !vibrate && sound
+          ? 'no-vibrations'
+          : !sound && vibrate
+            ? 'no-sound'
+            : 'no-sound-vibration',
   });
   console.log('Notification Id', id);
   return id;
 }
 
-export async function cancelNotification(notifId: string) {
-  await Notifications.cancelAllScheduledNotificationsAsync();
-  await Notifications.cancelScheduledNotificationAsync(notifId);
+export async function cancelNotification(notifId?: string) {
+  if (notifId) {
+    await Notifications.cancelScheduledNotificationAsync(notifId);
+    console.log('Canceled ', notifId);
+  } else {
+    // await Notifications.dismissAllNotificationsAsync();
+    await Notifications.cancelAllScheduledNotificationsAsync();
+    console.log('Canceled All ', notifId);
+  }
 }
 
-// function getNextScheduledTime(day: number, time: string) {
-//   const now = new Date();
-//   const nextDay = new Date();
-
-//   // Set the next occurrence of the selected day
-//   nextDay.setDate(now.getDate() + ((7 - now.getDay() + day) % 7));
-
-//   // Set the specific time
-//   const [hours, minutes] = time.split(':');
-//   nextDay.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0);
-
-//   // If it's already past the specified time this week, move to next week
-//   if (nextDay <= now) {
-//     nextDay.setDate(nextDay.getDate() + 7);
-//   }
-
-//   return nextDay;
-// }
+export async function changeAllType(vibration: boolean, sound: boolean, t: any) {
+  await cancelNotification();
+  const reminders = await getLocalReminders();
+  let notificationId: string[] = [];
+  const newReminderPromises = await reminders?.map(async (data: Reminder) => {
+    if (REMINDER_FREQUENCY[data.frequency] === REMINDER_FREQUENCY.DAILY) {
+      notificationId = [
+        await scheduleNotification(
+          false,
+          null,
+          data?.time,
+          t(REMINDER_STRINGS.SELF_CARE_REMINDER),
+          REMINDER_TYPES[data.type],
+          vibration,
+          sound
+        ),
+      ];
+    } else {
+      const days = data.day ? [data?.day] : data?.days;
+      for (const day in days) {
+        notificationId.push(
+          await scheduleNotification(
+            false,
+            day,
+            data?.time,
+            t(REMINDER_STRINGS.SELF_CARE_REMINDER),
+            REMINDER_TYPES[data.type],
+            vibration,
+            sound
+          )
+        );
+      }
+    }
+    data.notificationId = notificationId;
+    return data;
+  });
+  const newReminders = await Promise.all(newReminderPromises);
+  setLocalReminders(newReminders);
+}

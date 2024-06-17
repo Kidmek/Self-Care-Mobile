@@ -19,7 +19,7 @@ import { AUTH_STRINGS } from '~/constants/strings/auth';
 import { AUTH_STAGE, OTP_LENGTH, WAIT_TIME } from '~/constants/strings/common';
 import { COLORS, SIZES } from '~/constants/theme';
 
-export default function OTP({ setStep, setOtp }) {
+export default function OTP({ setStep, setOtp, email, onSuccess }) {
   const { t: i18n } = useTranslation();
   const toast = useToast();
   const [errortext, setErrortext] = useState();
@@ -41,13 +41,18 @@ export default function OTP({ setStep, setOtp }) {
       const user = await getUserData();
       postSkeleton({
         url: 'auth/verify-otp',
-        dataToSend: { email: user?.email, otp: code, save: !isForgotPass },
+        dataToSend: { email: user?.email, otp: code, save: !isForgotPass, newEmail: email },
         errorMsg: 'Unable to verify',
         successMsg: 'Successfully verified',
         onSuccess: () => {
           // setTimer(WAIT_TIME);
+          if (onSuccess) {
+            onSuccess();
+          }
           if (isForgotPass) {
-            setOtp(code);
+            if (setOtp) {
+              setOtp(code);
+            }
             setStep(AUTH_STAGE.NEW_PASS);
           } else {
             setStep(AUTH_STAGE.LOGIN);
@@ -64,7 +69,7 @@ export default function OTP({ setStep, setOtp }) {
     const user = await getUserData();
     postSkeleton({
       url: 'auth/resend-otp',
-      params: { username: user?.username, register: !isForgotPass },
+      params: { username: user?.username, register: !isForgotPass, newEmail: email },
       errorMsg: 'Unable to resend',
       successMsg: 'Successfully resent',
       onSuccess: () => {
@@ -105,7 +110,13 @@ export default function OTP({ setStep, setOtp }) {
   useEffect(() => {}, []);
 
   return (
-    <View style={authStyles.container}>
+    <View
+      style={[
+        authStyles.container,
+        {
+          paddingHorizontal: !email ? SIZES.large : 0,
+        },
+      ]}>
       <Text
         style={{
           ...authStyles.header,

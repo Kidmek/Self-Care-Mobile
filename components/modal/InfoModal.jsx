@@ -7,7 +7,7 @@ import { modalStyles } from './modal.style';
 import { WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
 import { FONT, SIZES } from '~/constants/theme';
 
-export default function InfoModal({ visible, setVisible, info, t }) {
+export default function InfoModal({ visible, setVisible, t }) {
   return (
     <Modal
       animationType="slide"
@@ -21,6 +21,7 @@ export default function InfoModal({ visible, setVisible, info, t }) {
           style={{
             ...modalStyles.modalView,
             ...modalStyles.logoutContainer,
+            paddingBottom: 0,
           }}>
           <View style={styles.header}>
             <Text style={modalStyles.modalHeader}>{t(WHEEL_STRINGS.GUIDELINE)}</Text>
@@ -35,7 +36,9 @@ export default function InfoModal({ visible, setVisible, info, t }) {
               />
             </Pressable>
           </View>
-          <ScrollView contentContainerStyle={styles.infoContainer}>
+          <ScrollView
+            contentContainerStyle={styles.infoContainer}
+            showsVerticalScrollIndicator={false}>
             {Object.keys(WHEEL_STRINGS)
               ?.filter((k) => k.includes('STEP'))
               .map((k) => {
@@ -46,7 +49,9 @@ export default function InfoModal({ visible, setVisible, info, t }) {
                       style={styles.infoIcon}
                       size={SIZES.tabIcons}
                     />
-                    <Text style={styles.text}>{t(WHEEL_STRINGS[k])}</Text>
+                    <Text style={styles.text} textBreakStrategy="balanced">
+                      {t(WHEEL_STRINGS[k])}
+                    </Text>
                   </View>
                 );
               })}
@@ -62,7 +67,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
+    maxWidth: '100%',
+    minWidth: '100%',
   },
   closeIcon: {
     alignSelf: 'flex-end',
@@ -71,13 +77,14 @@ const styles = StyleSheet.create({
   singleStepContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    // gap: SIZES.small,
   },
   text: {
+    maxWidth: '90%',
+    minWidth: '90%',
     fontFamily: FONT.regular,
   },
   infoContainer: {
     gap: SIZES.small,
-    justifyContent: 'space-evenly',
+    // justifyContent: 'space-evenly',
   },
 });

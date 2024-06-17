@@ -11,7 +11,7 @@ import Login from '~/components/auth/Login';
 import NewPass from '~/components/auth/NewPass';
 import OTP from '~/components/auth/Otp';
 import Signup from '~/components/auth/Signup';
-import { AUTH_STAGE } from '~/constants/strings/common';
+import { AUTH_STAGE, languages } from '~/constants/strings/common';
 import '~/constants/strings/index';
 import { COLORS, SIZES } from '~/constants/theme';
 
@@ -29,12 +29,6 @@ export default function Auth() {
   //   console.log('Connection type', state.type);
   //   console.log('Is connected?', state.isConnected);
   // });
-
-  const languages = [
-    { value: 'en', label: 'English' },
-    { value: 'am', label: 'Amharic' },
-    { value: 'af', label: 'Afargna' },
-  ];
 
   useEffect(() => {
     const loadLanguage = async () => {
@@ -54,8 +48,8 @@ export default function Auth() {
     const isLoggedIn = async () => {
       console.log('checking login');
       // TODO
-      // if (await getToken()) {
-      if (true) {
+      if (await getToken()) {
+        // if (true) {
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
@@ -65,12 +59,15 @@ export default function Auth() {
   }, []);
 
   useEffect(() => {
-    setLanguage(selected);
-    i18next.changeLanguage(selected);
+    if (selected) {
+      setLanguage(selected);
+      i18next.changeLanguage(selected);
+    }
   }, [selected]);
   if (!rootNavigationState?.key || isLoggedIn === undefined) return null;
 
   if (isLoggedIn) {
+    // @ts-ignore
     return <Redirect href="(drawer)" />;
   }
 
@@ -108,6 +105,7 @@ export default function Auth() {
       ) : step === AUTH_STAGE.REGISTER ? (
         <Signup setStep={setStep} />
       ) : step === AUTH_STAGE.OTP ? (
+        // @ts-ignore
         <OTP setStep={setStep} setOtp={setOtp} />
       ) : (
         <NewPass setStep={setStep} otp={otp} />

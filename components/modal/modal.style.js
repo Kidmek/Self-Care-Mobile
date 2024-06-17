@@ -7,10 +7,11 @@ export const modalStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    alignSelf: 'center',
+    marginTop: SIZES.large,
+    width: '90%',
   },
   modalView: {
-    margin: 20,
     backgroundColor: 'white',
     borderRadius: SIZES.large,
     padding: 35,
@@ -23,6 +24,7 @@ export const modalStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    marginVertical: SIZES.xxLarge,
   },
   button: {
     borderRadius: 20,

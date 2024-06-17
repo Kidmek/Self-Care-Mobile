@@ -13,6 +13,7 @@ import {
   REMINDER_STRINGS,
   REMINDER_TYPES,
 } from '~/constants/strings/home/reminder';
+import { width } from '~/constants/theme';
 
 const ReminderModal = ({ visible, setVisible, save, selected, t }) => {
   const [value, setValue] = useState({
@@ -47,7 +48,7 @@ const ReminderModal = ({ visible, setVisible, save, selected, t }) => {
     if (checkIfMultiple() && days.length !== 2) {
       errors.days = t(REMINDER_STRINGS.DAYS_REQUIRED);
     }
-    setErrors(Object.keys(errors).length);
+    setErrors(errors);
     return Object.keys(errors).length === 0;
   };
   return (
@@ -65,7 +66,7 @@ const ReminderModal = ({ visible, setVisible, save, selected, t }) => {
             ...modalStyles.logoutContainer,
             alignItems: 'center',
           }}>
-          <View style={{ ...modalStyles.textContainer }}>
+          <View style={{ ...modalStyles.textContainer, width: width * 0.7 }}>
             <Dropdown
               options={Object.entries(REMINDER_TYPES).map(([k, v]) => {
                 return {

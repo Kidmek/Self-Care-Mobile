@@ -33,7 +33,7 @@ export default function Wheel() {
           startAngle: i * angle,
           endAngle: (i + 1) * angle,
           color: WHEEL_COLORS[i],
-          label: a,
+          label: a.shortName,
           value: 1,
         };
       });

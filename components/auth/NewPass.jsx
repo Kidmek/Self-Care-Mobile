@@ -15,7 +15,7 @@ import { AUTH_STAGE } from '~/constants/strings/common';
 import { COLORS, SIZES } from '~/constants/theme';
 
 export default function NewPass({ setStep, otp }) {
-  const { t: i18n } = useTranslation();
+  const { t } = useTranslation();
   const toast = useToast();
   const [confirmPass, setConfirmPass] = useState('');
   const [password, setPassword] = useState('');
@@ -58,7 +58,7 @@ export default function NewPass({ setStep, otp }) {
   return (
     <View style={authStyles.container}>
       <Text style={authStyles.header}>
-        {isForgotPass ? i18n(AUTH_STRINGS.FORGOT_PASSWORD) : i18n(AUTH_STRINGS.LOGIN)}
+        {isForgotPass ? t(AUTH_STRINGS.FORGOT_PASSWORD) : t(AUTH_STRINGS.LOGIN)}
       </Text>
       <ScrollView contentContainerStyle={authStyles.body} showsVerticalScrollIndicator={false}>
         <View style={authStyles.inputContainer}>
@@ -67,18 +67,19 @@ export default function NewPass({ setStep, otp }) {
             setState={(v) => {
               setPassword(v);
             }}
-            label={i18n(AUTH_STRINGS.PASSWORD)}
-            placeholder={i18n(AUTH_STRINGS.PASSWORD_LABEL)}
+            label={t(AUTH_STRINGS.PASSWORD)}
+            placeholder={t(AUTH_STRINGS.PASSWORD_LABEL)}
             isPassword
             error={errors['password']}
+            name="password"
           />
           <CustomInput
             state={confirmPass}
             setState={(v) => {
               setConfirmPass(v);
             }}
-            label={i18n(AUTH_STRINGS.CONFIRM_PASSWORD)}
-            placeholder={i18n(AUTH_STRINGS.CONFIRM_PASSWORD_LABEL)}
+            label={t(AUTH_STRINGS.CONFIRM_PASSWORD)}
+            placeholder={t(AUTH_STRINGS.CONFIRM_PASSWORD_LABEL)}
             isPassword
             name="confirmPass"
             error={errors['confirmPass']}
@@ -86,9 +87,9 @@ export default function NewPass({ setStep, otp }) {
         </View>
 
         <View style={{ gap: SIZES.small }}>
-          <CustomButton title={i18n(AUTH_STRINGS.NEXT)} onPress={handleResetPass} />
+          <CustomButton title={t(AUTH_STRINGS.NEXT)} onPress={handleResetPass} />
           <CustomButton
-            title={i18n(AUTH_STRINGS.CANCEL)}
+            title={t(AUTH_STRINGS.CANCEL)}
             onPress={() => {
               setErrors({});
               setForgotPass(false);

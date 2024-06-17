@@ -2,9 +2,16 @@ import axios from 'axios';
 
 import { getToken } from './storage';
 
-import { API, LOGIN_API, TIMEOUT } from '~/constants/strings/api';
+import {
+  API,
+  CHANGE_PASS_API,
+  LOGIN_API,
+  OTP_API,
+  OTP_RESEND_API,
+  TIMEOUT,
+} from '~/constants/strings/api';
 
-export const postSkeleton = ({
+export const postSkeleton = async ({
   url,
   dataToSend,
   params,
@@ -18,10 +25,10 @@ export const postSkeleton = ({
   if (setLoading) {
     setLoading(true);
   }
-  const token = getToken();
-  const isLogin = url === LOGIN_API;
+  const token = await getToken();
+  const isLogin = [LOGIN_API, OTP_API, OTP_RESEND_API, CHANGE_PASS_API].includes(url);
   if (!token) {
-    if (isLogin) {
+    if (!isLogin) {
       Unauthorized(setLoading, toast);
       return;
     }
@@ -59,7 +66,7 @@ export const postSkeleton = ({
     });
 };
 
-export const putSkeleton = ({
+export const putSkeleton = async ({
   url,
   dataToSend,
   params,
@@ -72,7 +79,7 @@ export const putSkeleton = ({
   if (setLoading) {
     setLoading(true);
   }
-  const token = getToken();
+  const token = await getToken();
   if (!token) {
     Unauthorized(setLoading, toast);
     return;
@@ -106,11 +113,19 @@ export const putSkeleton = ({
     });
 };
 
-export const getSkeleton = ({ url, params, setLoading, setData, toast, errorMsg, headers }) => {
+export const getSkeleton = async ({
+  url,
+  params,
+  setLoading,
+  setData,
+  toast,
+  errorMsg,
+  headers,
+}) => {
   if (setLoading) {
     setLoading(true);
   }
-  const token = getToken();
+  const token = await getToken();
   if (!token) {
     Unauthorized(setLoading, toast);
     return;
@@ -140,7 +155,7 @@ export const getSkeleton = ({ url, params, setLoading, setData, toast, errorMsg,
     });
 };
 
-export const deleteSkeleton = ({
+export const deleteSkeleton = async ({
   url,
   params,
   setLoading,
@@ -150,7 +165,7 @@ export const deleteSkeleton = ({
   dataToSend,
   errorMsg,
 }) => {
-  const token = getToken();
+  const token = await getToken();
   if (setLoading) {
     setLoading(true);
   }
@@ -196,7 +211,7 @@ const success = (response, toast, onSuccess, errorMsg, successMsg, setLoading, f
     }
     return;
   }
-  if (onSuccess && response.data) {
+  if (onSuccess) {
     if (fullResponse) {
       onSuccess(response);
     } else {

@@ -27,12 +27,12 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarLabelStyle: commonStyles.header,
-        headerLeft: () => <HeaderIcon type={HEADER_TYPES.DRAWER} />,
-        headerTitle: '',
-        headerTransparent: true,
         tabBarStyle: styles.tabBar,
         tabBarInactiveTintColor: COLORS.uiElementColors.iconsAndButtons.lightBlue,
         tabBarActiveTintColor: COLORS.pureWhite,
+        headerLeft: () => <HeaderIcon type={HEADER_TYPES.DRAWER} />,
+        headerTitle: '',
+        headerTransparent: true,
       }}>
       <Tabs.Screen
         name="index"

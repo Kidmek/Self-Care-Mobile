@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, KeyboardTypeOptions } from 'react-native';
 
 import inputStyle from './input.style';
 
@@ -16,7 +16,8 @@ export default function CustomInput({
   error,
   name,
   type,
-}) {
+  disabled,
+}: any) {
   const [showPass, setShowPass] = useState(isPassword ?? false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const isDate = () => {
@@ -35,13 +36,19 @@ export default function CustomInput({
           // dateFormat="longdate"
           onChange={(_, value) => {
             setShowDatePicker(false);
-            setState(isDate() ? value.toDateString() : value.toLocaleTimeString(), name);
+            setState(
+              isDate()
+                ? value?.toDateString()
+                : value?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              name
+            );
           }}
         />
       )}
       {label && <Text style={inputStyle.label}>{label}</Text>}
       <View style={inputStyle.passContainer}>
         <TextInput
+          // @ts-ignore
           style={inputStyle.input(error)}
           value={state}
           onChangeText={(value) => setState(value, name)}
@@ -49,11 +56,11 @@ export default function CustomInput({
           secureTextEntry={showPass}
           placeholderTextColor={COLORS.placeholder}
           keyboardType={type}
-          editable={!isDate() && !isTime()}
+          editable={!disabled && !isDate() && !isTime()}
           multiline={type === INPUT_TYPE.MULTI}
           numberOfLines={type === INPUT_TYPE.MULTI ? 4 : 1}
         />
-        {(isPassword || isTime() || isDate()) && (
+        {!disabled && (isPassword || isTime() || isDate()) && (
           <TouchableOpacity
             onPress={() => {
               if (isDate() || isTime()) {

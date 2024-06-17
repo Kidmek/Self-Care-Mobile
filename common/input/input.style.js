@@ -17,7 +17,6 @@ export default StyleSheet.create({
       padding: SIZES.xSmall,
       fontFamily: FONT.regular,
       fontSize: SIZES.medium,
-      // flex: !inside && 1,
       width: '100%',
       borderColor: error ? COLORS.red : null,
       textAlignVertical: 'top',

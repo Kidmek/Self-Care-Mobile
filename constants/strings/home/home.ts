@@ -9,5 +9,9 @@ export enum HOME_STRINGS {
   LOGOUT_QNS = 'Are you sure you want to log out?',
   HOME = 'Home',
   REMINDER = 'Reminder',
+  PROFILE = 'Profile',
+  SETTING = 'Setting',
+  ABOUT_US = 'About Us',
+  CONTACT_US = 'Contact Us',
 }
 export const am_home_translations: { [placeholder in HOME_STRINGS]?: string } = {};

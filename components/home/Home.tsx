@@ -15,11 +15,12 @@ import { TECHNIQUES_STRINGS, TipType } from '~/constants/strings/home/self care/
 import { COLORS, SIZES } from '~/constants/theme';
 
 export default function Home() {
-  // const { expoPushToken, notification } = useNotifications();
-  //  useEffect(() => {
-  //    console.log('token id:', expoPushToken);
-  //    console.log('Notification', notification);
-  //  }, [notification]);
+  const { expoPushToken, notification } = useNotifications();
+
+  useEffect(() => {
+    console.log('token id:', expoPushToken);
+    console.log('Notification', notification);
+  }, [notification]);
 
   const { t: i18n } = useTranslation();
   const [opened, setOpened] = useState<string[]>([

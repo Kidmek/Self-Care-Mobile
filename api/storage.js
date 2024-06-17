@@ -100,3 +100,12 @@ export const addLocalReminder = async (data) => {
   const prev = (await getLocalReminders()) ?? [];
   setLocalJournals([...prev, data]);
 };
+
+export const setLocalSettings = async (data) => {
+  await AsyncStorage.setItem(HOME_STRINGS.SETTING, JSON.stringify(data));
+};
+
+export const getLocalSettings = async () => {
+  const data = await AsyncStorage.getItem(HOME_STRINGS.SETTING);
+  return JSON.parse(data);
+};

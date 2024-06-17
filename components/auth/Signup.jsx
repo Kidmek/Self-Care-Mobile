@@ -17,7 +17,7 @@ import { AUTH_STAGE, INPUT_TYPE, emailRegEx } from '~/constants/strings/common';
 import { SIZES } from '~/constants/theme';
 
 export default function SignUp({ setStep }) {
-  const { t: i18n } = useTranslation();
+  const { t } = useTranslation();
   const toast = useToast();
   const setLoading = useStoreActions((actions) => actions.setLoading);
 
@@ -100,31 +100,31 @@ export default function SignUp({ setStep }) {
   return (
     <View style={authStyles.container}>
       <Text style={{ ...authStyles.header, marginVertical: SIZES.small }}>
-        {i18n(AUTH_STRINGS.REGISTERATION)}
+        {t(AUTH_STRINGS.REGISTERATION)}
       </Text>
       <ScrollView contentContainerStyle={authStyles.body} showsVerticalScrollIndicator={false}>
         <View style={authStyles.inputContainer}>
           <CustomInput
             state={user.firstName}
             setState={handleChange}
-            label={i18n(AUTH_STRINGS.FIRST_NAME)}
-            placeholder={i18n(AUTH_STRINGS.FIRST_NAME_LABEL)}
+            label={t(AUTH_STRINGS.FIRST_NAME)}
+            placeholder={t(AUTH_STRINGS.FIRST_NAME_LABEL)}
             name="firstName"
             error={errors['firstName']}
           />
           <CustomInput
             state={user.lastName}
             setState={handleChange}
-            label={i18n(AUTH_STRINGS.LAST_NAME)}
-            placeholder={i18n(AUTH_STRINGS.LAST_NAME_LABEL)}
+            label={t(AUTH_STRINGS.LAST_NAME)}
+            placeholder={t(AUTH_STRINGS.LAST_NAME_LABEL)}
             name="lastName"
             error={errors['lastName']}
           />
           <CustomInput
             state={user.username}
             setState={handleChange}
-            label={i18n(AUTH_STRINGS.USERNAME)}
-            placeholder={i18n(AUTH_STRINGS.USERNAME_LABEL)}
+            label={t(AUTH_STRINGS.USERNAME)}
+            placeholder={t(AUTH_STRINGS.USERNAME_LABEL)}
             name="username"
             error={errors['username']}
           />
@@ -132,8 +132,8 @@ export default function SignUp({ setStep }) {
           <CustomInput
             state={user.email}
             setState={handleChange}
-            label={i18n(AUTH_STRINGS.EMAIL)}
-            placeholder={i18n(AUTH_STRINGS.EMAIL_LABEL)}
+            label={t(AUTH_STRINGS.EMAIL)}
+            placeholder={t(AUTH_STRINGS.EMAIL_LABEL)}
             name="email"
             type={INPUT_TYPE.EMAIL}
             error={errors['email']}
@@ -146,15 +146,15 @@ export default function SignUp({ setStep }) {
             ]}
             selected={user.gender}
             setSelected={(g) => handleChange(g.value, 'gender')}
-            placeholder={i18n(AUTH_STRINGS.GENDER_LABEL)}
-            label={i18n(AUTH_STRINGS.GENDER)}
+            placeholder={t(AUTH_STRINGS.GENDER_LABEL)}
+            label={t(AUTH_STRINGS.GENDER)}
             error={errors['gender']}
           />
           <CustomInput
             state={user.birthDate}
             setState={handleChange}
-            label={i18n(AUTH_STRINGS.BIRTH_DATE)}
-            placeholder={i18n(AUTH_STRINGS.BIRTH_DATE_LABEL)}
+            label={t(AUTH_STRINGS.BIRTH_DATE)}
+            placeholder={t(AUTH_STRINGS.BIRTH_DATE_LABEL)}
             name="birthDate"
             type={INPUT_TYPE.DATE}
             error={errors['birthDate']}
@@ -163,8 +163,8 @@ export default function SignUp({ setStep }) {
           <CustomInput
             state={user.password}
             setState={handleChange}
-            label={i18n(AUTH_STRINGS.PASSWORD)}
-            placeholder={i18n(AUTH_STRINGS.PASSWORD_LABEL)}
+            label={t(AUTH_STRINGS.PASSWORD)}
+            placeholder={t(AUTH_STRINGS.PASSWORD_LABEL)}
             isPassword
             name="password"
             error={errors['password']}
@@ -172,8 +172,8 @@ export default function SignUp({ setStep }) {
           <CustomInput
             state={user.confirmPass}
             setState={handleChange}
-            label={i18n(AUTH_STRINGS.CONFIRM_PASSWORD)}
-            placeholder={i18n(AUTH_STRINGS.CONFIRM_PASSWORD_LABEL)}
+            label={t(AUTH_STRINGS.CONFIRM_PASSWORD)}
+            placeholder={t(AUTH_STRINGS.CONFIRM_PASSWORD_LABEL)}
             isPassword
             name="confirmPass"
             error={errors['confirmPass']}
@@ -186,20 +186,20 @@ export default function SignUp({ setStep }) {
               }}
             />
             <TouchableOpacity>
-              <Text style={authStyles.forgetTxt}>{i18n(AUTH_STRINGS.AGREE_TO_TERMS)}</Text>
+              <Text style={authStyles.forgetTxt}>{t(AUTH_STRINGS.AGREE_TO_TERMS)}</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        <CustomButton title={i18n(AUTH_STRINGS.REGISTER)} onPress={register} />
+        <CustomButton title={t(AUTH_STRINGS.REGISTER)} onPress={register} />
 
         <View style={authStyles.bottomTextStyle}>
           <Text style={authStyles.registerTextStyle}>
-            {i18n(AUTH_STRINGS.YES_ACCOUNT)}{' '}
+            {t(AUTH_STRINGS.YES_ACCOUNT)}{' '}
             <Text
               style={[authStyles.registerTextStyle, authStyles.redirectTextStyle]}
               onPress={() => setStep(AUTH_STAGE.LOGIN)}>
-              {i18n(AUTH_STRINGS.LOGIN)}
+              {t(AUTH_STRINGS.LOGIN)}
             </Text>
           </Text>
         </View>

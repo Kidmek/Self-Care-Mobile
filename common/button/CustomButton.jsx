@@ -9,20 +9,20 @@ export default function CustomButton({ title, onPress, disabled, pressable, colo
   const inside = () => {
     return <Text style={{ ...buttonStyle.text, color: textColor ?? 'white' }}>{title}</Text>;
   };
+  const style = () => {
+    return {
+      ...buttonStyle.button,
+      backgroundColor: disabled ? COLORS.gray : color ?? COLORS.primary,
+    };
+  };
   return (
     <View>
       {!pressable ? (
-        <TouchableOpacity
-          style={{ ...buttonStyle.button, backgroundColor: color ?? COLORS.primary }}
-          onPress={onPress}
-          disabled={disabled}>
+        <TouchableOpacity style={style()} onPress={onPress} disabled={disabled}>
           <Text style={buttonStyle.text}>{title}</Text>
         </TouchableOpacity>
       ) : (
-        <Pressable
-          style={{ ...buttonStyle.button, backgroundColor: color ?? COLORS.primary }}
-          onPress={onPress}
-          disabled={disabled}>
+        <Pressable style={style()} onPress={onPress} disabled={disabled}>
           {inside()}
         </Pressable>
       )}

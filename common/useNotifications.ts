@@ -51,6 +51,32 @@ export const useNotifications = (): PushNotificationState => {
         lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
         bypassDnd: true,
       });
+      Notifications.setNotificationChannelAsync('no-vibration', {
+        name: 'no-vibration',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [],
+        lightColor: '#FF231F7C',
+        lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+        bypassDnd: true,
+      });
+      Notifications.setNotificationChannelAsync('no-sound', {
+        name: 'no-vibration',
+        importance: Notifications.AndroidImportance.MAX,
+        sound: null,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+        lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+        bypassDnd: true,
+      });
+      Notifications.setNotificationChannelAsync('no-sound-vibration', {
+        name: 'no-sound-vibration',
+        importance: Notifications.AndroidImportance.MAX,
+        sound: null,
+        vibrationPattern: [],
+        lightColor: '#FF231F7C',
+        lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+        bypassDnd: true,
+      });
     }
 
     return token;
