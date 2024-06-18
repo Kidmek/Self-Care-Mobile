@@ -13,5 +13,7 @@ export enum HOME_STRINGS {
   SETTING = 'Setting',
   ABOUT_US = 'About Us',
   CONTACT_US = 'Contact Us',
+  YES = 'Yes',
+  NO = 'No',
 }
 export const am_home_translations: { [placeholder in HOME_STRINGS]?: string } = {};

@@ -1,6 +1,7 @@
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import { router, useNavigation } from 'expo-router';
 import { useState, useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
 
@@ -10,6 +11,7 @@ export interface PushNotificationState {
 }
 
 export const useNotifications = (): PushNotificationState => {
+  const navigation = useNavigation();
   const [expoPushToken, setExpoPushToken] = useState<Notifications.ExpoPushToken | undefined>();
 
   const [notification, setNotification] = useState<Notifications.Notification | undefined>();
@@ -44,7 +46,7 @@ export const useNotifications = (): PushNotificationState => {
 
     if (Platform.OS === 'android') {
       Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
+        name: 'Default',
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
         lightColor: '#FF231F7C',
@@ -52,7 +54,7 @@ export const useNotifications = (): PushNotificationState => {
         bypassDnd: true,
       });
       Notifications.setNotificationChannelAsync('no-vibration', {
-        name: 'no-vibration',
+        name: 'No Vibration',
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [],
         lightColor: '#FF231F7C',
@@ -60,7 +62,7 @@ export const useNotifications = (): PushNotificationState => {
         bypassDnd: true,
       });
       Notifications.setNotificationChannelAsync('no-sound', {
-        name: 'no-vibration',
+        name: 'No Sound',
         importance: Notifications.AndroidImportance.MAX,
         sound: null,
         vibrationPattern: [0, 250, 250, 250],
@@ -69,7 +71,7 @@ export const useNotifications = (): PushNotificationState => {
         bypassDnd: true,
       });
       Notifications.setNotificationChannelAsync('no-sound-vibration', {
-        name: 'no-sound-vibration',
+        name: 'None',
         importance: Notifications.AndroidImportance.MAX,
         sound: null,
         vibrationPattern: [],
@@ -92,7 +94,12 @@ export const useNotifications = (): PushNotificationState => {
     });
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log(response);
+      setTimeout(() => {
+        router.push(
+          // @ts-ignore
+          `/(drawer)/(tabs)/reminders?id=${response.notification.request.content.data?.reminderId}`
+        );
+      }, 500);
     });
 
     return () => {

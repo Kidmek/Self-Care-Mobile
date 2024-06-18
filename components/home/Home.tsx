@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
@@ -8,20 +8,12 @@ import { homeStyle } from './home.style';
 
 import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
-import { useNotifications } from '~/common/useNotifications';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { TECHNIQUES_STRINGS, TipType } from '~/constants/strings/home/self care/techniques';
 import { COLORS, SIZES } from '~/constants/theme';
 
 export default function Home() {
-  const { expoPushToken, notification } = useNotifications();
-
-  useEffect(() => {
-    console.log('token id:', expoPushToken);
-    console.log('Notification', notification);
-  }, [notification]);
-
   const { t: i18n } = useTranslation();
   const [opened, setOpened] = useState<string[]>([
     i18n(HOME_STRINGS.SELF_ASSESSMENT),
@@ -96,6 +88,8 @@ export default function Home() {
       </View>
     );
   };
+
+  console.log('Inside Home');
 
   return (
     <ImageContainer hasTab>

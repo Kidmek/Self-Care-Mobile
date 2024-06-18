@@ -1,41 +1,37 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Animated, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import { commonStyles } from '~/common/common.style';
-import { TRACKING_EMOJIS } from '~/constants/strings/home/assessment/tracking';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { REMINDER_FREQUENCY, REMINDER_TYPES } from '~/constants/strings/home/reminder';
 import { COLORS, FONT, SIZES } from '~/constants/theme';
 
-const SingleReminder = ({ data, onPressDelete, onPressEdit, onPress }) => {
-  const { t: i18n } = useTranslation();
-
-  const renderRightActions = (_, dragX) => {
-    const scale = dragX.interpolate({
-      inputRange: [-100, -50, 0],
-      outputRange: [2, 1, 0],
-      extrapolate: 'clamp',
-    });
-    const opacity = dragX.interpolate({
-      inputRange: [-100, 0],
-      outputRange: [1, 0],
-      extrapolate: 'clamp',
-    });
-    return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => onPressDelete(data?.createdAt)}
-        style={styles.rightAction}>
-        <Animated.View style={[{ transform: [{ scale }], opacity, alignItems: 'center' }]}>
-          <Ionicons name="trash" color="red" size={SIZES.medium} />
-          <Text style={{ color: 'red', ...styles.btnText }}>{i18n(HOME_STRINGS.DELETE)}</Text>
-        </Animated.View>
-      </TouchableOpacity>
-    );
-  };
+const SingleReminderResult = ({ data, onPressDelete, onPress }) => {
+  //   const renderRightActions = (_, dragX) => {
+  //     const scale = dragX.interpolate({
+  //       inputRange: [-100, -50, 0],
+  //       outputRange: [2, 1, 0],
+  //       extrapolate: 'clamp',
+  //     });
+  //     const opacity = dragX.interpolate({
+  //       inputRange: [-100, 0],
+  //       outputRange: [1, 0],
+  //       extrapolate: 'clamp',
+  //     });
+  //     return (
+  //       <TouchableOpacity
+  //         activeOpacity={0.8}
+  //         onPress={() => onPressDelete(time)}
+  //         style={styles.rightAction}>
+  //         <Animated.View style={[{ transform: [{ scale }], opacity, alignItems: 'center' }]}>
+  //           <Ionicons name="trash" color="red" size={SIZES.medium} />
+  //           <Text style={{ color: 'red', ...styles.btnText }}>{i18n(HOME_STRINGS.DELETE)}</Text>
+  //         </Animated.View>
+  //       </TouchableOpacity>
+  //     );
+  //   };
 
   //   const renderLeftActions = (_, dragX) => {
   //     const scale = dragX.interpolate({
@@ -62,29 +58,28 @@ const SingleReminder = ({ data, onPressDelete, onPressEdit, onPress }) => {
   //   };
 
   const renderTime = () => {
-    const days = data?.day ? [data?.day] : data?.days;
+    const timeConverted = new Date(data?.answeredAt)?.toUTCString()?.split(' ');
     return (
       <View style={styles.dateContainer}>
-        {days?.map((d) => {
-          return (
-            <Text key={d} style={[styles.dateText, styles.dateNumber]}>
-              {d}
-            </Text>
-          );
-        })}
-
-        <Text style={[styles.dateText, styles.dateDay]}>{data?.time}</Text>
+        <Text style={[styles.dateText, styles.dateNumber]}>{timeConverted[1]}</Text>
+        <Text style={[styles.dateText, styles.dateMonth]}>
+          {timeConverted[2]} {timeConverted[3]}
+        </Text>
+        <Text style={[styles.dateText, styles.dateDay]}>{timeConverted[0]?.replace(',', '')}</Text>
       </View>
     );
   };
+  const checkIfDone = () => {
+    return data?.answer !== HOME_STRINGS.YES;
+  };
 
   return (
-    <Swipeable
-      overshootRight={false}
-      overshootLeft={false}
-      renderRightActions={(progress, dragX) => renderRightActions(progress, dragX)}
+    <View
+      //   overshootRight={false}
+      //   overshootLeft={false}
+      //   renderRightActions={(progress, dragX) => renderRightActions(progress, dragX)}
       //   renderLeftActions={(progress, dragX) => renderLeftActions(progress, dragX)}
-      containerStyle={styles.swipableItemMainView}>
+      style={styles.swipableItemMainView}>
       <Pressable
         style={styles.singleMoodHistory}
         onPress={() => {
@@ -98,22 +93,34 @@ const SingleReminder = ({ data, onPressDelete, onPressEdit, onPress }) => {
           <Text numberOfLines={1} style={styles.historyTitle} ellipsizeMode="tail">
             {REMINDER_TYPES[data?.type]}
           </Text>
-          <Text numberOfLines={2} style={styles.value} ellipsizeMode="tail">
-            {REMINDER_FREQUENCY[data?.frequency]}
-          </Text>
+          <View style={styles.valueContainer}>
+            <Ionicons
+              name={checkIfDone() ? 'checkmark' : 'close'}
+              color={checkIfDone() ? 'green' : 'red'}
+              size={SIZES.tabIcons}
+            />
+            <Text
+              numberOfLines={2}
+              style={[styles.value, checkIfDone() ? { color: 'green' } : { color: 'red' }]}
+              ellipsizeMode="tail">
+              {data?.answer}
+            </Text>
+          </View>
         </View>
       </Pressable>
-    </Swipeable>
+    </View>
   );
 };
 
-export default SingleReminder;
+export default SingleReminderResult;
 
 const styles = StyleSheet.create({
+  swipableItemMainView: {
+    width: '100%',
+  },
   historyTextContainer: {
     gap: SIZES.small,
     justifyContent: 'center',
-    minWidth: '100%',
   },
   singleMoodHistory: {
     flexDirection: 'row',
@@ -132,7 +139,7 @@ const styles = StyleSheet.create({
   value: {
     color: COLORS.uiElementColors.text.primary,
     fontFamily: FONT.medium,
-    fontSize: SIZES.medium,
+    fontSize: SIZES.large,
     minWidth: '25%',
   },
   rightAction: {
@@ -174,4 +181,9 @@ const styles = StyleSheet.create({
   //     alignItems: 'center',
   //     backgroundColor: 'white',
   //   },
+
+  valueContainer: {
+    flexDirection: 'row',
+    gap: SIZES.small,
+  },
 });

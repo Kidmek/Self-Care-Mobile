@@ -12,6 +12,7 @@ import {
   BackHandler,
 } from 'react-native';
 
+import { setLastLoggedIn } from '~/api/storage';
 import { SETTING_STRINGS } from '~/constants/strings/setting';
 import { COLORS, FONT, SIZES } from '~/constants/theme';
 type Props = {
@@ -53,7 +54,7 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
         LocalAuthentication.authenticateAsync({})
           .then((res) => {
             if (res.success) {
-              setVisible(false);
+              handleAuthenticated();
             }
           })
           .catch((err) => {
@@ -70,6 +71,11 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
         setFocused(focused + 1);
       }
     }
+  };
+
+  const handleAuthenticated = () => {
+    setVisible(false);
+    setLastLoggedIn(new Date());
   };
   const renderSingle = (i: number) => {
     return (
@@ -120,10 +126,10 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
 
   useEffect(() => {
     const entered = pin.join('').trim();
-    console.log(settings?.[SETTING_STRINGS.CHANGE_PIN]);
+    // console.log(settings?.[SETTING_STRINGS.CHANGE_PIN]);
     if (entered.length === 4 && !savePin) {
       if (settings?.[SETTING_STRINGS.CHANGE_PIN] === entered) {
-        setVisible(false);
+        handleAuthenticated();
       } else {
         setError(true);
       }
@@ -133,9 +139,6 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
   useEffect(() => {
     setPin(['', '', '', '']);
   }, [visible]);
-
-  // console.log(settings[SETTING_STRINGS.ENABLE_BIOMETRICS]);
-  // console.log(settings[SETTING_STRINGS.CHANGE_PIN]);
 
   return (
     <Modal

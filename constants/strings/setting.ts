@@ -12,6 +12,7 @@ export enum SETTING_STRINGS {
   ENTER_PIN = 'Enter PIN',
   WRONG_PIN = 'Wrong PIN',
   LANGUAGE = 'Language',
+  LAST_LOGIN = 'Last Logged In',
 }
 
 // export const en_translations: { [placeholder in AUTH_STRINGS]: string } = makeObjects(

@@ -3,7 +3,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ADMIN, LANGUAGE_KEY, ROLE_KEY, TOKEN_KEY, USER_KEY } from '~/constants/strings/api';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
+import { REMINDER_STRINGS } from '~/constants/strings/home/reminder';
 import { TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
+import { SETTING_STRINGS } from '~/constants/strings/setting';
 
 export const setToken = async (token) => {
   if (token) {
@@ -108,4 +110,26 @@ export const setLocalSettings = async (data) => {
 export const getLocalSettings = async () => {
   const data = await AsyncStorage.getItem(HOME_STRINGS.SETTING);
   return JSON.parse(data);
+};
+
+export const setLastLoggedIn = async (data) => {
+  await AsyncStorage.setItem(SETTING_STRINGS.LAST_LOGIN, JSON.stringify(data));
+};
+
+export const getLastLoggedIn = async () => {
+  const data = await AsyncStorage.getItem(SETTING_STRINGS.LAST_LOGIN);
+  return JSON.parse(data);
+};
+
+export const setReminderResult = async (data) => {
+  await AsyncStorage.setItem(REMINDER_STRINGS.HISTORY, JSON.stringify(data));
+};
+
+export const getReminderResult = async () => {
+  const data = await AsyncStorage.getItem(REMINDER_STRINGS.HISTORY);
+  return JSON.parse(data);
+};
+export const addReminderResult = async (data) => {
+  const prev = (await getReminderResult()) ?? [];
+  setReminderResult([...prev, data]);
 };

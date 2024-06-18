@@ -5,3 +5,13 @@ export const makeObjects = (values: string[]) => {
   });
   return res;
 };
+
+export const getMinutes = (start: Date, end: Date) => {
+  // Difference in milliseconds
+  const difference = end.getTime() - start.getTime();
+
+  // Convert milliseconds to minutes
+  const minutesDifference = Math.floor(difference / 60000);
+
+  return minutesDifference;
+};

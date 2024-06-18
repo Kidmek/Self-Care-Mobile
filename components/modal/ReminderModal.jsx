@@ -15,7 +15,7 @@ import {
 } from '~/constants/strings/home/reminder';
 import { width } from '~/constants/theme';
 
-const ReminderModal = ({ visible, setVisible, save, selected, t }) => {
+const ReminderModal = ({ visible, setVisible, save, t }) => {
   const [value, setValue] = useState({
     type: '',
     frequency: '',
@@ -142,7 +142,7 @@ const ReminderModal = ({ visible, setVisible, save, selected, t }) => {
             <TouchableOpacity
               onPress={() => {
                 if (checkIfValid()) {
-                  const data = { ...value, days, createdAt: new Date() };
+                  const data = { ...value, days, createdAt: new Date().getTime().toString() };
                   if (!checkFrequency(REMINDER_FREQUENCY.WEEKLY)) {
                     delete data.day;
                   }

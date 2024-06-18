@@ -16,6 +16,8 @@ export enum REMINDER_STRINGS {
   DAYS_REQUIRED = 'Two days to remind required',
   DAY_REQUIRED = 'Day for reminder required',
   SELF_CARE_REMINDER = 'Self care reminder',
+  HISTORY = 'History',
+  NO_REMINDER_RESULTS = 'No reminders responded',
 }
 export enum DAYS {
   Monday = 'Monday',
@@ -33,6 +35,15 @@ export enum REMINDER_TYPES {
   TECHNIQUES = 'To practice relaxation techniques',
   FAMILY = 'To spend time with family/friends',
   REST = 'To take rest',
+}
+
+export enum REMINDER_TYPES_QNS {
+  JOURNALING = 'Did you write Journal',
+  EXERCISE = 'Did you exercise',
+  SLEEP = 'Did you sleep',
+  TECHNIQUES = 'Did you practice relaxation techniques',
+  FAMILY = 'Did you spend time with family/friends',
+  REST = 'Did you take rest',
 }
 
 export enum REMINDER_FREQUENCY {

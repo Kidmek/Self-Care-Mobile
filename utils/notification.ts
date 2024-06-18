@@ -9,7 +9,7 @@ import {
 } from '~/constants/strings/home/reminder';
 
 export type Reminder = {
-  createdAt: Date;
+  createdAt: string;
   frequency: keyof typeof REMINDER_FREQUENCY;
   notificationId: string[];
   time: string;
@@ -25,12 +25,16 @@ export async function scheduleNotification(
   title: string,
   body: string,
   vibrate: boolean,
-  sound: boolean
+  sound: boolean,
+  reminderId: string
 ) {
   const [timeString, AM_PM] = time ? time?.trim()?.split(/(\s+)/) : ['', ''];
   const [hour, minute] = time ? timeString?.split(':').map(Number) : [0, 0];
   const trigger = now
-    ? null
+    ? {
+        seconds: 10,
+        // repeats: true,
+      }
     : day
       ? {
           hour: hour + (AM_PM === 'AM' ? 0 : 12),
@@ -48,7 +52,11 @@ export async function scheduleNotification(
     content: {
       title,
       body,
+      data: {
+        reminderId,
+      },
     },
+
     trigger,
     // @ts-ignore
     channelId:
@@ -60,18 +68,18 @@ export async function scheduleNotification(
             ? 'no-sound'
             : 'no-sound-vibration',
   });
-  console.log('Notification Id', id);
+  // console.log('Notification Id', id);
   return id;
 }
 
 export async function cancelNotification(notifId?: string) {
   if (notifId) {
     await Notifications.cancelScheduledNotificationAsync(notifId);
-    console.log('Canceled ', notifId);
+    // console.log('Canceled ', notifId);
   } else {
     // await Notifications.dismissAllNotificationsAsync();
     await Notifications.cancelAllScheduledNotificationsAsync();
-    console.log('Canceled All ', notifId);
+    // console.log('Canceled All ', notifId);
   }
 }
 
@@ -89,7 +97,8 @@ export async function changeAllType(vibration: boolean, sound: boolean, t: any) 
           t(REMINDER_STRINGS.SELF_CARE_REMINDER),
           REMINDER_TYPES[data.type],
           vibration,
-          sound
+          sound,
+          data.createdAt
         ),
       ];
     } else {
@@ -103,7 +112,8 @@ export async function changeAllType(vibration: boolean, sound: boolean, t: any) 
             t(REMINDER_STRINGS.SELF_CARE_REMINDER),
             REMINDER_TYPES[data.type],
             vibration,
-            sound
+            sound,
+            data.createdAt
           )
         );
       }

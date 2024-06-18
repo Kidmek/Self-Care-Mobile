@@ -1,17 +1,28 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useStoreActions } from 'easy-peasy';
-import React, { useEffect, useState } from 'react';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 
 import SingleReminder from './SingleReminder';
+import SingleReminderResult from './SingleReminderResult';
 import { assessmentStyle } from '../home/assessment/assessment.style';
+import DoneReminderModal from '../modal/DoneReminderModal';
 import ReminderModal from '../modal/ReminderModal';
 
-import { getLocalReminders, getLocalSettings, setLocalReminders } from '~/api/storage';
+import {
+  addReminderResult,
+  getLocalReminders,
+  getLocalSettings,
+  getReminderResult,
+  setLocalReminders,
+} from '~/api/storage';
 import { commonStyles } from '~/common/common.style';
+import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
+import { HEADER_TYPES } from '~/constants/strings/common';
 import {
   REMINDER_FREQUENCY,
   REMINDER_STRINGS,
@@ -22,12 +33,17 @@ import { COLORS, SIZES } from '~/constants/theme';
 import { cancelNotification, scheduleNotification } from '~/utils/notification';
 
 export default function Reminder() {
+  const navigation = useNavigation();
+  const params = useLocalSearchParams();
+  const [selected, setSelected] = useState();
   const [visible, setVisible] = useState(false);
+  const [isHistory, setIsHistory] = useState(false);
+  const [doneVisible, setDoneVisible] = useState(false);
   const [reminders, setReminders] = useState([]);
+  const [history, setHistory] = useState([]);
   const { t } = useTranslation();
   const toast = useToast();
   const setLoading = useStoreActions((actions) => actions.setLoading);
-  const [settings, setSettings] = useState({});
 
   const fetch = async () => {
     if (false) {
@@ -37,8 +53,9 @@ export default function Reminder() {
 
       setLoading(true);
       const data = (await getLocalReminders()) ?? [];
-      setSettings((await getLocalSettings()) ?? {});
+      const savedHistory = (await getReminderResult()) ?? [];
       setReminders([...data]);
+      setHistory([...savedHistory]);
       setLoading(false);
     }
   };
@@ -51,42 +68,48 @@ export default function Reminder() {
       // Fetch from backend and save locally
     } else {
       //
-      if (REMINDER_FREQUENCY[data.frequency] === REMINDER_FREQUENCY.DAILY) {
-        notificationId = [
-          await scheduleNotification(
-            false,
-            null,
-            data?.time,
-            t(REMINDER_STRINGS.SELF_CARE_REMINDER),
-            REMINDER_TYPES[data.type],
-            settings[SETTING_STRINGS.VIBRATION],
-            settings[SETTING_STRINGS.SOUND]
-          ),
-        ];
-      } else {
-        const days = data.day ? [data?.day] : data?.days;
-        for (const day in days) {
-          notificationId.push(
-            await scheduleNotification(
-              false,
-              day,
-              data?.time,
-              t(REMINDER_STRINGS.SELF_CARE_REMINDER),
-              REMINDER_TYPES[data.type],
-              settings[SETTING_STRINGS.VIBRATION],
-              settings[SETTING_STRINGS.SOUND]
-            )
-          );
+      getLocalSettings().then(async (settings) => {
+        if (settings[SETTING_STRINGS.ALLOW_NOTIFIACTION] === true) {
+          if (REMINDER_FREQUENCY[data.frequency] === REMINDER_FREQUENCY.DAILY) {
+            notificationId = [
+              // TEST
+              await scheduleNotification(
+                true,
+                null,
+                data?.time,
+                t(REMINDER_STRINGS.SELF_CARE_REMINDER),
+                REMINDER_TYPES[data.type],
+                settings[SETTING_STRINGS.VIBRATION],
+                settings[SETTING_STRINGS.SOUND],
+                data.createdAt
+              ),
+            ];
+          } else {
+            const days = data.day ? [data?.day] : data?.days;
+            for (const day in days) {
+              notificationId.push(
+                await scheduleNotification(
+                  false,
+                  day,
+                  data?.time,
+                  t(REMINDER_STRINGS.SELF_CARE_REMINDER),
+                  REMINDER_TYPES[data.type],
+                  settings[SETTING_STRINGS.VIBRATION],
+                  settings[SETTING_STRINGS.SOUND],
+                  data.createdAt
+                )
+              );
+            }
+          }
+          data.notificationId = notificationId;
         }
-      }
-      data.notificationId = notificationId;
+        setLoading(true);
+        await setLocalReminders([data, ...reminders]);
 
-      setLoading(true);
-      await setLocalReminders([data, ...reminders]);
-
-      setVisible(false);
-      fetch();
-      setLoading(false);
+        setVisible(false);
+        fetch();
+        setLoading(false);
+      });
     }
   };
   const hanldeDelete = (id) => {
@@ -106,7 +129,9 @@ export default function Reminder() {
             ...reminders.filter((h) => {
               if (h.createdAt === id) {
                 h.notificationId?.map((n) => {
-                  cancelNotification(n);
+                  if (n) {
+                    cancelNotification(n);
+                  }
                 });
               }
               return h.createdAt !== id;
@@ -123,13 +148,69 @@ export default function Reminder() {
     ]);
   };
 
+  const handleDone = async (done) => {
+    if (selected) {
+      await addReminderResult({
+        ...selected,
+        answeredAt: new Date(),
+        answer: done,
+      });
+      fetch();
+      setDoneVisible(false);
+    }
+  };
+
   const renderItem = ({ item }) => {
     return <SingleReminder data={item} onPressDelete={hanldeDelete} onPress={() => {}} />;
   };
 
+  const renderHistory = ({ item }) => {
+    return <SingleReminderResult data={item} onPressDelete={hanldeDelete} onPress={() => {}} />;
+  };
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        if (isHistory) {
+        } else {
+          return (
+            <HeaderIcon name="hourglass-outline" onPress={() => setIsHistory(!isHistory)} margin />
+          );
+        }
+      },
+      headerLeft: () => {
+        return (
+          <HeaderIcon
+            type={HEADER_TYPES.BACK}
+            onPress={isHistory ? () => setIsHistory(!isHistory) : undefined}
+            margin
+          />
+        );
+      },
+    });
+  }, [isHistory]);
+
   useEffect(() => {
     fetch();
-  }, []);
+  }, [isHistory]);
+
+  console.log(history.length);
+
+  useEffect(() => {
+    if (params.id) {
+      reminders.some((r) => {
+        setSelected(r);
+        setDoneVisible(true);
+        return true;
+        // if (r.createdAt === params.id) {
+        //   setSelected(r);
+        //   setDoneVisible(true);
+        //   return true;
+        // } else {
+        //   return false;
+        // }
+      });
+    }
+  }, [params, reminders]);
 
   return (
     <ImageContainer>
@@ -140,35 +221,71 @@ export default function Reminder() {
         save={handleSave}
         // selected={selected}
       />
+      <DoneReminderModal
+        visible={doneVisible}
+        setVisible={setDoneVisible}
+        t={t}
+        save={handleDone}
+        selected={selected}
+        // selected={selected}
+      />
       <View style={commonStyles.container()}>
-        <FlatList
-          data={reminders}
-          renderItem={renderItem}
-          contentContainerStyle={{
-            ...assessmentStyle.historyContainer,
-            paddingHorizontal: 0,
-          }}
-          ListEmptyComponent={() => {
-            return (
-              <Text
-                style={{
-                  ...assessmentStyle.container,
-                  textAlign: 'center',
-                  ...assessmentStyle.headerQns,
-                }}>
-                {t(REMINDER_STRINGS.EMPTY_HISTORY)}
-              </Text>
-            );
-          }}
-          // contentContainerStyle={{ ' }}
-        />
-        <Pressable
-          style={styles.addButton}
-          onPress={() => {
-            setVisible(true);
-          }}>
-          <Ionicons name="add" size={SIZES.xxLarge} />
-        </Pressable>
+        {isHistory ? (
+          <FlatList
+            data={history}
+            renderItem={renderHistory}
+            contentContainerStyle={{
+              ...assessmentStyle.historyContainer,
+              paddingHorizontal: 0,
+            }}
+            keyExtractor={(item) => item.answeredAt}
+            ListEmptyComponent={() => {
+              return (
+                <Text
+                  style={{
+                    ...assessmentStyle.container,
+                    textAlign: 'center',
+                    ...assessmentStyle.headerQns,
+                  }}>
+                  {t(REMINDER_STRINGS.NO_REMINDER_RESULTS)}
+                </Text>
+              );
+            }}
+            // contentContainerStyle={{ ' }}
+          />
+        ) : (
+          <>
+            <FlatList
+              data={reminders}
+              renderItem={renderItem}
+              contentContainerStyle={{
+                ...assessmentStyle.historyContainer,
+                paddingHorizontal: 0,
+              }}
+              keyExtractor={(item) => item.createdAt}
+              ListEmptyComponent={() => {
+                return (
+                  <Text
+                    style={{
+                      ...assessmentStyle.container,
+                      textAlign: 'center',
+                      ...assessmentStyle.headerQns,
+                    }}>
+                    {t(REMINDER_STRINGS.EMPTY_HISTORY)}
+                  </Text>
+                );
+              }}
+              // contentContainerStyle={{ ' }}
+            />
+            <Pressable
+              style={styles.addButton}
+              onPress={() => {
+                setVisible(true);
+              }}>
+              <Ionicons name="add" size={SIZES.xxLarge} />
+            </Pressable>
+          </>
+        )}
       </View>
     </ImageContainer>
   );

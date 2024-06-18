@@ -1,7 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, KeyboardTypeOptions } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  KeyboardTypeOptions,
+  Pressable,
+} from 'react-native';
 
 import inputStyle from './input.style';
 
@@ -47,19 +54,28 @@ export default function CustomInput({
       )}
       {label && <Text style={inputStyle.label}>{label}</Text>}
       <View style={inputStyle.passContainer}>
-        <TextInput
-          // @ts-ignore
-          style={inputStyle.input(error)}
-          value={state}
-          onChangeText={(value) => setState(value, name)}
-          placeholder={placeholder}
-          secureTextEntry={showPass}
-          placeholderTextColor={COLORS.placeholder}
-          keyboardType={type}
-          editable={!disabled && !isDate() && !isTime()}
-          multiline={type === INPUT_TYPE.MULTI}
-          numberOfLines={type === INPUT_TYPE.MULTI ? 4 : 1}
-        />
+        <Pressable
+          style={{ flex: 1 }}
+          onPress={() => {
+            if (isDate() || isTime()) {
+              setShowDatePicker(true);
+            }
+          }}>
+          <TextInput
+            // @ts-ignore
+            style={inputStyle.input(error)}
+            value={state}
+            onChangeText={(value) => setState(value, name)}
+            placeholder={placeholder}
+            secureTextEntry={showPass}
+            placeholderTextColor={COLORS.placeholder}
+            keyboardType={type}
+            editable={!disabled && !isDate() && !isTime()}
+            multiline={type === INPUT_TYPE.MULTI}
+            numberOfLines={type === INPUT_TYPE.MULTI ? 4 : 1}
+          />
+        </Pressable>
+
         {!disabled && (isPassword || isTime() || isDate()) && (
           <TouchableOpacity
             onPress={() => {
