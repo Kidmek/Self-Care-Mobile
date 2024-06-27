@@ -3,6 +3,7 @@ export enum HOME_STRINGS {
   SELF_CARE_TECHNIQUES = 'Self Care Techniques',
   CANCEL = 'Cancel',
   DELETE = 'Delete',
+  EDIT = 'Edit',
   SKIP = 'Skip',
   SAVE = 'Save',
   LOGOUT = 'Logout',
@@ -11,9 +12,13 @@ export enum HOME_STRINGS {
   REMINDER = 'Reminder',
   PROFILE = 'Profile',
   SETTING = 'Setting',
+  FEEDBACK = 'Feedback',
+  STATISTICS = 'Statistics',
   ABOUT_US = 'About Us',
   CONTACT_US = 'Contact Us',
   YES = 'Yes',
   NO = 'No',
+  CREATED_AT = 'Created At',
+  EDITTED_AT = 'Editted At',
 }
 export const am_home_translations: { [placeholder in HOME_STRINGS]?: string } = {};

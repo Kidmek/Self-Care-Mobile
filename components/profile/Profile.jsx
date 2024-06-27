@@ -27,7 +27,7 @@ export default function Profile() {
   const [edit, setEdit] = useState();
 
   const [user, setUser] = useState({
-    username: '',
+    phone: '',
     gender: '',
     firstName: '',
     lastName: '',
@@ -135,8 +135,14 @@ export default function Profile() {
   );
 
   useEffect(() => {
+    console.log('first');
     fetch();
+    return () => {
+      console.log('Unmount');
+    };
   }, []);
+
+  useLayoutEffect(() => {});
   return (
     <ImageContainer hasTab={false} noImage>
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
@@ -160,13 +166,13 @@ export default function Profile() {
             disabled={!edit}
           />
           <CustomInput
-            state={edit ? newUser.username : user.username}
+            state={user.phone}
             setState={handleChange}
             label={t(AUTH_STRINGS.USERNAME)}
             placeholder={t(AUTH_STRINGS.USERNAME_LABEL)}
-            name="username"
-            error={errors['username']}
-            disabled={!edit}
+            name="phone"
+            error={errors['phone']}
+            disabled
           />
 
           <CustomInput

@@ -70,7 +70,7 @@ const SingleReminderResult = ({ data, onPressDelete, onPress }) => {
     );
   };
   const checkIfDone = () => {
-    return data?.answer !== HOME_STRINGS.YES;
+    return data?.answer === HOME_STRINGS.YES;
   };
 
   return (

@@ -12,7 +12,7 @@ import { setUserData, setToken } from '~/api/storage';
 import CustomButton from '~/common/button/CustomButton';
 import CustomInput from '~/common/input/CustomInput';
 import { AUTH_STRINGS } from '~/constants/strings/auth';
-import { AUTH_STAGE, emailRegEx } from '~/constants/strings/common';
+import { AUTH_STAGE, emailRegEx, phoneRegEx } from '~/constants/strings/common';
 import { COLORS, SIZES } from '~/constants/theme';
 
 export default function Login({ setStep }) {
@@ -29,6 +29,10 @@ export default function Login({ setStep }) {
 
   const login = () => {
     const errors = {};
+
+    if (!username?.match(emailRegEx) && !username?.match(phoneRegEx)) {
+      errors.username = 'Invalid email or phone';
+    }
 
     if (!password.length) {
       errors.password = i18n(AUTH_STRINGS.PASS_REQUIRED);
@@ -48,11 +52,24 @@ export default function Login({ setStep }) {
         successMsg: i18n(AUTH_STRINGS.LOGIN_SUCCESS),
         onSuccess: (data) => {
           setLoading(false);
+          setUserData(data.user);
+
           if (data.token) {
-            setUserData(data.user);
             setToken(data.token);
             navigate.navigate('(drawer)');
           } else if (data.user?.isActive === false) {
+            postSkeleton({
+              url: 'auth/resend-otp',
+              params: {
+                email: data.user?.email,
+                register: !isForgotPass,
+                isEmail: true,
+              },
+              errorMsg: 'Unable to send verification',
+              toast,
+              setLoading,
+              noSuccessToast: true,
+            });
             setStep(AUTH_STAGE.OTP);
           } else {
             toast.show(i18n(AUTH_STRINGS.TRY_AGAIN), {
@@ -62,18 +79,20 @@ export default function Login({ setStep }) {
         },
         toast,
         setLoading,
+        noSuccessToast: true,
       });
     }
   };
 
   const handleResetPass = async () => {
-    if (!username.match(emailRegEx)) {
+    if (!username?.match(emailRegEx) && !username?.match(phoneRegEx)) {
+      errors.username = 'Invalid email or phone';
       setErrors({ username: i18n(AUTH_STRINGS.INVALID_EMAIL) });
     } else {
       setErrors({});
       postSkeleton({
         url: 'auth/reset-pass',
-        params: { email: username },
+        params: { emailOrPhone: username },
         errorMsg: 'Unable to verify',
         successMsg: `OTP sent to ${username}`,
         onSuccess: async () => {
@@ -82,6 +101,7 @@ export default function Login({ setStep }) {
         },
         toast,
         setLoading,
+        noSuccessToast: true,
       });
     }
   };
@@ -99,10 +119,8 @@ export default function Login({ setStep }) {
             setState={(v) => {
               setUsername(v);
             }}
-            label={isForgotPass ? i18n(AUTH_STRINGS.EMAIL) : i18n(AUTH_STRINGS.USERNAME)}
-            placeholder={
-              isForgotPass ? i18n(AUTH_STRINGS.EMAIL_LABEL) : i18n(AUTH_STRINGS.USERNAME_LABEL)
-            }
+            label={i18n(AUTH_STRINGS.EMAIL_OR_PHONE)}
+            placeholder={i18n(AUTH_STRINGS.EMAIL_OR_PHONE_PLACEHOLDER)}
             error={errors['username']}
           />
           {!isForgotPass && (

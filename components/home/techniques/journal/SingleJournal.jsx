@@ -6,7 +6,7 @@ import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useToast } from 'react-native-toast-notifications';
 
-import { addLocalJournal } from '~/api/storage';
+import { addLocalJournal, editLocalJournal } from '~/api/storage';
 import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { modalStyles } from '~/components/modal/modal.style';
@@ -33,7 +33,14 @@ export default function SingleJournal() {
       value: journey.value.trim(),
     };
 
-    addLocalJournal(newData);
+    if (params.isEdit) {
+      newData.edit_time = new Date();
+      newData.time = params.time;
+      editLocalJournal(newData);
+    } else {
+      addLocalJournal(newData);
+    }
+
     toast.show('Recorded', {
       type: 'success',
     });
@@ -53,6 +60,13 @@ export default function SingleJournal() {
     }
   }, []);
 
+  const checkIfEditable = () => {
+    if (!params.time || params.isEdit) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <ImageContainer>
       <ScrollView
@@ -64,27 +78,27 @@ export default function SingleJournal() {
         <View style={styles.wrapper}>
           <Text style={styles.label}>{i18n(JOURNALING_STRINGS.TITLE)}</Text>
           <TextInput
-            style={styles.input(!params.title)}
+            style={styles.input(checkIfEditable())}
             value={journey.title}
             onChangeText={(v) => setJourney({ ...journey, title: v })}
             onSubmitEditing={() => ref.current.focus()}
-            editable={!params.time}
+            editable={checkIfEditable()}
           />
         </View>
         <View style={styles.wrapper}>
           <Text style={styles.label}>{i18n(JOURNALING_STRINGS.JOURNAL)}</Text>
           <TextInput
             ref={ref}
-            style={[styles.input(!params.title), styles.textArea]}
+            style={[styles.input(checkIfEditable()), styles.textArea]}
             value={journey.value}
             onChangeText={(v) => setJourney({ ...journey, value: v })}
             multiline
             numberOfLines={20}
-            editable={!params.time}
+            editable={checkIfEditable()}
           />
         </View>
 
-        {!params.title ? (
+        {checkIfEditable() ? (
           <TouchableOpacity
             onPress={() => {
               handleSave();
@@ -99,7 +113,16 @@ export default function SingleJournal() {
           </TouchableOpacity>
         ) : (
           <View>
-            <Text style={styles.label}>{new Date(params.time).toUTCString()}</Text>
+            <Text style={styles.label}>
+              {i18n(HOME_STRINGS.CREATED_AT)}{' '}
+              <Text style={styles.value}>{new Date(params.time).toUTCString()}</Text>
+            </Text>
+            {params.edit_time && (
+              <Text style={styles.label}>
+                {i18n(HOME_STRINGS.EDITTED_AT)}{' '}
+                <Text style={styles.value}>{new Date(params.edit_time).toUTCString()}</Text>
+              </Text>
+            )}
           </View>
         )}
       </ScrollView>
@@ -145,5 +168,10 @@ const styles = StyleSheet.create({
   },
   disabled: {
     backgroundColor: COLORS.gray,
+  },
+  value: {
+    fontSize: SIZES.medium,
+    fontFamily: FONT.regular,
+    color: COLORS.dark,
   },
 });

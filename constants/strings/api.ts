@@ -1,10 +1,12 @@
-export const API = 'http:/192.168.1.9:3000/';
+export const API = 'http:/192.168.36.102:3000/';
 export const MEDIA_URL = `${API}uploads`;
 export const ADMIN = 'ADMIN';
 export const LOGIN_API = 'auth/login';
+export const REGISTER_API = 'auth/register';
 export const OTP_RESEND_API = 'auth/resend-otp';
 export const OTP_API = 'auth/verify-otp';
 export const CHANGE_PASS_API = 'auth/change-pass';
+export const RESET_PASS_API = 'auth/reset-pass';
 export const ROLE_KEY = 'sage_role';
 export const TOKEN_KEY = 'sage_jwt';
 export const USER_KEY = 'sage_user';

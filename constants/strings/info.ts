@@ -7,6 +7,11 @@ export enum INFO_STRINGS {
   INSTAGRAM = 'Instagram',
   TWITTER = 'X',
   FACEBOOK = 'Facebook',
+  EXPERIENCE_QNS = 'Did you experience improvement after using the app?',
+  EXPERIENCE_PLACEHOLDER = 'Your response',
+  FEEDBACK_QNS = 'What is your feedback about the app?',
+  FEEDBACK_PLACEHOLDER = 'Your feedback',
+  SUBMIT_FEEDBACK = 'Submit Feedback',
 }
 
 // export const en_translations: { [placeholder in AUTH_STRINGS]: string } = makeObjects(

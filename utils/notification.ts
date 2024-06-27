@@ -32,7 +32,7 @@ export async function scheduleNotification(
   const [hour, minute] = time ? timeString?.split(':').map(Number) : [0, 0];
   const trigger = now
     ? {
-        seconds: 10,
+        seconds: 5,
         // repeats: true,
       }
     : day

@@ -3,7 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useNavigation } from 'expo-router/src/useNavigation';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 
 import OTP from '../auth/Otp';
@@ -70,7 +70,10 @@ export default function Change() {
           errorMsg: 'Unable to change password',
           successMsg: `Password changed`,
           onSuccess: () => {
-            navigation.navigate('(tabs)');
+            navigation.reset({
+              index: 0,
+              routes: [{ name: '(drawer)' }],
+            });
           },
           toast,
           setLoading,

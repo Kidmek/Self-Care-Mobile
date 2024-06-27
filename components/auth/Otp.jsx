@@ -20,7 +20,7 @@ import { AUTH_STAGE, OTP_LENGTH, WAIT_TIME } from '~/constants/strings/common';
 import { COLORS, SIZES } from '~/constants/theme';
 
 export default function OTP({ setStep, setOtp, email, onSuccess }) {
-  const { t: i18n } = useTranslation();
+  const { t } = useTranslation();
   const toast = useToast();
   const [errortext, setErrortext] = useState();
   const [code, setCode] = useState();
@@ -31,6 +31,7 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
     code,
     setCode,
   });
+  const [isEmail, setIsEmail] = useState(false);
 
   const setLoading = useStoreActions((actions) => actions.setLoading);
   const isForgotPass = useStoreState((state) => state.isForgotPass);
@@ -65,11 +66,19 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
       setErrortext('Please fill out all slots');
     }
   };
-  const resend = async () => {
+  const resend = async (changeVal) => {
+    console.log(changeVal);
     const user = await getUserData();
+    console.log('Is Email', isEmail);
+    console.log(email);
     postSkeleton({
       url: 'auth/resend-otp',
-      params: { username: user?.username, register: !isForgotPass, newEmail: email },
+      params: {
+        email: user?.email,
+        register: !isForgotPass,
+        newEmail: email,
+        isEmail: changeVal !== undefined ? changeVal : isEmail,
+      },
       errorMsg: 'Unable to resend',
       successMsg: 'Successfully resent',
       onSuccess: () => {
@@ -107,8 +116,6 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
     };
   }, [timer.second]);
 
-  useEffect(() => {}, []);
-
   return (
     <View
       style={[
@@ -121,7 +128,7 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
         style={{
           ...authStyles.header,
         }}>
-        {i18n(AUTH_STRINGS.VERIFICATION)}
+        {t(AUTH_STRINGS.VERIFICATION)}
       </Text>
 
       <View>
@@ -129,7 +136,8 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
           style={{
             ...authStyles.subHeader,
           }}>
-          {i18n(AUTH_STRINGS.VERIFICATION_PLACEHOLDER)}
+          {t(AUTH_STRINGS.VERIFICATION_PLACEHOLDER)}{' '}
+          {isEmail ? t(AUTH_STRINGS.EMAIL) : t(AUTH_STRINGS.PHONE)}
         </Text>
         <CodeField
           ref={ref}
@@ -151,7 +159,7 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
         {errortext !== '' ? <Text style={authStyles.errorTextStyle}>{errortext}</Text> : null}
         <View style={authStyles.bottomTextStyle}>
           <Text style={authStyles.registerTextStyle}>
-            {i18n(AUTH_STRINGS.NO_CODE)}{' '}
+            {t(AUTH_STRINGS.NO_CODE)}{' '}
             {timer.second > 0 || timer.minute > 0 ? (
               <Text
                 style={[
@@ -159,23 +167,32 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
                   authStyles.redirectTextStyle,
                   { textDecorationLine: 'none' },
                 ]}>
-                {i18n(AUTH_STRINGS.WAIT_FOR)}{' '}
-                {timer.minute < 10 ? `0${timer.minute}` : timer.minute}:
+                {t(AUTH_STRINGS.WAIT_FOR)} {timer.minute < 10 ? `0${timer.minute}` : timer.minute}:
                 {timer.second < 10 ? `0${timer.second}` : timer.second}
               </Text>
             ) : (
               <Text
                 style={[authStyles.registerTextStyle, authStyles.redirectTextStyle]}
-                onPress={resend}>
-                {i18n(AUTH_STRINGS.RESEND)}
+                onPress={() => resend()}>
+                {t(AUTH_STRINGS.RESEND)}
               </Text>
             )}
           </Text>
+          {timer.second === 0 && timer.minute === 0 && (
+            <Text
+              style={[authStyles.registerTextStyle, authStyles.redirectTextStyle]}
+              onPress={() => {
+                setIsEmail(!isEmail);
+                resend(!isEmail);
+              }}>
+              {isEmail ? t(AUTH_STRINGS.USE_PHONE) : t(AUTH_STRINGS.USE_EMAIL)}
+            </Text>
+          )}
         </View>
         <View style={{ gap: SIZES.small }}>
-          <CustomButton title={i18n(AUTH_STRINGS.VERIFY)} onPress={handleSubmitButton} />
+          <CustomButton title={t(AUTH_STRINGS.VERIFY)} onPress={handleSubmitButton} />
           <CustomButton
-            title={i18n(AUTH_STRINGS.CANCEL)}
+            title={t(AUTH_STRINGS.CANCEL)}
             onPress={() => {
               setStep(AUTH_STAGE.LOGIN);
             }}

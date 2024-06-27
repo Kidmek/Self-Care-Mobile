@@ -1,11 +1,11 @@
-import { useRootNavigationState } from 'expo-router';
+import { router, useRootNavigationState } from 'expo-router';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { getLanguage, setLanguage } from '~/api/storage';
+import { getLanguage, getToken, setLanguage } from '~/api/storage';
 import Login from '~/components/auth/Login';
 import NewPass from '~/components/auth/NewPass';
 import OTP from '~/components/auth/Otp';
@@ -17,6 +17,8 @@ import { COLORS, SIZES } from '~/constants/theme';
 export default function Auth() {
   const { top } = useSafeAreaInsets();
   const [selected, setSelected] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
+
   const [languageOpen, setLanguageOpen] = useState(false);
   const [step, setStep] = useState<AUTH_STAGE>(AUTH_STAGE.LOGIN);
   const [otp, setOtp] = useState('');
@@ -49,7 +51,28 @@ export default function Auth() {
       i18next.changeLanguage(selected);
     }
   }, [selected]);
-  if (!rootNavigationState?.key) return null;
+
+  useEffect(() => {
+    const isLoggedIn = async () => {
+      console.log('checking login');
+      // TODO
+      if (await getToken()) {
+        // if (true) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+    isLoggedIn();
+  }, []);
+  console.log('Is logged in,', isLoggedIn);
+
+  if (!rootNavigationState?.key || isLoggedIn === undefined) return null;
+
+  if (isLoggedIn) {
+    // @ts-ignore
+    router.push('/(drawer)/(tabs)');
+  }
 
   return (
     <View

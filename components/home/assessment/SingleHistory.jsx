@@ -44,29 +44,30 @@ const SingleHistory = ({
     );
   };
 
-  //   const renderLeftActions = (_, dragX) => {
-  //     const scale = dragX.interpolate({
-  //       inputRange: [0, 50, 100],
-  //       outputRange: [0, 1, 2],
-  //       extrapolate: 'clamp',
-  //     });
-  //     const opacity = dragX.interpolate({
-  //       inputRange: [0, 100],
-  //       outputRange: [0, 1],
-  //       extrapolate: 'clamp',
-  //     });
+  const renderLeftActions = (_, dragX) => {
+    const scale = dragX.interpolate({
+      inputRange: [0, 50, 100],
+      outputRange: [0, 1, 2],
+      extrapolate: 'clamp',
+    });
+    const opacity = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    });
 
-  //     return (
-  //       <TouchableOpacity
-  //         activeOpacity={0.8}
-  //         onPress={() => onPressEdit(time)}
-  //         style={styles.leftAction}>
-  //         <Animated.View style={[{ transform: [{ scale }], opacity }]}>
-  //           <Ionicons name="trash" color="blue" size={SIZES.tabIcon} />
-  //         </Animated.View>
-  //       </TouchableOpacity>
-  //     );
-  //   };
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => onPressEdit(time)}
+        style={styles.leftAction}>
+        <Animated.View style={[{ transform: [{ scale }], opacity, alignItems: 'center' }]}>
+          <Ionicons name="pencil" color="blue" size={SIZES.medium} />
+          <Text style={{ color: 'blue', ...styles.btnText }}>{i18n(HOME_STRINGS.EDIT)}</Text>
+        </Animated.View>
+      </TouchableOpacity>
+    );
+  };
 
   const renderTime = () => {
     const timeConverted = new Date(time)?.toUTCString()?.split(' ');
@@ -86,7 +87,11 @@ const SingleHistory = ({
       overshootRight={false}
       overshootLeft={false}
       renderRightActions={(progress, dragX) => renderRightActions(progress, dragX)}
-      //   renderLeftActions={(progress, dragX) => renderLeftActions(progress, dragX)}
+      renderLeftActions={(progress, dragX) => {
+        if (isJournal) {
+          return renderLeftActions(progress, dragX);
+        }
+      }}
       containerStyle={styles.swipableItemMainView}>
       <Pressable
         style={styles.singleMoodHistory}
@@ -116,7 +121,7 @@ const styles = StyleSheet.create({
   historyTextContainer: {
     gap: SIZES.small,
     justifyContent: 'center',
-    minWidth: '100%',
+    flex: 1,
   },
   singleMoodHistory: {
     flexDirection: 'row',
@@ -130,13 +135,11 @@ const styles = StyleSheet.create({
   historyTitle: {
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
-    width: '25%',
   },
   value: {
     color: COLORS.uiElementColors.text.primary,
     fontFamily: FONT.medium,
     fontSize: SIZES.large,
-    width: '25%',
   },
   rightAction: {
     flex: 0.2,
@@ -145,6 +148,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
   },
   leftAction: {
+    flex: 0.2,
     alignItems: 'center',
     justifyContent: 'center',
   },

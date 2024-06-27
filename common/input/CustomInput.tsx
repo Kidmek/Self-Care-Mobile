@@ -1,19 +1,24 @@
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  KeyboardTypeOptions,
-  Pressable,
-} from 'react-native';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Pressable } from 'react-native';
 
 import inputStyle from './input.style';
 
 import { INPUT_TYPE } from '~/constants/strings/common';
 import { COLORS, SIZES } from '~/constants/theme';
+type Props = {
+  label?: string;
+  state?: string;
+  setState: Dispatch<SetStateAction<string>> | ((v?: string, name?: string) => any);
+  placeholder?: string;
+  isPassword?: boolean;
+  error?: string;
+  name?: string;
+  type?: string;
+  disabled?: boolean;
+  maxLength?: number;
+};
 export default function CustomInput({
   label,
   state,
@@ -24,7 +29,8 @@ export default function CustomInput({
   name,
   type,
   disabled,
-}: any) {
+  maxLength,
+}: Props) {
   const [showPass, setShowPass] = useState(isPassword ?? false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const isDate = () => {
@@ -32,6 +38,15 @@ export default function CustomInput({
   };
   const isTime = () => {
     return type === INPUT_TYPE.TIME;
+  };
+  const isMulti = () => {
+    return type === INPUT_TYPE.MULTI;
+  };
+  const isEmail = () => {
+    return type === INPUT_TYPE.EMAIL;
+  };
+  const isPhone = () => {
+    return type === INPUT_TYPE.PHONE;
   };
   return (
     <View style={inputStyle.container}>
@@ -44,6 +59,7 @@ export default function CustomInput({
           onChange={(_, value) => {
             setShowDatePicker(false);
             setState(
+              // @ts-ignore
               isDate()
                 ? value?.toDateString()
                 : value?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -69,10 +85,12 @@ export default function CustomInput({
             placeholder={placeholder}
             secureTextEntry={showPass}
             placeholderTextColor={COLORS.placeholder}
-            keyboardType={type}
+            // @ts-ignore
+            keyboardType={isEmail() || isPhone() ? type : undefined}
             editable={!disabled && !isDate() && !isTime()}
-            multiline={type === INPUT_TYPE.MULTI}
-            numberOfLines={type === INPUT_TYPE.MULTI ? 4 : 1}
+            multiline={isMulti()}
+            numberOfLines={isMulti() ? 4 : 1}
+            maxLength={maxLength}
           />
         </Pressable>
 

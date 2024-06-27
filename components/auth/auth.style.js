@@ -124,7 +124,6 @@ export const authStyles = StyleSheet.create({
     padding: 30,
   },
   bottomTextStyle: {
-    flexDirection: 'row',
     justifyContent: 'center',
   },
   redirectTextStyle: {

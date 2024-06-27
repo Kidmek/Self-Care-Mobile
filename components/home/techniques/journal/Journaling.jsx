@@ -60,6 +60,16 @@ export default function Journaling() {
         description={value}
         title={title}
         onPressDelete={hanldeDelete}
+        onPressEdit={() =>
+          navigation.navigate('new', {
+            screen: 'journal',
+            params: {
+              ...data,
+              isEdit: true,
+            },
+          })
+        }
+        isJournal
         onPress={() => {
           navigation.navigate('new', {
             screen: 'journal',

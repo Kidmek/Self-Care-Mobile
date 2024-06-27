@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useStoreActions } from 'easy-peasy';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -39,6 +39,7 @@ export default function Reminder() {
   const [visible, setVisible] = useState(false);
   const [isHistory, setIsHistory] = useState(false);
   const [doneVisible, setDoneVisible] = useState(false);
+  const [paramConsumed, setParamConsumed] = useState(false);
   const [reminders, setReminders] = useState([]);
   const [history, setHistory] = useState([]);
   const { t } = useTranslation();
@@ -68,6 +69,7 @@ export default function Reminder() {
       // Fetch from backend and save locally
     } else {
       //
+      setLoading(true);
       getLocalSettings().then(async (settings) => {
         if (settings[SETTING_STRINGS.ALLOW_NOTIFIACTION] === true) {
           if (REMINDER_FREQUENCY[data.frequency] === REMINDER_FREQUENCY.DAILY) {
@@ -89,7 +91,7 @@ export default function Reminder() {
             for (const day in days) {
               notificationId.push(
                 await scheduleNotification(
-                  false,
+                  true,
                   day,
                   data?.time,
                   t(REMINDER_STRINGS.SELF_CARE_REMINDER),
@@ -103,13 +105,12 @@ export default function Reminder() {
           }
           data.notificationId = notificationId;
         }
-        setLoading(true);
         await setLocalReminders([data, ...reminders]);
 
         setVisible(false);
         fetch();
-        setLoading(false);
       });
+      setLoading(false);
     }
   };
   const hanldeDelete = (id) => {
@@ -193,24 +194,20 @@ export default function Reminder() {
     fetch();
   }, [isHistory]);
 
-  console.log(history.length);
-
   useEffect(() => {
-    if (params.id) {
+    if (params.id && !paramConsumed) {
       reminders.some((r) => {
-        setSelected(r);
-        setDoneVisible(true);
-        return true;
-        // if (r.createdAt === params.id) {
-        //   setSelected(r);
-        //   setDoneVisible(true);
-        //   return true;
-        // } else {
-        //   return false;
-        // }
+        if (r.createdAt === params.id) {
+          setSelected(r);
+          setDoneVisible(true);
+          setParamConsumed(true);
+          return true;
+        } else {
+          return false;
+        }
       });
     }
-  }, [params, reminders]);
+  }, [reminders]);
 
   return (
     <ImageContainer>

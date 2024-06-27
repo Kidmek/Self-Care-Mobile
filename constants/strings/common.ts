@@ -10,6 +10,7 @@ export enum INPUT_TYPE {
   DATE = 'date',
   MULTI = 'multi',
   TIME = 'time',
+  PHONE = 'phone-pad',
 }
 
 export enum MODAL_TYPES {
@@ -29,6 +30,7 @@ export const WAIT_TIME = {
   minute: 0,
 };
 
+export const phoneRegEx = /^(?:\+251|0)\d{9}$/;
 export const emailRegEx = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
 export const INFO = {

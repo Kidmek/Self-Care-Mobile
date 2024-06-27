@@ -38,7 +38,7 @@ export const assessmentStyle = StyleSheet.create({
     borderRadius: SIZES.large,
     backgroundColor: COLORS.primaryColors.lightBlue + '5A',
     alignItems: 'center',
-    width: '45%',
+    width: '50%',
   },
   moodName: {
     fontFamily: FONT.bold,

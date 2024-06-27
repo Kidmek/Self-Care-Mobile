@@ -1,13 +1,13 @@
 import { StoreProvider } from 'easy-peasy';
 import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
-import { Redirect, SplashScreen, Stack } from 'expo-router';
+import { SplashScreen, Stack, useNavigation } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ToastProvider } from 'react-native-toast-notifications';
 
-import { getLastLoggedIn, getLocalSettings, getToken } from '~/api/storage';
+import { getLastLoggedIn, getLocalSettings, setLocalSettings } from '~/api/storage';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import Loader from '~/common/loader/Loader';
 import { store } from '~/common/store';
@@ -33,17 +33,17 @@ Notifications.setNotificationHandler({
 });
 
 export default function RootLayout() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
+  const navigation = useNavigation();
 
   const { expoPushToken, notification } = useNotifications();
 
-  useEffect(() => {
-    // console.log('token id:', expoPushToken);
-    // console.log('Notification', notification);
-  }, [notification]);
+  // useEffect(() => {
+  //   // console.log('token id:', expoPushToken);
+  //   // console.log('Notification', notification);
+  // }, [notification]);
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
-  const [settings, setSettings] = useState();
+  const [settings, setSettings] = useState({});
   const [fontsLoaded] = useFonts({
     Bold: require('../assets/fonts/Montserrat-Bold.ttf'),
     Medium: require('../assets/fonts/Montserrat-SemiBold.ttf'),
@@ -52,29 +52,28 @@ export default function RootLayout() {
 
   useEffect(() => {
     getLocalSettings().then(async (s) => {
-      const last = (await getLastLoggedIn()) ?? new Date().setFullYear(2000);
-      if (s?.[SETTING_STRINGS.PIN_LOCK] === true && getMinutes(new Date(last), new Date()) > 60) {
-        setVisible(true);
+      if (s === null) {
+        const initSettings = {};
+        // @ts-ignore
+        initSettings[SETTING_STRINGS.ALLOW_NOTIFIACTION] = true;
+        // @ts-ignore
+        initSettings[SETTING_STRINGS.PIN_LOCK] = false;
+        // @ts-ignore
+        initSettings[SETTING_STRINGS.SOUND] = true;
+        // @ts-ignore
+        initSettings[SETTING_STRINGS.VIBRATION] = true;
+        setSettings(initSettings);
+        setLocalSettings(initSettings);
+        console.log('Initialized Settings', initSettings);
+      } else {
+        const last = (await getLastLoggedIn()) ?? new Date().setFullYear(2000);
+        if (s?.[SETTING_STRINGS.PIN_LOCK] === true && getMinutes(new Date(last), new Date()) > 30) {
+          setVisible(true);
+        }
+        setSettings(s);
       }
-      setSettings(s);
     });
   }, []);
-
-  useEffect(() => {
-    const isLoggedIn = async () => {
-      console.log('checking login');
-      // TODO
-      if (await getToken()) {
-        // if (true) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    };
-    isLoggedIn();
-  }, []);
-
-  console.log('Is logged in,', isLoggedIn);
 
   useCallback(async () => {
     if (fontsLoaded) {
@@ -82,13 +81,10 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded || !isLoggedIn) {
+  if (!fontsLoaded) {
     return null;
   }
-  if (isLoggedIn !== undefined && !isLoggedIn) {
-    // @ts-ignore
-    return <Redirect href="index" />;
-  }
+
   return (
     <StoreProvider store={store}>
       <LogoutModal />

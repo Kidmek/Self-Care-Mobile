@@ -40,15 +40,17 @@ export default function Setting() {
     return settings[name] === true;
   };
   const savePin = (pin) => {
+    console.log('Save pin');
     const prev = settings;
     prev[SETTING_STRINGS.CHANGE_PIN] = pin;
+    prev[SETTING_STRINGS.PIN_LOCK] = true;
     setLocalSettings(prev);
     setSettings({ ...prev });
     setVisible(false);
   };
 
   const changeValue = async (name) => {
-    const prev = settings;
+    const prev = { ...settings };
     prev[name] = !prev[name];
 
     if (name === SETTING_STRINGS.SOUND || name === SETTING_STRINGS.VIBRATION) {
@@ -57,7 +59,6 @@ export default function Setting() {
         prev[SETTING_STRINGS.SOUND] === true,
         t
       );
-      console.log(name + ` ${prev[name] ? 'allowed' : 'disabled'}`);
     }
 
     if (name === SETTING_STRINGS.ALLOW_NOTIFIACTION) {

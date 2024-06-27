@@ -8,6 +8,8 @@ import {
   LOGIN_API,
   OTP_API,
   OTP_RESEND_API,
+  REGISTER_API,
+  RESET_PASS_API,
   TIMEOUT,
 } from '~/constants/strings/api';
 
@@ -21,12 +23,20 @@ export const postSkeleton = async ({
   successMsg,
   errorMsg,
   headers,
+  noSuccessToast,
 }) => {
   if (setLoading) {
     setLoading(true);
   }
   const token = await getToken();
-  const isLogin = [LOGIN_API, OTP_API, OTP_RESEND_API, CHANGE_PASS_API].includes(url);
+  const isLogin = [
+    LOGIN_API,
+    REGISTER_API,
+    OTP_API,
+    OTP_RESEND_API,
+    CHANGE_PASS_API,
+    RESET_PASS_API,
+  ].includes(url);
   if (!token) {
     if (!isLogin) {
       Unauthorized(setLoading, toast);
@@ -54,7 +64,7 @@ export const postSkeleton = async ({
     .then((responseJson) => {
       success(
         responseJson,
-        toast,
+        noSuccessToast ? null : toast,
         onSuccess,
         responseJson?.data.description ?? 'Unable To Save',
         successMsg ?? 'Successfully Saved',

@@ -90,6 +90,11 @@ export const addLocalJournal = async (data) => {
   setLocalJournals([...prev, data]);
 };
 
+export const editLocalJournal = async (data) => {
+  const prev = (await getLocalJournals()) ?? [];
+  setLocalJournals([...prev.filter((j) => j.time !== data.time), data]);
+};
+
 export const setLocalReminders = async (data) => {
   await AsyncStorage.setItem(HOME_STRINGS.REMINDER, JSON.stringify(data));
 };

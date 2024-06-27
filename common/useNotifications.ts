@@ -94,12 +94,14 @@ export const useNotifications = (): PushNotificationState => {
     });
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      setTimeout(() => {
-        router.push(
-          // @ts-ignore
-          `/(drawer)/(tabs)/reminders?id=${response.notification.request.content.data?.reminderId}`
-        );
-      }, 500);
+      if (response.notification.request.content.data?.reminderId) {
+        setTimeout(() => {
+          router.push(
+            // @ts-ignore
+            `/(drawer)/(tabs)/reminders?id=${response.notification.request.content.data?.reminderId}`
+          );
+        }, 500);
+      }
     });
 
     return () => {

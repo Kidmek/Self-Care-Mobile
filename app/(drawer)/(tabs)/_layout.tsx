@@ -39,15 +39,15 @@ export default function TabLayout() {
         options={{
           title: i18n(HOME_STRINGS.HOME),
           tabBarIcon: ({ color }) => <TabIcon name="home" color={color} />,
-          headerRight: () => (
-            <HeaderIcon
-              name={hasNotification ? 'notifications' : 'notifications-outline'}
-              margin
-              onPress={() => {
-                router.push('/notification');
-              }}
-            />
-          ),
+          // headerRight: () => (
+          //   <HeaderIcon
+          //     name={hasNotification ? 'notifications' : 'notifications-outline'}
+          //     margin
+          //     onPress={() => {
+          //       router.push('/notification');
+          //     }}
+          //   />
+          // ),
         }}
       />
       <Tabs.Screen

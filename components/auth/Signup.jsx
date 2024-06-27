@@ -13,7 +13,7 @@ import CustomButton from '~/common/button/CustomButton';
 import CustomInput from '~/common/input/CustomInput';
 import Dropdown from '~/common/input/Dropdown';
 import { AUTH_STRINGS } from '~/constants/strings/auth';
-import { AUTH_STAGE, INPUT_TYPE, emailRegEx } from '~/constants/strings/common';
+import { AUTH_STAGE, INPUT_TYPE, emailRegEx, phoneRegEx } from '~/constants/strings/common';
 import { SIZES } from '~/constants/theme';
 
 export default function SignUp({ setStep }) {
@@ -23,7 +23,7 @@ export default function SignUp({ setStep }) {
 
   const [agree, setAgree] = useState(false);
   const [user, setUser] = useState({
-    username: '',
+    // username: '',
     password: '',
     confirmPass: '',
     gender: '',
@@ -47,10 +47,13 @@ export default function SignUp({ setStep }) {
         errors[k] = true;
       }
     });
-    if (!user.email.match(emailRegEx)) {
+    if (!user.email?.match(emailRegEx)) {
       errors.email = 'Invalid email';
     }
-    if (user.password.length < 5) {
+    if (!user.phone?.match(phoneRegEx)) {
+      errors.phone = 'Invalid phone';
+    }
+    if (user.password?.length < 5) {
       errors.password = 'Password must be atleast 5 characters';
     }
     setErrors({ ...errors });
@@ -120,13 +123,24 @@ export default function SignUp({ setStep }) {
             name="lastName"
             error={errors['lastName']}
           />
-          <CustomInput
+          {/* <CustomInput
             state={user.username}
             setState={handleChange}
             label={t(AUTH_STRINGS.USERNAME)}
             placeholder={t(AUTH_STRINGS.USERNAME_LABEL)}
             name="username"
             error={errors['username']}
+          /> */}
+
+          <CustomInput
+            state={user.phone}
+            setState={handleChange}
+            label={t(AUTH_STRINGS.PHONE)}
+            placeholder={t(AUTH_STRINGS.PHONE_LABEL)}
+            name="phone"
+            type={INPUT_TYPE.PHONE}
+            error={errors['phone']}
+            maxLength={user.phone?.startsWith('+') ? 13 : 10}
           />
 
           <CustomInput

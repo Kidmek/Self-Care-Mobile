@@ -20,9 +20,7 @@ const DrawerLayout = () => {
         options={{
           headerShown: false,
           drawerLabel: t(HOME_STRINGS.HOME),
-          drawerIcon: ({ size, color }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
-          ),
+          drawerIcon: ({ size, color }) => <Ionicons name="home" size={size} color={color} />,
         }}
       />
       <Drawer.Screen
@@ -46,7 +44,7 @@ const DrawerLayout = () => {
           drawerIcon: ({ size, color }) => (
             <Ionicons name="information" size={size} color={color} />
           ),
-          headerTitle: 'About Us',
+          headerTitle: t(HOME_STRINGS.ABOUT_US),
         }}
       />
       <Drawer.Screen
@@ -54,7 +52,27 @@ const DrawerLayout = () => {
         options={{
           drawerLabel: t(HOME_STRINGS.CONTACT_US),
           drawerIcon: ({ size, color }) => <Ionicons name="call" size={size} color={color} />,
-          headerTitle: 'Contact Us',
+          headerTitle: t(HOME_STRINGS.CONTACT_US),
+        }}
+      />
+      <Drawer.Screen
+        name="feedback"
+        options={{
+          drawerLabel: t(HOME_STRINGS.FEEDBACK),
+          drawerIcon: ({ size, color }) => (
+            <Ionicons name="chatbox-ellipses" size={size} color={color} />
+          ),
+          headerTitle: t(HOME_STRINGS.FEEDBACK),
+        }}
+      />
+      <Drawer.Screen
+        name="stats"
+        options={{
+          drawerLabel: t(HOME_STRINGS.STATISTICS),
+          drawerIcon: ({ size, color }) => (
+            <Ionicons name="stats-chart" size={size} color={color} />
+          ),
+          headerTitle: t(HOME_STRINGS.STATISTICS),
         }}
       />
     </Drawer>

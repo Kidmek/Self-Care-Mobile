@@ -138,6 +138,7 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
 
   useEffect(() => {
     setPin(['', '', '', '']);
+    setFocused(0);
   }, [visible]);
 
   return (

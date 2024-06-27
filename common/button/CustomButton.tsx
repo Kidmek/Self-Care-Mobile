@@ -5,7 +5,23 @@ import buttonStyle from './button.style';
 
 import { COLORS } from '~/constants/theme';
 
-export default function CustomButton({ title, onPress, disabled, pressable, color, textColor }) {
+type Props = {
+  title: string;
+  onPress: () => void;
+  disabled?: boolean;
+  pressable?: boolean;
+  color?: string;
+  textColor?: string;
+};
+
+export default function CustomButton({
+  title,
+  onPress,
+  disabled,
+  pressable,
+  color,
+  textColor,
+}: Props) {
   const inside = () => {
     return <Text style={{ ...buttonStyle.text, color: textColor ?? 'white' }}>{title}</Text>;
   };
