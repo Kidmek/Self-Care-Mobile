@@ -6,10 +6,12 @@ import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useToast } from 'react-native-toast-notifications';
 
+import { addAnalyticApi } from '~/api/analytics';
 import { addLocalJournal, editLocalJournal } from '~/api/storage';
 import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { modalStyles } from '~/components/modal/modal.style';
+import { AnalyticField } from '~/constants/strings/common';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { JOURNALING_STRINGS } from '~/constants/strings/home/self care/journal';
 import { COLORS, FONT, SIZES } from '~/constants/theme';
@@ -43,6 +45,9 @@ export default function SingleJournal() {
 
     toast.show('Recorded', {
       type: 'success',
+    });
+    addAnalyticApi({
+      type: AnalyticField.JOURNAL,
     });
     setJourney({
       value: '',

@@ -4,10 +4,24 @@ import { View, Text, Modal, StyleSheet, ScrollView, Pressable } from 'react-nati
 
 import { modalStyles } from './modal.style';
 
+import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
+import { TRACKING_STRINGS } from '~/constants/strings/home/assessment/tracking';
 import { WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
+import { JOURNALING_STRINGS } from '~/constants/strings/home/self care/journal';
+import { TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
 import { FONT, SIZES } from '~/constants/theme';
 
-export default function InfoModal({ visible, setVisible, t }) {
+export default function InfoModal({ visible, setVisible, t, type }) {
+  const getStrings = () => {
+    switch (type) {
+      case ASSESSMENT_STRINGS.LIFE_WHEEL:
+        return WHEEL_STRINGS;
+      case ASSESSMENT_STRINGS.MOOD_TRACKING:
+        return TRACKING_STRINGS;
+      case TECHNIQUES_STRINGS.JOURNALING:
+        return JOURNALING_STRINGS;
+    }
+  };
   return (
     <Modal
       animationType="slide"
@@ -36,26 +50,33 @@ export default function InfoModal({ visible, setVisible, t }) {
               />
             </Pressable>
           </View>
-          <ScrollView
-            contentContainerStyle={styles.infoContainer}
-            showsVerticalScrollIndicator={false}>
-            {Object.keys(WHEEL_STRINGS)
-              ?.filter((k) => k.includes('STEP'))
-              .map((k) => {
-                return (
-                  <View key={k} style={styles.singleStepContainer}>
-                    <Ionicons
-                      name="information-circle-outline"
-                      style={styles.infoIcon}
-                      size={SIZES.tabIcons}
-                    />
-                    <Text style={styles.text} textBreakStrategy="balanced">
-                      {t(WHEEL_STRINGS[k])}
-                    </Text>
-                  </View>
-                );
-              })}
-          </ScrollView>
+          {getStrings() && (
+            <ScrollView
+              contentContainerStyle={styles.infoContainer}
+              showsVerticalScrollIndicator={false}>
+              {Object.keys(getStrings())
+                ?.filter((k) => k.startsWith('STEP'))
+                .map((k) => {
+                  const isNB = getStrings()['NB_STEP'] === k;
+                  return (
+                    <View key={k} style={styles.singleStepContainer}>
+                      {!isNB && (
+                        <Ionicons
+                          name="information-circle-outline"
+                          style={styles.infoIcon}
+                          size={SIZES.tabIcons}
+                        />
+                      )}
+                      <Text
+                        style={[styles.text, isNB && modalStyles.modalHeader]}
+                        textBreakStrategy="balanced">
+                        {t(getStrings()[k])}
+                      </Text>
+                    </View>
+                  );
+                })}
+            </ScrollView>
+          )}
           <View />
         </View>
       </View>

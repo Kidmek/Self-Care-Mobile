@@ -138,3 +138,16 @@ export const addReminderResult = async (data) => {
   const prev = (await getReminderResult()) ?? [];
   setReminderResult([...prev, data]);
 };
+export const getAnalytics = async () => {
+  const data = await AsyncStorage.getItem(HOME_STRINGS.STATISTICS);
+  return JSON.parse(data) ?? {};
+};
+
+export const setAnalytics = async (data) => {
+  await AsyncStorage.setItem(HOME_STRINGS.STATISTICS, JSON.stringify(data));
+};
+
+export const addAnalytic = async (data) => {
+  const prev = (await getReminderResult()) ?? {};
+  setAnalytics({ ...prev, data });
+};

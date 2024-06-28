@@ -20,4 +20,5 @@ export enum MEDIA_TYPE {
   PIC = 'PICTURE',
   VID = 'VIDEO',
 }
+
 export const am_assessment_translations: { [placeholder in TECHNIQUES_STRINGS]?: string } = {};

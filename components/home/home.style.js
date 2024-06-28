@@ -11,7 +11,7 @@ export const homeStyle = StyleSheet.create({
   singleCardContainer: {
     borderWidth: StyleSheet.hairlineWidth,
     paddingVertical: SIZES.xLarge,
-    borderRadius: SIZES.large,
+    borderRadius: SIZES.xxSmall,
     backgroundColor: COLORS.primaryColors.lightBlue + '8A',
     alignItems: 'center',
   },

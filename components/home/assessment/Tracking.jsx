@@ -7,20 +7,25 @@ import { useToast } from 'react-native-toast-notifications';
 import SingleHistory from './SingleHistory';
 import { assessmentStyle } from './assessment.style';
 
+import { addAnalyticApi } from '~/api/analytics';
 import { getTrackingInfo, setTrackingInfo } from '~/api/storage';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
+import InfoModal from '~/components/modal/InfoModal';
 import TrackingModal from '~/components/modal/TrackingModal';
-import { HEADER_TYPES } from '~/constants/strings/common';
+import { AnalyticField, HEADER_TYPES } from '~/constants/strings/common';
+import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
 import { TRACKING_EMOJIS, TRACKING_STRINGS } from '~/constants/strings/home/assessment/tracking';
+import { SIZES } from '~/constants/theme';
 
 export default function Tracking() {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
+  const [infoVisible, setInfoVisible] = useState(false);
   const [selected, setSelected] = useState();
   const [history, setHistory] = useState([]);
   const [isHistory, setIsHistory] = useState(false);
-  const { t: i18n } = useTranslation();
+  const { t } = useTranslation();
   const toast = useToast();
 
   const fetch = async () => {
@@ -77,6 +82,9 @@ export default function Tracking() {
     toast.show('Recorded', {
       type: 'success',
     });
+    addAnalyticApi({
+      type: AnalyticField.TRACKING,
+    });
     setIsHistory(true);
     setVisible(false);
   };
@@ -85,7 +93,7 @@ export default function Tracking() {
     if (false) {
       // delete from backend
     }
-    Alert.alert('', i18n(TRACKING_STRINGS.DELETE_PROMPT), [
+    Alert.alert('', t(TRACKING_STRINGS.DELETE_PROMPT), [
       {
         text: 'No',
         onPress: () => null,
@@ -109,7 +117,21 @@ export default function Tracking() {
       headerRight: () => {
         if (isHistory) {
         } else {
-          return <HeaderIcon name="hourglass-outline" onPress={() => setIsHistory(!isHistory)} />;
+          return (
+            <View
+              style={{
+                flexDirection: 'row',
+                gap: SIZES.xxSmall,
+              }}>
+              <HeaderIcon name="hourglass-outline" onPress={() => setIsHistory(!isHistory)} />
+              <HeaderIcon
+                name="help"
+                onPress={() => {
+                  setInfoVisible(true);
+                }}
+              />
+            </View>
+          );
         }
       },
       headerLeft: () => {
@@ -128,6 +150,12 @@ export default function Tracking() {
   }, []);
   return (
     <ImageContainer>
+      <InfoModal
+        visible={infoVisible}
+        setVisible={setInfoVisible}
+        t={t}
+        type={ASSESSMENT_STRINGS.MOOD_TRACKING}
+      />
       <TrackingModal
         visible={visible}
         setVisible={setVisible}
@@ -149,7 +177,7 @@ export default function Tracking() {
                   textAlign: 'center',
                   ...assessmentStyle.headerQns,
                 }}>
-                {i18n(TRACKING_STRINGS.EMPTY_HISTORY)}
+                {t(TRACKING_STRINGS.EMPTY_HISTORY)}
               </Text>
             );
           }}
@@ -157,10 +185,10 @@ export default function Tracking() {
         />
       ) : (
         <View style={assessmentStyle.container}>
-          <Text style={assessmentStyle.headerQns}>{i18n(TRACKING_STRINGS.FEELING_QNS)}</Text>
+          <Text style={assessmentStyle.headerQns}>{t(TRACKING_STRINGS.FEELING_QNS)}</Text>
           <ScrollView contentContainerStyle={assessmentStyle.moodsContainer}>
             {Object.entries(TRACKING_EMOJIS).map(([k, v]) => {
-              return renderSingle(i18n(k), v);
+              return renderSingle(t(k), v);
             })}
           </ScrollView>
         </View>

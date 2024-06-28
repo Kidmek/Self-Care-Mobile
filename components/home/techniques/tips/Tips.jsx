@@ -11,6 +11,7 @@ import Pagination from './Pagination';
 import TipVideo from './TipVideo';
 import { assessmentStyle } from '../../assessment/assessment.style';
 
+import { addAnalyticApi } from '~/api/analytics';
 import { getSkeleton } from '~/api/apiConfig';
 import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
@@ -106,6 +107,9 @@ export default function Tips() {
   useEffect(() => {
     if (params?.type) {
       fetch();
+      addAnalyticApi({
+        type: params.type,
+      });
     }
   }, []);
 

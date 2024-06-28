@@ -5,11 +5,14 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import LifeWheel from './LifeWheel';
 
+import { addAnalyticApi } from '~/api/analytics';
 import { getWheelData, setWheelData } from '~/api/storage';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import InfoModal from '~/components/modal/InfoModal';
 import WheelModal from '~/components/modal/WheelModal';
+import { AnalyticField } from '~/constants/strings/common';
+import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
 import { WHEEL_SECTIONS, WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
 import { FONT, SIZES, WHEEL_COLORS } from '~/constants/theme';
 
@@ -63,6 +66,10 @@ export default function Wheel() {
 
   useEffect(() => {
     fetchData();
+
+    addAnalyticApi({
+      type: AnalyticField.WHEEL,
+    });
   }, []);
 
   useLayoutEffect(() => {
@@ -79,6 +86,7 @@ export default function Wheel() {
       },
     });
   });
+
   return (
     <ImageContainer>
       <WheelModal
@@ -88,7 +96,12 @@ export default function Wheel() {
         save={handleChange}
         t={t}
       />
-      <InfoModal visible={infoVisible} setVisible={setInfoVisible} t={t} />
+      <InfoModal
+        visible={infoVisible}
+        setVisible={setInfoVisible}
+        t={t}
+        type={ASSESSMENT_STRINGS.LIFE_WHEEL}
+      />
       <ScrollView style={{ flex: 1 }}>
         <LifeWheel segments={wheels} radius={radius} handlePress={handlePress} />
         <View style={styles.descContainer}>

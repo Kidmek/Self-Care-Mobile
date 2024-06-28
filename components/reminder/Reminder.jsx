@@ -12,6 +12,7 @@ import { assessmentStyle } from '../home/assessment/assessment.style';
 import DoneReminderModal from '../modal/DoneReminderModal';
 import ReminderModal from '../modal/ReminderModal';
 
+import { addAnalyticApi } from '~/api/analytics';
 import {
   addReminderResult,
   getLocalReminders,
@@ -22,7 +23,8 @@ import {
 import { commonStyles } from '~/common/common.style';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
-import { HEADER_TYPES } from '~/constants/strings/common';
+import { AnalyticField, HEADER_TYPES } from '~/constants/strings/common';
+import { HOME_STRINGS } from '~/constants/strings/home/home';
 import {
   REMINDER_FREQUENCY,
   REMINDER_STRINGS,
@@ -112,6 +114,9 @@ export default function Reminder() {
       });
       setLoading(false);
     }
+    addAnalyticApi({
+      type: AnalyticField.REMINDER,
+    });
   };
   const hanldeDelete = (id) => {
     if (false) {
@@ -155,6 +160,9 @@ export default function Reminder() {
         ...selected,
         answeredAt: new Date(),
         answer: done,
+      });
+      addAnalyticApi({
+        type: done === HOME_STRINGS.YES ? AnalyticField.REMINDER_YES : AnalyticField.REMINDER_NO,
       });
       fetch();
       setDoneVisible(false);

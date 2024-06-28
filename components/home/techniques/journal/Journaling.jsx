@@ -9,15 +9,18 @@ import SingleHistory from '../../assessment/SingleHistory';
 import { assessmentStyle } from '../../assessment/assessment.style';
 
 import { getLocalJournals, setLocalJournals } from '~/api/storage';
+import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
+import InfoModal from '~/components/modal/InfoModal';
 import { TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
 import { COLORS, SIZES } from '~/constants/theme';
 
 export default function Journaling() {
   const [journals, setJournals] = useState();
+  const [infoVisible, setInfoVisible] = useState(false);
   const navigation = useNavigation();
   const toast = useToast();
-  const { t: i18n } = useTranslation();
+  const { t } = useTranslation();
   const fetch = async () => {
     if (false) {
       // Fetch from backend and save locally
@@ -32,7 +35,7 @@ export default function Journaling() {
     if (false) {
       // delete from backend
     }
-    Alert.alert('', i18n(TECHNIQUES_STRINGS.DELETE_PROMPT), [
+    Alert.alert('', t(TECHNIQUES_STRINGS.DELETE_PROMPT), [
       {
         text: 'No',
         onPress: () => null,
@@ -83,8 +86,30 @@ export default function Journaling() {
     fetch();
   });
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <HeaderIcon
+            name="help"
+            onPress={() => {
+              setInfoVisible(true);
+            }}
+          />
+        );
+      },
+    });
+  });
+
   return (
     <ImageContainer>
+      <InfoModal
+        visible={infoVisible}
+        setVisible={setInfoVisible}
+        t={t}
+        type={TECHNIQUES_STRINGS.JOURNALING}
+      />
+
       <View
         style={{
           flex: 1,
@@ -103,7 +128,7 @@ export default function Journaling() {
                   textAlign: 'center',
                   ...assessmentStyle.headerQns,
                 }}>
-                {i18n(TECHNIQUES_STRINGS.EMPTY_HISTORY)}
+                {t(TECHNIQUES_STRINGS.EMPTY_HISTORY)}
               </Text>
             );
           }}

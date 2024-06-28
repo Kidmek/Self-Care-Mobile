@@ -23,6 +23,18 @@ export enum HEADER_TYPES {
   INFO,
 }
 
+export enum AnalyticField {
+  SLEEPING = 'sleeping',
+  BREATHING = 'breathing',
+  MUSCLE = 'muscle',
+  GROUNDING = 'grounding',
+  JOURNAL = 'journaling',
+  WHEEL = 'wheel',
+  TRACKING = 'tracking',
+  REMINDER = 'reminder',
+  REMINDER_YES = 'reminder_yes',
+  REMINDER_NO = 'reminder_no',
+}
 export const OTP_LENGTH = 6;
 
 export const WAIT_TIME = {
