@@ -1,3 +1,5 @@
+import i18next from 'i18next';
+
 export const makeObjects = (values: string[]) => {
   const res: Record<string, string> = {};
   values.forEach((v) => {
@@ -14,4 +16,8 @@ export const getMinutes = (start: Date, end: Date) => {
   const minutesDifference = Math.floor(difference / 60000);
 
   return minutesDifference;
+};
+
+export const checkIfAmh = () => {
+  return i18next.language === 'am';
 };

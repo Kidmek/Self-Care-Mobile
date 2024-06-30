@@ -18,7 +18,7 @@ const SingleHistory = ({
   isJournal,
   onPress,
 }) => {
-  const { t: i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const renderRightActions = (_, dragX) => {
     const scale = dragX.interpolate({
@@ -38,7 +38,7 @@ const SingleHistory = ({
         style={styles.rightAction}>
         <Animated.View style={[{ transform: [{ scale }], opacity, alignItems: 'center' }]}>
           <Ionicons name="trash" color="red" size={SIZES.medium} />
-          <Text style={{ color: 'red', ...styles.btnText }}>{i18n(HOME_STRINGS.DELETE)}</Text>
+          <Text style={{ color: 'red', ...styles.btnText }}>{t(HOME_STRINGS.DELETE)}</Text>
         </Animated.View>
       </TouchableOpacity>
     );
@@ -63,7 +63,7 @@ const SingleHistory = ({
         style={styles.leftAction}>
         <Animated.View style={[{ transform: [{ scale }], opacity, alignItems: 'center' }]}>
           <Ionicons name="pencil" color="blue" size={SIZES.medium} />
-          <Text style={{ color: 'blue', ...styles.btnText }}>{i18n(HOME_STRINGS.EDIT)}</Text>
+          <Text style={{ color: 'blue', ...styles.btnText }}>{t(HOME_STRINGS.EDIT)}</Text>
         </Animated.View>
       </TouchableOpacity>
     );
@@ -103,11 +103,11 @@ const SingleHistory = ({
         {renderTime()}
         <View style={[commonStyles.verticalDivider(COLORS.black)]} />
         <View style={styles.historyTextContainer}>
-          <Text numberOfLines={1} style={styles.historyTitle} ellipsizeMode="tail">
-            {title} {!isJournal && TRACKING_EMOJIS[title]}
+          <Text numberOfLines={2} style={styles.historyTitle} ellipsizeMode="tail">
+            {t(title)} {!isJournal && TRACKING_EMOJIS[title]}
           </Text>
           <Text numberOfLines={2} style={styles.value} ellipsizeMode="tail">
-            {description}
+            {description ? description : t(HOME_STRINGS.NO_DESCRIPTION)}
           </Text>
         </View>
       </Pressable>

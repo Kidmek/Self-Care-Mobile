@@ -38,13 +38,13 @@ const DrawerLayout = () => {
         }}
       />
       <Drawer.Screen
-        name="aboutus"
+        name="help"
         options={{
-          drawerLabel: t(HOME_STRINGS.ABOUT_US),
+          drawerLabel: t(HOME_STRINGS.HELP),
           drawerIcon: ({ size, color }) => (
             <Ionicons name="information" size={size} color={color} />
           ),
-          headerTitle: t(HOME_STRINGS.ABOUT_US),
+          headerTitle: '',
         }}
       />
       <Drawer.Screen

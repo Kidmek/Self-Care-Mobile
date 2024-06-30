@@ -1,13 +1,14 @@
 import { StoreProvider } from 'easy-peasy';
 import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
-import { SplashScreen, Stack, useNavigation } from 'expo-router';
+import { SplashScreen, Stack } from 'expo-router';
+import i18next from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ToastProvider } from 'react-native-toast-notifications';
 
-import { getLastLoggedIn, getLocalSettings, setLocalSettings } from '~/api/storage';
+import { getLanguage, getLastLoggedIn, getLocalSettings, setLocalSettings } from '~/api/storage';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import Loader from '~/common/loader/Loader';
 import { store } from '~/common/store';
@@ -33,9 +34,7 @@ Notifications.setNotificationHandler({
 });
 
 export default function RootLayout() {
-  const navigation = useNavigation();
-
-  const { expoPushToken, notification } = useNotifications();
+  useNotifications();
 
   // useEffect(() => {
   //   // console.log('token id:', expoPushToken);
@@ -51,6 +50,11 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    getLanguage().then((res) => {
+      if (res) {
+        i18next.changeLanguage(res);
+      }
+    });
     getLocalSettings().then(async (s) => {
       if (s === null) {
         const initSettings = {};

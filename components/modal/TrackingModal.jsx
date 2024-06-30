@@ -6,11 +6,15 @@ import { modalStyles } from './modal.style';
 
 import CustomInput from '~/common/input/CustomInput';
 import { INPUT_TYPE } from '~/constants/strings/common';
-import { TRACKING, TRACKING_STRINGS } from '~/constants/strings/home/assessment/tracking';
+import {
+  TRACKING,
+  TRACKING_EMOJIS,
+  TRACKING_STRINGS,
+} from '~/constants/strings/home/assessment/tracking';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 
 export default function TrackingModal({ visible, setVisible, save, selected }) {
-  const { t: i18n } = useTranslation();
+  const { t } = useTranslation();
   const [value, setValue] = useState('');
   useEffect(() => {
     if (visible) {
@@ -33,9 +37,14 @@ export default function TrackingModal({ visible, setVisible, save, selected }) {
             // alignItems: 'center',
           }}>
           <View style={{ ...modalStyles.textContainer }}>
-            {selected && <Text style={modalStyles.modalHeader}>{TRACKING[selected]}</Text>}
+            {selected && (
+              <Text style={modalStyles.modalHeader}>
+                {t(selected)}
+                {TRACKING_EMOJIS[selected]}
+              </Text>
+            )}
 
-            <Text style={modalStyles.logoutText}>{i18n(TRACKING_STRINGS.ADDITIONAL_INFO)}</Text>
+            <Text style={modalStyles.logoutText}>{t(TRACKING_STRINGS.ADDITIONAL_INFO)}</Text>
           </View>
           <View style={modalStyles.btnContainer}>
             <View style={{ flex: 1 }}>
@@ -49,14 +58,14 @@ export default function TrackingModal({ visible, setVisible, save, selected }) {
                 setVisible(false);
               }}
               style={[modalStyles.neutralBtn, modalStyles.btn]}>
-              <Text style={modalStyles.textStyle}>{i18n(HOME_STRINGS.CANCEL)}</Text>
+              <Text style={modalStyles.textStyle}>{t(HOME_STRINGS.CANCEL)}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 save(value);
               }}
               style={[modalStyles.acceptBtn, modalStyles.btn]}>
-              <Text style={modalStyles.textStyle}>{i18n(HOME_STRINGS.SAVE)}</Text>
+              <Text style={modalStyles.textStyle}>{t(HOME_STRINGS.SAVE)}</Text>
             </TouchableOpacity>
           </View>
         </View>

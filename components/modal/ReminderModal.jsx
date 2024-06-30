@@ -71,7 +71,7 @@ const ReminderModal = ({ visible, setVisible, save, t }) => {
               options={Object.entries(REMINDER_TYPES).map(([k, v]) => {
                 return {
                   value: k,
-                  label: v,
+                  label: t(v),
                 };
               })}
               selected={value.type}
@@ -85,7 +85,7 @@ const ReminderModal = ({ visible, setVisible, save, t }) => {
               options={Object.entries(REMINDER_FREQUENCY).map(([k, v]) => {
                 return {
                   value: k,
-                  label: v,
+                  label: t(v),
                 };
               })}
               selected={value.frequency}
@@ -100,7 +100,7 @@ const ReminderModal = ({ visible, setVisible, save, t }) => {
                 options={Object.entries(DAYS).map(([k, v]) => {
                   return {
                     value: v,
-                    label: v,
+                    label: t(v),
                   };
                 })}
                 selected={checkIfMultiple() ? days : value.day}

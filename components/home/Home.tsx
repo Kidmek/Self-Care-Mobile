@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { homeStyle } from './home.style';
 
@@ -14,11 +14,8 @@ import { TECHNIQUES_STRINGS, TipType } from '~/constants/strings/home/self care/
 import { COLORS, SIZES } from '~/constants/theme';
 
 export default function Home() {
-  const { t: i18n } = useTranslation();
-  const [opened, setOpened] = useState<string[]>([
-    i18n(HOME_STRINGS.SELF_ASSESSMENT),
-    i18n(HOME_STRINGS.SELF_CARE_TECHNIQUES),
-  ]);
+  const { t } = useTranslation();
+  const [closed, setClosed] = useState<string[]>([]);
 
   const navigation = useNavigation();
 
@@ -58,24 +55,25 @@ export default function Home() {
       };
     }[]
   ) => {
-    const isOpen = opened.includes(title);
+    const isOpen = !closed.includes(title);
     return (
       <View>
-        <View style={homeStyle.cardsContainerHeader}>
+        <Pressable
+          style={homeStyle.cardsContainerHeader}
+          onPress={() => {
+            if (!isOpen) {
+              setClosed(closed.filter((t) => t !== title));
+            } else {
+              setClosed([...closed, title]);
+            }
+          }}>
           <Text style={homeStyle.cardsContainerTitle}>{title}</Text>
           <Ionicons
             name={isOpen ? 'chevron-up-circle' : 'chevron-down-circle'}
             color={COLORS.circleAndInfo}
             size={SIZES.inputIcons}
-            onPress={() => {
-              if (isOpen) {
-                setOpened(opened.filter((t) => t !== title));
-              } else {
-                setOpened([...opened, title]);
-              }
-            }}
           />
-        </View>
+        </Pressable>
         {/* @ts-ignore */}
         <View style={commonStyles.divider()} />
         {isOpen && (
@@ -89,41 +87,39 @@ export default function Home() {
     );
   };
 
-  console.log('Inside Home');
-
   return (
     <ImageContainer hasTab>
       {/* @ts-ignore */}
-      <ScrollView contentContainerStyle={commonStyles.container()}>
-        {renderCardContainer(i18n(HOME_STRINGS.SELF_ASSESSMENT), [
+      <ScrollView style={commonStyles.container()} contentContainerStyle={{ gap: SIZES.xLarge }}>
+        {renderCardContainer(t(HOME_STRINGS.SELF_ASSESSMENT), [
           {
-            title: i18n(ASSESSMENT_STRINGS.LIFE_WHEEL),
+            title: t(ASSESSMENT_STRINGS.LIFE_WHEEL),
             link: { name: 'assessment', screen: 'wheel' },
           },
           {
-            title: i18n(ASSESSMENT_STRINGS.MOOD_TRACKING),
+            title: t(ASSESSMENT_STRINGS.MOOD_TRACKING),
             link: { name: 'assessment', screen: 'tracking' },
           },
         ])}
-        {renderCardContainer(i18n(HOME_STRINGS.SELF_CARE_TECHNIQUES), [
+        {renderCardContainer(t(HOME_STRINGS.SELF_CARE_TECHNIQUES), [
           {
-            title: i18n(TECHNIQUES_STRINGS.JOURNALING),
+            title: t(TECHNIQUES_STRINGS.JOURNALING),
             link: { name: 'techniques', screen: 'journaling' },
           },
           {
-            title: i18n(TECHNIQUES_STRINGS.SLEEPING),
+            title: t(TECHNIQUES_STRINGS.SLEEPING),
             link: { name: 'techniques', screen: 'tips', type: TipType.SLEEPING },
           },
           {
-            title: i18n(TECHNIQUES_STRINGS.BREATHING),
+            title: t(TECHNIQUES_STRINGS.BREATHING),
             link: { name: 'techniques', screen: 'tips', type: TipType.BREATHING },
           },
           {
-            title: i18n(TECHNIQUES_STRINGS.MUSCLE),
+            title: t(TECHNIQUES_STRINGS.MUSCLE),
             link: { name: 'techniques', screen: 'tips', type: TipType.MUSCLE },
           },
           {
-            title: i18n(TECHNIQUES_STRINGS.GROUNDING),
+            title: t(TECHNIQUES_STRINGS.GROUNDING),
             link: { name: 'techniques', screen: 'tips', type: TipType.GROUNDING },
           },
         ])}

@@ -12,6 +12,7 @@ import { getLocalJournals, setLocalJournals } from '~/api/storage';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import InfoModal from '~/components/modal/InfoModal';
+import { JOURNALING_STRINGS } from '~/constants/strings/home/self care/journal';
 import { TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
 import { COLORS, SIZES } from '~/constants/theme';
 
@@ -128,7 +129,7 @@ export default function Journaling() {
                   textAlign: 'center',
                   ...assessmentStyle.headerQns,
                 }}>
-                {t(TECHNIQUES_STRINGS.EMPTY_HISTORY)}
+                {t(JOURNALING_STRINGS.EMPTY_JOURNAL_HISTORY)}
               </Text>
             );
           }}

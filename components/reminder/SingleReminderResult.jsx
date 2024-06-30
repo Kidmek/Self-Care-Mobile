@@ -1,14 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import { commonStyles } from '~/common/common.style';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
-import { REMINDER_FREQUENCY, REMINDER_TYPES } from '~/constants/strings/home/reminder';
+import { REMINDER_TYPES } from '~/constants/strings/home/reminder';
 import { COLORS, FONT, SIZES } from '~/constants/theme';
 
-const SingleReminderResult = ({ data, onPressDelete, onPress }) => {
+const SingleReminderResult = ({ data, onPressDelete, onPress, t }) => {
   //   const renderRightActions = (_, dragX) => {
   //     const scale = dragX.interpolate({
   //       inputRange: [-100, -50, 0],
@@ -90,8 +89,8 @@ const SingleReminderResult = ({ data, onPressDelete, onPress }) => {
         {renderTime()}
         <View style={[commonStyles.verticalDivider(COLORS.black)]} />
         <View style={styles.historyTextContainer}>
-          <Text numberOfLines={1} style={styles.historyTitle} ellipsizeMode="tail">
-            {REMINDER_TYPES[data?.type]}
+          <Text numberOfLines={2} style={styles.historyTitle} ellipsizeMode="tail">
+            {t(REMINDER_TYPES[data?.type])}
           </Text>
           <View style={styles.valueContainer}>
             <Ionicons
@@ -103,7 +102,7 @@ const SingleReminderResult = ({ data, onPressDelete, onPress }) => {
               numberOfLines={2}
               style={[styles.value, checkIfDone() ? { color: 'green' } : { color: 'red' }]}
               ellipsizeMode="tail">
-              {data?.answer}
+              {t(data?.answer)}
             </Text>
           </View>
         </View>
@@ -121,6 +120,7 @@ const styles = StyleSheet.create({
   historyTextContainer: {
     gap: SIZES.small,
     justifyContent: 'center',
+    flex: 1,
   },
   singleMoodHistory: {
     flexDirection: 'row',
@@ -134,13 +134,11 @@ const styles = StyleSheet.create({
   historyTitle: {
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
-    minWidth: '25%',
   },
   value: {
     color: COLORS.uiElementColors.text.primary,
     fontFamily: FONT.medium,
     fontSize: SIZES.large,
-    minWidth: '25%',
   },
   rightAction: {
     flex: 0.2,

@@ -16,6 +16,7 @@ import TrackingModal from '~/components/modal/TrackingModal';
 import { AnalyticField, HEADER_TYPES } from '~/constants/strings/common';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
 import { TRACKING_EMOJIS, TRACKING_STRINGS } from '~/constants/strings/home/assessment/tracking';
+import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { SIZES } from '~/constants/theme';
 
 export default function Tracking() {
@@ -37,6 +38,7 @@ export default function Tracking() {
       setHistory([...data]);
     }
   };
+
   const renderSingle = (name, emoji) => {
     return (
       <TouchableOpacity
@@ -46,7 +48,7 @@ export default function Tracking() {
           setSelected(name);
           setVisible(true);
         }}>
-        <Text style={assessmentStyle.moodName}>{name}</Text>
+        <Text style={assessmentStyle.moodName}>{t(name)}</Text>
         <Text style={assessmentStyle.moodEmoji}>{emoji}</Text>
       </TouchableOpacity>
     );
@@ -95,11 +97,11 @@ export default function Tracking() {
     }
     Alert.alert('', t(TRACKING_STRINGS.DELETE_PROMPT), [
       {
-        text: 'No',
+        text: t(HOME_STRINGS.NO),
         onPress: () => null,
       },
       {
-        text: 'Yes',
+        text: t(HOME_STRINGS.YES),
         onPress: () => {
           const newData = [...history.filter((h) => h.time !== id)];
           setTrackingInfo(newData);
@@ -188,7 +190,7 @@ export default function Tracking() {
           <Text style={assessmentStyle.headerQns}>{t(TRACKING_STRINGS.FEELING_QNS)}</Text>
           <ScrollView contentContainerStyle={assessmentStyle.moodsContainer}>
             {Object.entries(TRACKING_EMOJIS).map(([k, v]) => {
-              return renderSingle(t(k), v);
+              return renderSingle(k, v);
             })}
           </ScrollView>
         </View>

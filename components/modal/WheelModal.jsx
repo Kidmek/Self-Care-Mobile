@@ -7,14 +7,20 @@ import { modalStyles } from './modal.style';
 import { WHEEL_SECTIONS, WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { COLORS, SIZES } from '~/constants/theme';
+import { checkIfAmh } from '~/utils/helper';
 
 export default function WheelModal({ visible, setVisible, save, segment, t }) {
   const [value, setValue] = useState(1);
+  const getFullName = () => {
+    const section = WHEEL_SECTIONS.find((s) => s.shortName === segment.label);
+    return checkIfAmh() ? section.am_longName : section.longName;
+  };
   useEffect(() => {
     if (segment?.value) {
       setValue(segment.value);
     }
   }, [visible]);
+
   return (
     <Modal
       animationType="slide"
@@ -31,11 +37,7 @@ export default function WheelModal({ visible, setVisible, save, segment, t }) {
             alignItems: 'center',
           }}>
           <View style={{ ...modalStyles.textContainer }}>
-            {segment?.label && (
-              <Text style={modalStyles.modalHeader}>
-                {WHEEL_SECTIONS.find((s) => s.shortName === segment.label).longName}
-              </Text>
-            )}
+            {segment?.label && <Text style={modalStyles.modalHeader}>{getFullName()}</Text>}
 
             <Text style={modalStyles.logoutText}>{t(WHEEL_STRINGS.SATISFIED_QNS)}</Text>
             <Text
@@ -48,6 +50,9 @@ export default function WheelModal({ visible, setVisible, save, segment, t }) {
               {value}
             </Text>
             <Slider
+              style={{
+                minWidth: '100%',
+              }}
               value={value}
               onValueChange={setValue}
               step={1}

@@ -13,8 +13,13 @@ import InfoModal from '~/components/modal/InfoModal';
 import WheelModal from '~/components/modal/WheelModal';
 import { AnalyticField } from '~/constants/strings/common';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
-import { WHEEL_SECTIONS, WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
+import {
+  WHEEL_SECTIONS,
+  WHEEL_SECTIONS_AMH,
+  WHEEL_STRINGS,
+} from '~/constants/strings/home/assessment/wheel';
 import { FONT, SIZES, WHEEL_COLORS } from '~/constants/theme';
+import { checkIfAmh } from '~/utils/helper';
 
 export default function Wheel() {
   const [wheels, setWheels] = useState([]);
@@ -37,6 +42,7 @@ export default function Wheel() {
           endAngle: (i + 1) * angle,
           color: WHEEL_COLORS[i],
           label: a.shortName,
+          am_label: a.am_shortName,
           value: 1,
         };
       });
@@ -66,7 +72,6 @@ export default function Wheel() {
 
   useEffect(() => {
     fetchData();
-
     addAnalyticApi({
       type: AnalyticField.WHEEL,
     });
@@ -103,14 +108,21 @@ export default function Wheel() {
         type={ASSESSMENT_STRINGS.LIFE_WHEEL}
       />
       <ScrollView style={{ flex: 1 }}>
-        <LifeWheel segments={wheels} radius={radius} handlePress={handlePress} />
+        <LifeWheel
+          segments={wheels}
+          radius={radius}
+          handlePress={handlePress}
+          isAmh={checkIfAmh()}
+        />
         <View style={styles.descContainer}>
           <Text style={styles.descHeader}>{t(WHEEL_STRINGS.DESCRIPTION)}</Text>
           {WHEEL_SECTIONS.map((s, i) => {
+            const longName = checkIfAmh() ? s.am_longName : s.longName;
+            const description = checkIfAmh() ? s.am_description : s.description;
             return (
               <View key={i} style={styles.singleDesc}>
                 <Text style={styles.descTitle}>
-                  {s.longName}: <Text style={styles.descBody}>{s.description}</Text>
+                  {longName}: <Text style={styles.descBody}>{description}</Text>
                 </Text>
               </View>
             );

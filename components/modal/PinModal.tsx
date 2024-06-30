@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as LocalAuthentication from 'expo-local-authentication';
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  StatusBar,
   TextInput,
   View,
   Text,
@@ -137,6 +138,12 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
   }, [pin]);
 
   useEffect(() => {
+    if (visible) {
+      StatusBar.setBackgroundColor(COLORS.secondary, true); // Set the background color
+    } else {
+      // Revert to default status bar settings or other desired settings when modal is closed
+      StatusBar.setBackgroundColor('transparent', true); // Assuming the default is transparent
+    }
     setPin(['', '', '', '']);
     setFocused(0);
   }, [visible]);

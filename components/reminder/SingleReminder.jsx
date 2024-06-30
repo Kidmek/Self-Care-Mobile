@@ -7,10 +7,10 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { commonStyles } from '~/common/common.style';
 import { TRACKING_EMOJIS } from '~/constants/strings/home/assessment/tracking';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
-import { REMINDER_FREQUENCY, REMINDER_TYPES } from '~/constants/strings/home/reminder';
+import { DAYS, REMINDER_FREQUENCY, REMINDER_TYPES } from '~/constants/strings/home/reminder';
 import { COLORS, FONT, SIZES } from '~/constants/theme';
 
-const SingleReminder = ({ data, onPressDelete, onPressEdit, onPress }) => {
+const SingleReminder = ({ data, onPressDelete, onPressEdit, onPress, t }) => {
   const { t: i18n } = useTranslation();
 
   const renderRightActions = (_, dragX) => {
@@ -68,7 +68,7 @@ const SingleReminder = ({ data, onPressDelete, onPressEdit, onPress }) => {
         {days?.map((d) => {
           return (
             <Text key={d} style={[styles.dateText, styles.dateNumber]}>
-              {d}
+              {t(DAYS[d])}
             </Text>
           );
         })}
@@ -77,7 +77,6 @@ const SingleReminder = ({ data, onPressDelete, onPressEdit, onPress }) => {
       </View>
     );
   };
-
   return (
     <Swipeable
       overshootRight={false}
@@ -95,11 +94,11 @@ const SingleReminder = ({ data, onPressDelete, onPressEdit, onPress }) => {
         {renderTime()}
         <View style={[commonStyles.verticalDivider(COLORS.black)]} />
         <View style={styles.historyTextContainer}>
-          <Text numberOfLines={1} style={styles.historyTitle} ellipsizeMode="tail">
-            {REMINDER_TYPES[data?.type]}
+          <Text numberOfLines={2} style={styles.historyTitle} ellipsizeMode="tail">
+            {t(REMINDER_TYPES[data?.type])}
           </Text>
           <Text numberOfLines={2} style={styles.value} ellipsizeMode="tail">
-            {REMINDER_FREQUENCY[data?.frequency]}
+            {t(REMINDER_FREQUENCY[data?.frequency])}
           </Text>
         </View>
       </Pressable>
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
   historyTextContainer: {
     gap: SIZES.small,
     justifyContent: 'center',
-    minWidth: '100%',
+    flex: 1,
   },
   singleMoodHistory: {
     flexDirection: 'row',
@@ -127,13 +126,11 @@ const styles = StyleSheet.create({
   historyTitle: {
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
-    minWidth: '25%',
   },
   value: {
     color: COLORS.uiElementColors.text.primary,
     fontFamily: FONT.medium,
     fontSize: SIZES.medium,
-    minWidth: '25%',
   },
   rightAction: {
     flex: 0.2,

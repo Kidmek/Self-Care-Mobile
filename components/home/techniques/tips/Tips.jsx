@@ -18,6 +18,7 @@ import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { MEDIA_URL } from '~/constants/strings/api';
 import { MEDIA_TYPE, TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
 import { COLORS, FONT, SIZES, width } from '~/constants/theme';
+import { checkIfAmh } from '~/utils/helper';
 
 export default function Tips() {
   const params = useLocalSearchParams();
@@ -51,6 +52,8 @@ export default function Tips() {
 
   const renderItem = ({ item, index }) => {
     const pictures = item?.media?.filter((m) => m.type === MEDIA_TYPE.PIC);
+    const title = checkIfAmh() ? item.amh_title : item.title;
+    const description = checkIfAmh() ? item.amh_description : item.description;
     return (
       <View style={styles.singleContainer}>
         {item?.media?.length > 0 && (
@@ -96,9 +99,9 @@ export default function Tips() {
             <Pagination length={item?.media?.length} active={activeIndexes?.[index] ?? 0} />
           </View>
         )}
-        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.title}>{title}</Text>
 
-        {item.description && <Text style={styles.description}>{item.description}</Text>}
+        {description && <Text style={styles.description}>{description}</Text>}
         <View style={commonStyles.divider(COLORS.black)} />
       </View>
     );

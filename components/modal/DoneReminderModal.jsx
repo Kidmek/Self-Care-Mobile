@@ -4,8 +4,7 @@ import { View, Text, Modal, TouchableOpacity } from 'react-native';
 import { modalStyles } from './modal.style';
 
 import { HOME_STRINGS } from '~/constants/strings/home/home';
-import { REMINDER_STRINGS, REMINDER_TYPES_QNS } from '~/constants/strings/home/reminder';
-import { width } from '~/constants/theme';
+import { REMINDER_TYPES_QNS } from '~/constants/strings/home/reminder';
 
 const ReminderModal = ({ visible, setVisible, save, t, selected }) => {
   return (

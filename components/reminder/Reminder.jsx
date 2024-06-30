@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useStoreActions } from 'easy-peasy';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
@@ -41,11 +41,11 @@ export default function Reminder() {
   const [visible, setVisible] = useState(false);
   const [isHistory, setIsHistory] = useState(false);
   const [doneVisible, setDoneVisible] = useState(false);
-  const [paramConsumed, setParamConsumed] = useState(false);
   const [reminders, setReminders] = useState([]);
   const [history, setHistory] = useState([]);
   const { t } = useTranslation();
   const toast = useToast();
+  const checkedParams = useRef(false);
   const setLoading = useStoreActions((actions) => actions.setLoading);
 
   const fetch = async () => {
@@ -82,7 +82,7 @@ export default function Reminder() {
                 null,
                 data?.time,
                 t(REMINDER_STRINGS.SELF_CARE_REMINDER),
-                REMINDER_TYPES[data.type],
+                t(REMINDER_TYPES[data.type]),
                 settings[SETTING_STRINGS.VIBRATION],
                 settings[SETTING_STRINGS.SOUND],
                 data.createdAt
@@ -97,7 +97,7 @@ export default function Reminder() {
                   day,
                   data?.time,
                   t(REMINDER_STRINGS.SELF_CARE_REMINDER),
-                  REMINDER_TYPES[data.type],
+                  t(REMINDER_TYPES[data.type]),
                   settings[SETTING_STRINGS.VIBRATION],
                   settings[SETTING_STRINGS.SOUND],
                   data.createdAt
@@ -146,7 +146,7 @@ export default function Reminder() {
           await setLocalReminders(newData);
           setReminders(newData);
           setLoading(false);
-          toast.show('Deleted', {
+          toast.show(t(HOME_STRINGS.DELETED), {
             type: 'success',
           });
         },
@@ -166,15 +166,19 @@ export default function Reminder() {
       });
       fetch();
       setDoneVisible(false);
+      checkedParams.current = false;
+      router.replace('/(drawer)/(tabs)/reminders');
     }
   };
 
   const renderItem = ({ item }) => {
-    return <SingleReminder data={item} onPressDelete={hanldeDelete} onPress={() => {}} />;
+    return <SingleReminder data={item} onPressDelete={hanldeDelete} onPress={() => {}} t={t} />;
   };
 
   const renderHistory = ({ item }) => {
-    return <SingleReminderResult data={item} onPressDelete={hanldeDelete} onPress={() => {}} />;
+    return (
+      <SingleReminderResult data={item} onPressDelete={hanldeDelete} onPress={() => {}} t={t} />
+    );
   };
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -203,22 +207,18 @@ export default function Reminder() {
   }, [isHistory]);
 
   useEffect(() => {
-    if (params.id && !paramConsumed) {
-      reminders.some((r) => {
-        if (r.createdAt === params.id) {
-          setSelected(r);
-          setDoneVisible(true);
-          setParamConsumed(true);
-          return true;
-        } else {
-          return false;
-        }
-      });
+    if (params.id && !checkedParams.current) {
+      const reminder = reminders.find((r) => r.createdAt === params.id);
+      if (reminder) {
+        setSelected(reminder);
+        setDoneVisible(true);
+        checkedParams.current = true;
+      }
     }
-  }, [reminders]);
+  }, [reminders, params]);
 
   return (
-    <ImageContainer>
+    <ImageContainer hasTab={isHistory}>
       <ReminderModal
         visible={visible}
         setVisible={setVisible}
@@ -234,14 +234,26 @@ export default function Reminder() {
         selected={selected}
         // selected={selected}
       />
-      <View style={commonStyles.container()}>
+      <View
+        style={[
+          commonStyles.container(),
+          isHistory
+            ? {
+                paddingHorizontal: 0,
+              }
+            : {
+                paddingHorizontal: SIZES.medium,
+              },
+        ]}>
         {isHistory ? (
           <FlatList
             data={history}
             renderItem={renderHistory}
-            contentContainerStyle={{
+            style={{
               ...assessmentStyle.historyContainer,
-              paddingHorizontal: 0,
+            }}
+            contentContainerStyle={{
+              gap: SIZES.small,
             }}
             keyExtractor={(item) => item.answeredAt}
             ListEmptyComponent={() => {

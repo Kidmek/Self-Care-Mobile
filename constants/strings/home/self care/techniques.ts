@@ -5,8 +5,6 @@ export enum TECHNIQUES_STRINGS {
   BREATHING = 'Breathing Techniques',
   MUSCLE = 'Progressive Muscle Relaxation Techniques',
   GROUNDING = 'Grounding Techniques',
-  DELETE_PROMPT = 'Are you sure you want to delete this journal?',
-  EMPTY_HISTORY = 'No journal recorded yet',
   EMPTY_TIPS = 'No tips added yet',
 }
 export enum TipType {
@@ -21,4 +19,11 @@ export enum MEDIA_TYPE {
   VID = 'VIDEO',
 }
 
-export const am_assessment_translations: { [placeholder in TECHNIQUES_STRINGS]?: string } = {};
+export const am_technique_translations: { [placeholder in TECHNIQUES_STRINGS]?: string } = {
+  [TECHNIQUES_STRINGS.JOURNALING]: 'የሚሰማዎትን መጻፍ',
+  [TECHNIQUES_STRINGS.SLEEPING]: 'ስለእንቅልፍ ጠቃሚ ነጥቦች',
+  [TECHNIQUES_STRINGS.BREATHING]: 'የአተነፋፈስ መንገዶች',
+  [TECHNIQUES_STRINGS.MUSCLE]: 'ጡንቻዎችን የማፍታት ስልቶች',
+  [TECHNIQUES_STRINGS.GROUNDING]: 'የትኩረት አቅጣጫን የመቀየር ልምምዶች',
+  [TECHNIQUES_STRINGS.EMPTY_TIPS]: 'እስካሁን ምንም ምክሮች አልተጨመሩም።',
+};

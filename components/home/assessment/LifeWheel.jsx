@@ -5,6 +5,7 @@ import { Svg, Path, Text, G } from 'react-native-svg';
 import { assessmentStyle } from './assessment.style';
 
 import { COLORS } from '~/constants/theme';
+import { checkIfAmh } from '~/utils/helper';
 
 const LifeWheel = ({ segments, radius, handlePress }) => {
   const extraPadding = 40;
@@ -102,7 +103,7 @@ const LifeWheel = ({ segments, radius, handlePress }) => {
                   style={assessmentStyle.outerWheel}
                   fill={COLORS.uiElementColors.text.primary}
                   transform={`rotate(${rotation}, ${x}, ${y})`}>
-                  {`${segment.label} `}
+                  {`${checkIfAmh() ? segment.am_label : segment.label} `}
                 </Text>
               </React.Fragment>
             );
