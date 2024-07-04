@@ -8,7 +8,7 @@ import LifeWheel from '../home/assessment/LifeWheel';
 import TrackingModal from '../modal/TrackingModal';
 import WheelModal from '../modal/WheelModal';
 
-import { getTrackingInfo, getWheelData, getWheelHistories, setWheelHistories } from '~/api/storage';
+import { getTrackingInfo, getWheelHistories } from '~/api/storage';
 import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { TRACKING } from '~/constants/strings/home/assessment/tracking';

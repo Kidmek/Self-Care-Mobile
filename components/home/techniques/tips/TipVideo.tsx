@@ -1,6 +1,6 @@
 import { Video, ResizeMode, VideoFullscreenUpdateEvent } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 
 import { SIZES } from '~/constants/theme';
