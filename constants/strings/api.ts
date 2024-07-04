@@ -1,4 +1,4 @@
-export const API = 'http:/192.168.1.106:3000/';
+export const API = 'http:/192.168.10.28:3000/';
 export const MEDIA_URL = `${API}uploads`;
 export const ADMIN = 'ADMIN';
 export const LOGIN_API = 'auth/login';

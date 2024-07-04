@@ -38,9 +38,9 @@ const DrawerLayout = () => {
         }}
       />
       <Drawer.Screen
-        name="help"
+        name="about"
         options={{
-          drawerLabel: t(HOME_STRINGS.HELP),
+          drawerLabel: t(HOME_STRINGS.ABOUT_APP),
           drawerIcon: ({ size, color }) => (
             <Ionicons name="information" size={size} color={color} />
           ),

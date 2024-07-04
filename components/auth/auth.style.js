@@ -128,6 +128,7 @@ export const authStyles = StyleSheet.create({
   },
   redirectTextStyle: {
     color: COLORS.primary,
+    fontSize: SIZES.large * 1.1,
     textDecorationLine: 'underline',
     fontWeight: '900',
   },

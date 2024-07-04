@@ -33,8 +33,8 @@ export default function NewPass({ setStep, otp }) {
       postSkeleton({
         url: 'auth/change-pass',
         dataToSend: { email: user.email, otp, password },
-        errorMsg: 'Unable to change password',
-        successMsg: `Password changed`,
+        errorMsg: t(AUTH_STRINGS.PASS_CHANGE_ERR),
+        successMsg: t(AUTH_STRINGS.PASS_CHANGED_SUC),
         onSuccess: () => {
           setForgotPass(false);
           setStep(AUTH_STAGE.LOGIN);
@@ -48,9 +48,9 @@ export default function NewPass({ setStep, otp }) {
   useEffect(() => {
     const prev = {};
     if (password && password.length < 5) {
-      prev.password = 'Password must be atleast 5 characters';
+      prev.password = t(AUTH_STRINGS.PASS_LEN_ERR);
     } else if (password && confirmPass !== password) {
-      prev.confirmPass = "Passwords Don't Match";
+      prev.confirmPass = t(AUTH_STRINGS.PASS_NO_MATCH);
       prev.password = false;
     }
     setErrors(prev);

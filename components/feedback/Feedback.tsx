@@ -1,4 +1,5 @@
 import { useStoreActions } from 'easy-peasy';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -38,6 +39,7 @@ export default function Feedback() {
       onSuccess: () => {
         setImprovement('');
         setFeedback('');
+        router.back();
       },
       toast,
       setLoading,
@@ -85,6 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: SIZES.large,
     justifyContent: 'space-between',
+    gap: SIZES.large,
   },
   question: {
     fontSize: SIZES.large,

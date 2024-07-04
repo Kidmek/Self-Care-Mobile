@@ -5,9 +5,13 @@ import { View, Text, Modal, StyleSheet, ScrollView, Pressable } from 'react-nati
 import { modalStyles } from './modal.style';
 
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
-import { TRACKING_STRINGS } from '~/constants/strings/home/assessment/tracking';
-import { WHEEL_STRINGS, WHEEL_STRINGS_AM } from '~/constants/strings/home/assessment/wheel';
-import { JOURNALING_STRINGS } from '~/constants/strings/home/self care/journal';
+import { TRACKING_INFO_AM, TRACKING_INFO_EN } from '~/constants/strings/home/assessment/tracking';
+import {
+  WHEEL_INFO_AM,
+  WHEEL_INFO_EN,
+  WHEEL_STRINGS,
+} from '~/constants/strings/home/assessment/wheel';
+import { JOURNALING_INFO_AM, JOURNALING_INFO_EN } from '~/constants/strings/home/self care/journal';
 import { TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
 import { FONT, SIZES } from '~/constants/theme';
 import { checkIfAmh } from '~/utils/helper';
@@ -16,12 +20,14 @@ export default function InfoModal({ visible, setVisible, t, type }) {
   const getStrings = () => {
     switch (type) {
       case ASSESSMENT_STRINGS.LIFE_WHEEL:
-        if (checkIfAmh()) return WHEEL_STRINGS_AM;
-        return WHEEL_STRINGS;
+        if (checkIfAmh()) return WHEEL_INFO_AM;
+        return WHEEL_INFO_EN;
       case ASSESSMENT_STRINGS.MOOD_TRACKING:
-        return TRACKING_STRINGS;
+        if (checkIfAmh()) return TRACKING_INFO_AM;
+        return TRACKING_INFO_EN;
       case TECHNIQUES_STRINGS.JOURNALING:
-        return JOURNALING_STRINGS;
+        if (checkIfAmh()) return JOURNALING_INFO_AM;
+        return JOURNALING_INFO_EN;
     }
   };
   return (
@@ -56,27 +62,25 @@ export default function InfoModal({ visible, setVisible, t, type }) {
             <ScrollView
               contentContainerStyle={styles.infoContainer}
               showsVerticalScrollIndicator={false}>
-              {Object.keys(getStrings())
-                ?.filter((k) => k.startsWith('STEP'))
-                .map((k) => {
-                  const isNB = getStrings()['NB_STEP'] === k;
-                  return (
-                    <View key={k} style={styles.singleStepContainer}>
-                      {!isNB && (
-                        <Ionicons
-                          name="information-circle-outline"
-                          style={styles.infoIcon}
-                          size={SIZES.tabIcons}
-                        />
-                      )}
-                      <Text
-                        style={[styles.text, isNB && modalStyles.modalHeader]}
-                        textBreakStrategy="balanced">
-                        {t(getStrings()[k])}
-                      </Text>
-                    </View>
-                  );
-                })}
+              {Object.entries(getStrings()).map(([k, v]) => {
+                const isNB = getStrings()['NB_STEP'] === k;
+                return (
+                  <View key={k} style={styles.singleStepContainer}>
+                    {!isNB && (
+                      <Ionicons
+                        name="information-circle-outline"
+                        style={styles.infoIcon}
+                        size={SIZES.tabIcons}
+                      />
+                    )}
+                    <Text
+                      style={[styles.text, isNB && modalStyles.modalHeader]}
+                      textBreakStrategy="balanced">
+                      {v}
+                    </Text>
+                  </View>
+                );
+              })}
             </ScrollView>
           )}
           <View />

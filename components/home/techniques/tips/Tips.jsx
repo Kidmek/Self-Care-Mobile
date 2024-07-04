@@ -62,7 +62,6 @@ export default function Tips() {
               height={width / 2}
               width={width * 0.85}
               data={item?.media}
-              // snapEnabled
               loop={false}
               onSnapToItem={(current) => {
                 setActiveIndexes({ ...activeIndexes, [index]: current });

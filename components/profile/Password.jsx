@@ -10,6 +10,7 @@ import { postSkeleton } from '~/api/apiConfig';
 import CustomButton from '~/common/button/CustomButton';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import CustomInput from '~/common/input/CustomInput';
+import { AUTH_STRINGS } from '~/constants/strings/auth';
 import { PROFILE_STRINGS } from '~/constants/strings/profile';
 import { SIZES } from '~/constants/theme';
 
@@ -23,8 +24,8 @@ export default function Password() {
   const setLoading = useStoreActions((actions) => actions.setLoading);
   const checkPassword = () => {
     const newErrors = {};
-    if (password && password.length < 5) {
-      newErrors.password = 'Password must be atleast 5 characters';
+    if (!password || password.length < 5) {
+      newErrors.password = t(AUTH_STRINGS.PASS_LEN_ERR);
     }
     setErrors(newErrors);
     if (!newErrors.password) {
@@ -43,7 +44,7 @@ export default function Password() {
   };
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: params?.type,
+      headerTitle: t(params?.type),
       headerTitleAlign: 'center',
     });
   }, [params]);

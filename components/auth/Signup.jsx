@@ -48,24 +48,24 @@ export default function SignUp({ setStep }) {
       }
     });
     if (!user.email?.match(emailRegEx)) {
-      errors.email = 'Invalid email';
+      errors.email = t(AUTH_STRINGS.INVALID_EMAIL);
     }
     if (!user.phone?.match(phoneRegEx)) {
-      errors.phone = 'Invalid phone';
+      errors.phone = t(AUTH_STRINGS.INVALID_PHONE);
     }
     if (user.password?.length < 5) {
-      errors.password = 'Password must be atleast 5 characters';
+      errors.password = t(AUTH_STRINGS.PASS_LEN_ERR);
     }
     setErrors({ ...errors });
 
     if (Object.keys(errors).length) {
-      toast.show('Invalid fields', {
+      toast.show(t(AUTH_STRINGS.INVALID_FIELDS), {
         type: 'danger',
       });
     } else {
       //
       if (!agree) {
-        toast.show('Agree to terms and conditions', {
+        toast.show(t(AUTH_STRINGS.AGREE_TO_TERMS_ERR), {
           type: 'danger',
         });
         return;
@@ -73,8 +73,8 @@ export default function SignUp({ setStep }) {
       postSkeleton({
         url: 'auth/register',
         dataToSend: { ...user, age: 10 },
-        errorMsg: 'Unable to register',
-        successMsg: 'Successfully created',
+        errorMsg: t(AUTH_STRINGS.REG_ERR),
+        successMsg: t(AUTH_STRINGS.REG_SUCCESS),
         onSuccess: (data) => {
           if (data.user) {
             setUserData(data.user);
@@ -90,9 +90,9 @@ export default function SignUp({ setStep }) {
   useEffect(() => {
     const prev = errors;
     if (user.password && user.password.length < 5) {
-      prev.password = 'Password must be atleast 5 characters';
+      prev.password = t(AUTH_STRINGS.PASS_LEN_ERR);
     } else if (user.password && user.confirmPass !== user.password) {
-      prev.confirmPass = "Passwords Don't Match";
+      prev.confirmPass = t(AUTH_STRINGS.PASS_NO_MATCH);
       prev.password = false;
     } else {
       prev.confirmPass = false;

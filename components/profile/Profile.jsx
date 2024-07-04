@@ -55,7 +55,7 @@ export default function Profile() {
     });
     setErrors({ ...errors });
     if (Object.keys(errors).length) {
-      toast.show('Invalid fields', {
+      toast.show(t(AUTH_STRINGS.INVALID_FIELDS), {
         type: 'danger',
       });
     } else {
@@ -135,11 +135,7 @@ export default function Profile() {
   );
 
   useEffect(() => {
-    console.log('first');
     fetch();
-    return () => {
-      console.log('Unmount');
-    };
   }, []);
 
   useLayoutEffect(() => {});

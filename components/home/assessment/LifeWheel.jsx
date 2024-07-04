@@ -7,7 +7,8 @@ import { assessmentStyle } from './assessment.style';
 import { COLORS } from '~/constants/theme';
 import { checkIfAmh } from '~/utils/helper';
 
-const LifeWheel = ({ segments, radius, handlePress }) => {
+const LifeWheel = ({ segments, handlePress }) => {
+  const radius = 160;
   const extraPadding = 40;
   const width = (radius + extraPadding) * 2;
   const height = (radius + extraPadding) * 2;

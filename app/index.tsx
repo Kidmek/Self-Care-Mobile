@@ -16,19 +16,13 @@ import { COLORS, SIZES } from '~/constants/theme';
 
 export default function Auth() {
   const { top } = useSafeAreaInsets();
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState(languages[0].value);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
 
   const [languageOpen, setLanguageOpen] = useState(false);
   const [step, setStep] = useState<AUTH_STAGE>(AUTH_STAGE.LOGIN);
   const [otp, setOtp] = useState('');
   const rootNavigationState = useRootNavigationState();
-
-  // Check connection TODO
-  // const unsubscribe = NetInfo.addEventListener((state) => {
-  //   console.log('Connection type', state.type);
-  //   console.log('Is connected?', state.isConnected);
-  // });
 
   useEffect(() => {
     const loadLanguage = async () => {
@@ -53,26 +47,26 @@ export default function Auth() {
   }, [selected]);
 
   useEffect(() => {
-    const isLoggedIn = async () => {
-      console.log('checking login');
-      // TODO
-      if (await getToken()) {
-        // if (true) {
-        setIsLoggedIn(true);
-      } else {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await getToken();
+        setIsLoggedIn(!!token);
+      } catch (error) {
+        console.log('Error checking login status', error);
         setIsLoggedIn(false);
       }
     };
-    isLoggedIn();
+    checkLoginStatus();
   }, []);
-  console.log('Is logged in,', isLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      // @ts-ignore
+      router.push('/(drawer)/(tabs)');
+    }
+  }, [isLoggedIn, rootNavigationState?.key]);
 
   if (!rootNavigationState?.key || isLoggedIn === undefined) return null;
-
-  if (isLoggedIn) {
-    // @ts-ignore
-    router.push('/(drawer)/(tabs)');
-  }
 
   return (
     <View
@@ -97,10 +91,6 @@ export default function Auth() {
         setOpen={setLanguageOpen}
         open={languageOpen}
         setValue={setSelected}
-        onChangeValue={(value) => {
-          if (value) {
-          }
-        }}
         placeholder="Language"
       />
       {step === AUTH_STAGE.LOGIN ? (

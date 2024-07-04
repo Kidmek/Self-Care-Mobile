@@ -72,12 +72,12 @@ export default function Tracking() {
       // save to backend
     }
     const newData = [
-      ...history,
       {
         time: new Date(),
         description,
         mood: selected,
       },
+      ...history,
     ];
     setTrackingInfo(newData);
     setHistory(newData);

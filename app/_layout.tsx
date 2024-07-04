@@ -66,12 +66,18 @@ export default function RootLayout() {
         initSettings[SETTING_STRINGS.SOUND] = true;
         // @ts-ignore
         initSettings[SETTING_STRINGS.VIBRATION] = true;
+        // @ts-ignore
+        initSettings[SETTING_STRINGS.AWAT_FOR] = 30;
         setSettings(initSettings);
         setLocalSettings(initSettings);
         console.log('Initialized Settings', initSettings);
       } else {
         const last = (await getLastLoggedIn()) ?? new Date().setFullYear(2000);
-        if (s?.[SETTING_STRINGS.PIN_LOCK] === true && getMinutes(new Date(last), new Date()) > 30) {
+
+        if (
+          s?.[SETTING_STRINGS.PIN_LOCK] === true &&
+          getMinutes(new Date(last), new Date()) > s?.[SETTING_STRINGS.AWAT_FOR]
+        ) {
           setVisible(true);
         }
         setSettings(s);

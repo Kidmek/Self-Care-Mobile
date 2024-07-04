@@ -37,11 +37,11 @@ export default function Change() {
 
       const newErrors = {};
       if (!email?.match(emailRegEx)) {
-        newErrors.email = 'Invalid email';
+        newErrors.email = t(AUTH_STRINGS.INVALID_EMAIL);
       }
 
       if (user.email === email) {
-        newErrors.email = 'New email same as current email';
+        newErrors.email = t(PROFILE_STRINGS.SAME_EMAIL);
       }
       setErrors(newErrors);
 
@@ -51,8 +51,10 @@ export default function Change() {
         postSkeleton({
           url: 'auth/new-email',
           params: { email },
-          errorMsg: 'Unable to send verification code',
-          successMsg: `Verification code sent to ${email}`,
+          errorMsg: t(AUTH_STRINGS.UNABLE_TO_SEND_VERIFICATION),
+          successMsg: t(AUTH_STRINGS.VERIFICATION_PLACEHOLDER, {
+            sent_to: email,
+          }),
           onSuccess: () => {
             setStep(AUTH_STAGE.OTP);
           },
@@ -67,8 +69,8 @@ export default function Change() {
         postSkeleton({
           url: 'auth/new-pass',
           params: { password },
-          errorMsg: 'Unable to change password',
-          successMsg: `Password changed`,
+          errorMsg: t(AUTH_STRINGS.PASS_CHANGE_ERR),
+          successMsg: t(AUTH_STRINGS.PASS_CHANGED_SUC),
           onSuccess: () => {
             navigation.reset({
               index: 0,
@@ -84,9 +86,9 @@ export default function Change() {
   useEffect(() => {
     const prev = {};
     if (password && password.length < 5) {
-      prev.password = 'Password must be atleast 5 characters';
+      prev.password = t(AUTH_STRINGS.PASS_LEN_ERR);
     } else if (password && confirmPass !== password) {
-      prev.confirmPass = "Passwords Don't Match";
+      prev.confirmPass = t(AUTH_STRINGS.PASS_NO_MATCH);
       prev.password = false;
     }
     setErrors(prev);
@@ -94,11 +96,12 @@ export default function Change() {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: params?.type,
+      headerTitle: t(params?.type),
       headerTitleAlign: 'center',
     });
     setStep(AUTH_STAGE.LOGIN);
   }, [params]);
+
   return (
     <ImageContainer noImage>
       <View style={styles.body} contentContainerStyle={authStyles.body}>

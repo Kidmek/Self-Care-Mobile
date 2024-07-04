@@ -1,42 +1,47 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import { AUTH_STRINGS, am_auth_translations } from './auth';
-import { ASSESSMENT_STRINGS, am_assessment_translations } from './home/assessment/assessment';
-import { TRACKING_STRINGS, am_tracking_translations } from './home/assessment/tracking';
-import { WHEEL_STRINGS, am_wheel_translations } from './home/assessment/wheel';
-import { HOME_STRINGS, am_home_translations } from './home/home';
+import { am_auth_translations, en_auth_translations } from './auth';
+import {
+  am_assessment_translations,
+  en_assessment_translations,
+} from './home/assessment/assessment';
+import { am_tracking_translations, en_tracking_translations } from './home/assessment/tracking';
+import { am_wheel_translations, en_wheel_translations } from './home/assessment/wheel';
+import { am_home_translations, en_home_translations } from './home/home';
 import { REMINDER_STRINGS, am_reminder_translations } from './home/reminder';
-import { JOURNALING_STRINGS, am_journaling_translations } from './home/self care/journal';
-import { TECHNIQUES_STRINGS, am_technique_translations } from './home/self care/techniques';
-import { INFO_STRINGS, am_info_translations } from './info';
-import { PROFILE_STRINGS, am_profile_translations } from './profile';
-import { SETTING_STRINGS, am_setting_translations } from './setting';
+import { am_journaling_translations, en_journaling_translations } from './home/self care/journal';
+import { am_technique_translations, en_techniques_translations } from './home/self care/techniques';
+import { am_info_translations, en_info_translations } from './info';
+import { am_profile_translations, en_profile_translations } from './profile';
+import { am_setting_translations, en_setting_translations } from './setting';
+import { am_stat_translations, en_stat_translations } from './stats';
 
 import { makeObjects } from '~/utils/helper';
 
 const translations = {
   en: {
     translation: {
-      ...makeObjects(Object.values(AUTH_STRINGS)),
-      ...makeObjects(Object.values(ASSESSMENT_STRINGS)),
-      ...makeObjects(Object.values(TECHNIQUES_STRINGS)),
-      ...makeObjects(Object.values(HOME_STRINGS)),
-      ...makeObjects(Object.values(INFO_STRINGS)),
-      ...makeObjects(Object.values(JOURNALING_STRINGS)),
-      ...makeObjects(Object.values(PROFILE_STRINGS)),
+      ...en_auth_translations,
+      ...en_home_translations,
+      ...en_profile_translations,
+      ...en_setting_translations,
+      ...en_info_translations,
+      ...en_journaling_translations,
+      ...en_wheel_translations,
+      ...en_techniques_translations,
+      ...en_assessment_translations,
+      ...en_tracking_translations,
+      ...en_stat_translations,
       ...makeObjects(Object.values(REMINDER_STRINGS)),
-      ...makeObjects(Object.values(SETTING_STRINGS)),
-      ...makeObjects(Object.values(TRACKING_STRINGS)),
-      ...makeObjects(Object.values(WHEEL_STRINGS)),
     },
   },
   am: {
     translation: {
       ...am_auth_translations,
+      ...am_home_translations,
       ...am_assessment_translations,
       ...am_technique_translations,
-      ...am_home_translations,
       ...am_info_translations,
       ...am_journaling_translations,
       ...am_profile_translations,
@@ -44,11 +49,11 @@ const translations = {
       ...am_setting_translations,
       ...am_tracking_translations,
       ...am_wheel_translations,
+      ...am_stat_translations,
     },
   },
 };
 i18n
-
   // pass the i18n instance to react-i18next.
   .use(initReactI18next)
   // init i18next

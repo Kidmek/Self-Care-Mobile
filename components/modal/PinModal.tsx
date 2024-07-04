@@ -96,12 +96,20 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
   };
 
   const renderSingleKey = (i: number) => {
+    const pressable = i !== 12 || savePin || settings?.[SETTING_STRINGS.ENABLE_BIOMETRICS] === true;
     return (
-      <TouchableOpacity key={i} style={styles.singleKey} onPress={() => handlePress(i)}>
+      <TouchableOpacity
+        key={i}
+        style={styles.singleKey}
+        onPress={() => {
+          if (pressable) {
+            handlePress(i);
+          }
+        }}>
         {i === 10 ? (
           <Ionicons name="backspace" color="white" size={SIZES.xxLarge} />
         ) : i === 12 ? (
-          (savePin || settings?.[SETTING_STRINGS.ENABLE_BIOMETRICS] === true) && (
+          pressable && (
             <Ionicons
               name={savePin ? 'checkmark' : 'finger-print'}
               color="white"
@@ -183,7 +191,13 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
                     color: 'red',
                   },
                 ]}>
-                <Text style={styles.headerText}>
+                <Text
+                  style={[
+                    styles.headerText,
+                    error && {
+                      color: 'red',
+                    },
+                  ]}>
                   {error ? t(SETTING_STRINGS.WRONG_PIN) : t(SETTING_STRINGS.ENTER_PIN)}
                 </Text>
               </Text>

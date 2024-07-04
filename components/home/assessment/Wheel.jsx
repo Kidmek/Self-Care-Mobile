@@ -1,23 +1,17 @@
 import { useNavigation } from 'expo-router';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import LifeWheel from './LifeWheel';
 
-import { addAnalyticApi } from '~/api/analytics';
-import { getWheelData, setWheelData } from '~/api/storage';
+import { addWheelHistory, getWheelData, setWheelData, setWheelHistories } from '~/api/storage';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import InfoModal from '~/components/modal/InfoModal';
 import WheelModal from '~/components/modal/WheelModal';
-import { AnalyticField } from '~/constants/strings/common';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
-import {
-  WHEEL_SECTIONS,
-  WHEEL_SECTIONS_AMH,
-  WHEEL_STRINGS,
-} from '~/constants/strings/home/assessment/wheel';
+import { WHEEL_SECTIONS, WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
 import { FONT, SIZES, WHEEL_COLORS } from '~/constants/theme';
 import { checkIfAmh } from '~/utils/helper';
 
@@ -26,11 +20,10 @@ export default function Wheel() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const radius = 160;
-
   const [visible, setVisible] = useState(false);
   const [infoVisible, setInfoVisible] = useState(false);
   const [selected, setSelected] = useState();
+  const changed = useRef(null);
 
   const fetchData = async () => {
     const data = await getWheelData();
@@ -68,13 +61,21 @@ export default function Wheel() {
     });
     await setWheelData([...prev]);
     setWheels([...prev]);
+    changed.current = [...prev];
   };
-
   useEffect(() => {
     fetchData();
-    addAnalyticApi({
-      type: AnalyticField.WHEEL,
-    });
+    // addAnalyticApi({
+    //   type: AnalyticField.WHEEL,
+    // });
+    return () => {
+      if (changed.current) {
+        addWheelHistory({
+          data: changed.current,
+          time: new Date(),
+        });
+      }
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -108,12 +109,7 @@ export default function Wheel() {
         type={ASSESSMENT_STRINGS.LIFE_WHEEL}
       />
       <ScrollView style={{ flex: 1 }}>
-        <LifeWheel
-          segments={wheels}
-          radius={radius}
-          handlePress={handlePress}
-          isAmh={checkIfAmh()}
-        />
+        <LifeWheel segments={wheels} handlePress={handlePress} />
         <View style={styles.descContainer}>
           <Text style={styles.descHeader}>{t(WHEEL_STRINGS.DESCRIPTION)}</Text>
           {WHEEL_SECTIONS.map((s, i) => {

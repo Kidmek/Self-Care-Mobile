@@ -19,6 +19,8 @@ export default function Setting() {
   const { t } = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [awayForOpen, setAwayForOpen] = useState(false);
+
   const [settings, setSettings] = useState({});
   const [visible, setVisible] = useState(false);
 
@@ -171,6 +173,42 @@ export default function Setting() {
         <View style={styles.category}>
           <Text style={styles.categoryHeader}>{t(SETTING_STRINGS.SECURITY)}</Text>
           {renderSingle(SETTING_STRINGS.PIN_LOCK)}
+          <View style={styles.singleSetting}>
+            <Text style={[styles.singleSettingHeader]}>{t(SETTING_STRINGS.AWAT_FOR)}</Text>
+
+            <DropDownPicker
+              style={{
+                backgroundColor: 'transparent',
+              }}
+              containerStyle={{
+                width: '35%',
+                alignSelf: 'flex-end',
+                backgroundColor: 'transparent',
+                zIndex: 100,
+              }}
+              value={settings[SETTING_STRINGS.AWAT_FOR]}
+              items={[
+                {
+                  value: 30,
+                  label: '30 minute',
+                },
+                {
+                  value: 60,
+                  label: '1 hour',
+                },
+                {
+                  value: 24,
+                  label: '1 day',
+                },
+              ]}
+              setOpen={setAwayForOpen}
+              open={awayForOpen}
+              onSelectItem={(v) => {
+                setSettings({ ...settings, [SETTING_STRINGS.AWAT_FOR]: v.value });
+              }}
+              placeholder=""
+            />
+          </View>
           {renderSingle(
             SETTING_STRINGS.ENABLE_BIOMETRICS,
             !checkPin() || !LocalAuthentication.hasHardwareAsync()

@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   single: (active) => {
     return {
       padding: SIZES.xxSmall,
-      backgroundColor: active ? COLORS.uiElementColors.text.primary : COLORS.gray2,
+      backgroundColor: active ? COLORS.primary : COLORS.gray2,
       borderRadius: SIZES.xxLarge,
     };
   },

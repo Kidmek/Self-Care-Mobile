@@ -55,6 +55,7 @@ export const logout = async () => {
   await AsyncStorage.clear();
 };
 
+//
 export const setWheelData = async (data) => {
   await AsyncStorage.setItem(ASSESSMENT_STRINGS.LIFE_WHEEL, JSON.stringify(data));
 };
@@ -63,11 +64,12 @@ export const getWheelData = async () => {
   const wheelData = await AsyncStorage.getItem(ASSESSMENT_STRINGS.LIFE_WHEEL);
   return JSON.parse(wheelData);
 };
+//
 
 // export const deleteTrackingInfo = async (id)=>{
 //   await
 // }
-
+//
 export const setTrackingInfo = async (data) => {
   await AsyncStorage.setItem(ASSESSMENT_STRINGS.MOOD_TRACKING, JSON.stringify(data));
 };
@@ -76,6 +78,7 @@ export const getTrackingInfo = async () => {
   const data = await AsyncStorage.getItem(ASSESSMENT_STRINGS.MOOD_TRACKING);
   return JSON.parse(data);
 };
+//
 
 export const setLocalJournals = async (data) => {
   await AsyncStorage.setItem(TECHNIQUES_STRINGS.JOURNALING, JSON.stringify(data));
@@ -95,6 +98,8 @@ export const editLocalJournal = async (data) => {
   setLocalJournals([...prev.filter((j) => j.time !== data.time), data]);
 };
 
+//
+
 export const setLocalReminders = async (data) => {
   await AsyncStorage.setItem(HOME_STRINGS.REMINDER, JSON.stringify(data));
 };
@@ -103,10 +108,13 @@ export const getLocalReminders = async () => {
   const data = await AsyncStorage.getItem(HOME_STRINGS.REMINDER);
   return JSON.parse(data);
 };
+
 export const addLocalReminder = async (data) => {
   const prev = (await getLocalReminders()) ?? [];
   setLocalJournals([...prev, data]);
 };
+
+//
 
 export const setLocalSettings = async (data) => {
   await AsyncStorage.setItem(HOME_STRINGS.SETTING, JSON.stringify(data));
@@ -117,6 +125,8 @@ export const getLocalSettings = async () => {
   return JSON.parse(data);
 };
 
+//
+
 export const setLastLoggedIn = async (data) => {
   await AsyncStorage.setItem(SETTING_STRINGS.LAST_LOGIN, JSON.stringify(data));
 };
@@ -125,6 +135,8 @@ export const getLastLoggedIn = async () => {
   const data = await AsyncStorage.getItem(SETTING_STRINGS.LAST_LOGIN);
   return JSON.parse(data);
 };
+
+//
 
 export const setReminderResult = async (data) => {
   await AsyncStorage.setItem(REMINDER_STRINGS.HISTORY, JSON.stringify(data));
@@ -138,6 +150,8 @@ export const addReminderResult = async (data) => {
   const prev = (await getReminderResult()) ?? [];
   setReminderResult([...prev, data]);
 };
+
+//
 export const getAnalytics = async () => {
   const data = await AsyncStorage.getItem(HOME_STRINGS.STATISTICS);
   return JSON.parse(data) ?? {};
@@ -148,6 +162,35 @@ export const setAnalytics = async (data) => {
 };
 
 export const addAnalytic = async (data) => {
-  const prev = (await getReminderResult()) ?? {};
+  const prev = (await getAnalytics()) ?? {};
   setAnalytics({ ...prev, data });
+};
+//
+
+export const getWheelHistories = async () => {
+  const data = await AsyncStorage.getItem(ASSESSMENT_STRINGS.LIFE_WHEEL + REMINDER_STRINGS.HISTORY);
+  return JSON.parse(data) ?? [];
+};
+
+export const setWheelHistories = async (data) => {
+  await AsyncStorage.setItem(
+    ASSESSMENT_STRINGS.LIFE_WHEEL + REMINDER_STRINGS.HISTORY,
+    JSON.stringify(data)
+  );
+};
+
+export const addWheelHistory = async (data) => {
+  const prev = (await getWheelHistories()) ?? [];
+  if (prev.length) {
+    const filtered = [];
+    prev.some((p) => {
+      const diff = new Date().getTime() - new Date(p.time).getTime();
+      const days = Math.floor(diff / (1000 * 60 * 30));
+      if (days <= 31) {
+        filtered.push(p);
+      }
+      return days > 31;
+    });
+  }
+  setWheelHistories([data, ...prev]);
 };

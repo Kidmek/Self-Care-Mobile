@@ -43,8 +43,8 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
       postSkeleton({
         url: 'auth/verify-otp',
         dataToSend: { email: user?.email, otp: code, save: !isForgotPass, newEmail: email },
-        errorMsg: 'Unable to verify',
-        successMsg: 'Successfully verified',
+        errorMsg: t(AUTH_STRINGS.UNABLE_TO_VERIFY),
+        successMsg: '',
         onSuccess: () => {
           // setTimer(WAIT_TIME);
           if (onSuccess) {
@@ -63,14 +63,11 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
         setLoading,
       });
     } else {
-      setErrortext('Please fill out all slots');
+      setErrortext(t(AUTH_STRINGS.OTP_ERROR));
     }
   };
   const resend = async (changeVal) => {
-    console.log(changeVal);
     const user = await getUserData();
-    console.log('Is Email', isEmail);
-    console.log(email);
     postSkeleton({
       url: 'auth/resend-otp',
       params: {
@@ -79,10 +76,11 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
         newEmail: email,
         isEmail: changeVal !== undefined ? changeVal : isEmail,
       },
-      errorMsg: 'Unable to resend',
-      successMsg: 'Successfully resent',
+      errorMsg: t(AUTH_STRINGS.UNABLE_TO_SEND_VERIFICATION),
+      successMsg: '',
       onSuccess: () => {
         setTimer(WAIT_TIME);
+        setCode('');
       },
       toast,
       setLoading,
@@ -136,8 +134,9 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
           style={{
             ...authStyles.subHeader,
           }}>
-          {t(AUTH_STRINGS.VERIFICATION_PLACEHOLDER)}{' '}
-          {isEmail ? t(AUTH_STRINGS.EMAIL) : t(AUTH_STRINGS.PHONE)}
+          {t(AUTH_STRINGS.VERIFICATION_PLACEHOLDER, {
+            sent_to: isEmail ? t(AUTH_STRINGS.EMAIL) : t(AUTH_STRINGS.PHONE),
+          })}
         </Text>
         <CodeField
           ref={ref}
