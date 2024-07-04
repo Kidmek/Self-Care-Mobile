@@ -65,11 +65,11 @@ export default function Wheel() {
   };
   useEffect(() => {
     fetchData();
-    // addAnalyticApi({
-    //   type: AnalyticField.WHEEL,
-    // });
     return () => {
       if (changed.current) {
+        addAnalyticApi({
+          type: AnalyticField.WHEEL,
+        });
         addWheelHistory({
           data: changed.current,
           time: new Date(),
