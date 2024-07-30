@@ -1,6 +1,5 @@
 import { useStoreActions } from 'easy-peasy';
-import { Tabs, router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 
@@ -14,14 +13,7 @@ import { COLORS } from '~/constants/theme';
 export default function TabLayout() {
   // @ts-ignore
   const showModal = useStoreActions((action) => action.showModal);
-  const [hasNotification, setHasNotification] = useState(false);
   const { t: i18n } = useTranslation();
-
-  useEffect(() => {
-    setTimeout(() => {
-      setHasNotification(true);
-    }, 3000);
-  }, []);
 
   return (
     <Tabs

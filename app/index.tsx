@@ -61,8 +61,7 @@ export default function Auth() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      // @ts-ignore
-      router.push('/(drawer)/(tabs)');
+      router.replace('/(drawer)/(tabs)');
     }
   }, [isLoggedIn, rootNavigationState?.key]);
 

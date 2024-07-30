@@ -1,9 +1,9 @@
 {
   "expo": {
     "name": "Self Care",
-    "slug": "SelfCare",
+    "slug": "self-care",
     "version": "1.0.0",
-    "scheme": "Self Care",
+    "scheme": "selfcare",
     "web": {
       "bundler": "metro",
       "output": "static",

@@ -5,11 +5,13 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import LifeWheel from './LifeWheel';
 
-import { addWheelHistory, getWheelData, setWheelData, setWheelHistories } from '~/api/storage';
+import { addAnalyticApi } from '~/api/analytics';
+import { addWheelHistory, getWheelData, setWheelData } from '~/api/storage';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import InfoModal from '~/components/modal/InfoModal';
 import WheelModal from '~/components/modal/WheelModal';
+import { AnalyticField } from '~/constants/strings/common';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
 import { WHEEL_SECTIONS, WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
 import { FONT, SIZES, WHEEL_COLORS } from '~/constants/theme';

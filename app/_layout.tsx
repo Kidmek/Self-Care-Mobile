@@ -22,7 +22,7 @@ import { getMinutes } from '~/utils/helper';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(drawer)',
+  initialRouteName: 'index',
 };
 
 Notifications.setNotificationHandler({
@@ -109,8 +109,8 @@ export default function RootLayout() {
         renderToast={(toast) => <Toast toast={toast} />}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Stack>
-            <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             <Stack.Screen name="assessment" options={{ headerShown: false }} />
             <Stack.Screen name="techniques" options={{ headerShown: false }} />
             <Stack.Screen
