@@ -1,6 +1,5 @@
 import { useStoreActions } from 'easy-peasy';
-import { useLocalSearchParams } from 'expo-router';
-import { useNavigation } from 'expo-router/src/useNavigation';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet } from 'react-native';

@@ -1,6 +1,5 @@
 import { useStoreActions } from 'easy-peasy';
-import { useFocusEffect } from 'expo-router';
-import { useNavigation } from 'expo-router/src/useNavigation';
+import { useFocusEffect, useNavigation } from 'expo-router';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, ScrollView, StyleSheet } from 'react-native';
