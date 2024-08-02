@@ -11,6 +11,7 @@ import { postSkeleton } from '~/api/apiConfig';
 import { setUserData, setToken } from '~/api/storage';
 import CustomButton from '~/common/button/CustomButton';
 import CustomInput from '~/common/input/CustomInput';
+import { API, changeAPI } from '~/constants/strings/api';
 import { AUTH_STRINGS } from '~/constants/strings/auth';
 import { AUTH_STAGE, emailRegEx, phoneRegEx } from '~/constants/strings/common';
 import { COLORS, SIZES } from '~/constants/theme';
@@ -22,12 +23,14 @@ export default function Login({ setStep }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [api, setApi] = useState(API);
 
   const setLoading = useStoreActions((actions) => actions.setLoading);
   const setForgotPass = useStoreActions((actions) => actions.setForgotPass);
   const isForgotPass = useStoreState((state) => state.isForgotPass);
 
   const login = () => {
+    changeAPI(api);
     const errors = {};
 
     if (!username?.match(emailRegEx) && !username?.match(phoneRegEx)) {
@@ -113,6 +116,14 @@ export default function Login({ setStep }) {
         </Text>
 
         <View style={authStyles.inputContainer}>
+          <CustomInput
+            state={api}
+            setState={(v) => {
+              setApi(v);
+            }}
+            label="Server IP"
+            placeholder="Server IP"
+          />
           <CustomInput
             state={username}
             setState={(v) => {

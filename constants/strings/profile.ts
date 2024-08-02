@@ -3,8 +3,8 @@ import { makeObjects } from '~/utils/helper';
 export const en_profile_translations = {
   CHANGE_EMAIL: 'Change Email',
   CHANGE_PASSWORD: 'Change Password',
-  PASSWORD: 'Current Password',
-  PASSWORD_PLACEHOLDER: 'Enter your current password',
+  CURRENT_PASSWORD: 'Current Password',
+  CURRENT_PASSWORD_PLACEHOLDER: 'Enter your current password',
   CONFIRM: 'Confirm',
   WRONG_PASSWORD: 'Wrong Password',
   CHANGE: 'Change',
@@ -23,8 +23,8 @@ export const PROFILE_STRINGS: { [placeholder in ProfileStringsKeys]: string } = 
 export const am_profile_translations: { [placeholder in ProfileStringsKeys]: string } = {
   CHANGE_EMAIL: 'ኢሜል ይቀይሩ',
   CHANGE_PASSWORD: 'ፕስወርድ ይቀይሩ',
-  PASSWORD: 'ወቅታዊ ፕስወርድ',
-  PASSWORD_PLACEHOLDER: 'ወቅታዊ ፕስወርድዎን ያስገቡ',
+  CURRENT_PASSWORD: 'ወቅታዊ ፕስወርድ',
+  CURRENT_PASSWORD_PLACEHOLDER: 'ወቅታዊ ፕስወርድዎን ያስገቡ',
   CONFIRM: 'አረጋግጥ',
   WRONG_PASSWORD: 'ልክ ያልሆነ ፕስወርድ',
   CHANGE: 'ቀይር',

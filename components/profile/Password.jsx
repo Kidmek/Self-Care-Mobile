@@ -53,8 +53,8 @@ export default function Password() {
         <CustomInput
           state={password}
           setState={(v) => setPassword(v)}
-          label={t(PROFILE_STRINGS.PASSWORD)}
-          placeholder={t(PROFILE_STRINGS.PASSWORD_PLACEHOLDER)}
+          label={t(PROFILE_STRINGS.CURRENT_PASSWORD)}
+          placeholder={t(PROFILE_STRINGS.CURRENT_PASSWORD_PLACEHOLDER)}
           name="password"
           error={errors['password']}
           isPassword
