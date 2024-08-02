@@ -11,6 +11,7 @@ import {
   Pressable,
   TouchableOpacity,
   BackHandler,
+  Platform,
 } from 'react-native';
 
 import { setLastLoggedIn } from '~/api/storage';
@@ -78,19 +79,26 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
     setVisible(false);
     setLastLoggedIn(new Date());
   };
+
   const renderSingle = (i: number) => {
+    const pinValue = pin.at(i)!;
+    const pinLength = pin.join('').trim().length;
+    let value = '*';
+    if (i === pinLength - 1) {
+      value = pinValue;
+    } else if (i > pinLength - 1) {
+      value = '';
+    }
+
     return (
       <TextInput
         ref={(el) => (refs.current[i] = el)}
         showSoftInputOnFocus={false}
         key={i}
-        value={pin.at(i)}
+        value={value}
         style={styles.input}
-        onFocus={() => {
-          setFocused(i);
-        }}
-        secureTextEntry
         editable={false}
+        focusable={false}
       />
     );
   };
@@ -135,7 +143,6 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
 
   useEffect(() => {
     const entered = pin.join('').trim();
-    // console.log(settings?.[SETTING_STRINGS.CHANGE_PIN]);
     if (entered.length === 4 && !savePin) {
       if (settings?.[SETTING_STRINGS.CHANGE_PIN] === entered) {
         handleAuthenticated();
@@ -146,12 +153,15 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
   }, [pin]);
 
   useEffect(() => {
-    if (visible) {
-      StatusBar.setBackgroundColor(COLORS.secondary, true); // Set the background color
-    } else {
-      // Revert to default status bar settings or other desired settings when modal is closed
-      StatusBar.setBackgroundColor('transparent', true); // Assuming the default is transparent
+    if (Platform.OS === 'android') {
+      if (visible) {
+        StatusBar.setBackgroundColor(COLORS.secondary, true); // Set the background color
+      } else {
+        // Revert to default status bar settings or other desired settings when modal is closed
+        StatusBar.setBackgroundColor('transparent', true); // Assuming the default is transparent
+      }
     }
+
     setPin(['', '', '', '']);
     setFocused(0);
   }, [visible]);
@@ -164,7 +174,7 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
       onRequestClose={() => {
         setVisible(false);
       }}>
-      <View style={styles.container}>
+      <View style={[styles.container, { paddingTop: Platform.OS === 'android' ? 0 : SIZES.large }]}>
         <Pressable
           style={styles.iconContainer}
           onPress={() => {
@@ -174,7 +184,9 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
               BackHandler.exitApp();
             }
           }}>
-          <Ionicons name="close-circle" size={SIZES.tabHeight} color="white" />
+          {(Platform.OS === 'android' || savePin) && (
+            <Ionicons name="close-circle" size={SIZES.tabHeight} color="white" />
+          )}
         </Pressable>
         <View style={styles.body}>
           {!savePin ? (
@@ -244,13 +256,14 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: StyleSheet.hairlineWidth,
-    padding: SIZES.small,
     borderRadius: SIZES.medium,
     textAlign: 'center',
     borderColor: COLORS.white,
     color: COLORS.white,
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
+    width: SIZES.smallPicture * 0.5,
+    height: SIZES.smallPicture * 0.5,
   },
   singleKey: {
     borderWidth: StyleSheet.hairlineWidth,

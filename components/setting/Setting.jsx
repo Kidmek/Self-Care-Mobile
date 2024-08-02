@@ -239,7 +239,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.medium,
     gap: SIZES.large,
   },
-  category: {},
+  category: {
+    gap: SIZES.large,
+  },
   categoryHeader: {
     fontFamily: FONT.medium,
     fontSize: SIZES.xLarge,

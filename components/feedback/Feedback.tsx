@@ -2,15 +2,7 @@ import { useStoreActions } from 'easy-peasy';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import { StyleSheet, View, Text, TextInput, ScrollView } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 
 import { postSkeleton } from '~/api/apiConfig';
@@ -28,7 +20,6 @@ export default function Feedback() {
   const setLoading = useStoreActions((actions) => actions.setLoading);
 
   const handleSubmit = () => {
-    console.log('Submitting');
     // @ts-ignore
     postSkeleton({
       url: 'feedbacks',
@@ -71,7 +62,11 @@ export default function Feedback() {
           />
         </View>
 
-        <CustomButton title={t(INFO_STRINGS.SUBMIT_FEEDBACK)} onPress={handleSubmit} />
+        <CustomButton
+          title={t(INFO_STRINGS.SUBMIT_FEEDBACK)}
+          onPress={handleSubmit}
+          disabled={!feedback || !improvement}
+        />
       </ScrollView>
     </ImageContainer>
   );

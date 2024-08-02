@@ -11,7 +11,7 @@ import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { TECHNIQUES_STRINGS, TipType } from '~/constants/strings/home/self care/techniques';
-import { COLORS, SIZES } from '~/constants/theme';
+import { COLORS, height, SIZES } from '~/constants/theme';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -89,8 +89,10 @@ export default function Home() {
 
   return (
     <ImageContainer hasTab>
-      {/* @ts-ignore */}
-      <ScrollView style={commonStyles.container()} contentContainerStyle={{ gap: SIZES.xLarge }}>
+      <ScrollView
+        // @ts-ignore
+        style={commonStyles.container()}
+        contentContainerStyle={{ gap: SIZES.xLarge }}>
         {renderCardContainer(t(HOME_STRINGS.SELF_ASSESSMENT), [
           {
             title: t(ASSESSMENT_STRINGS.LIFE_WHEEL),

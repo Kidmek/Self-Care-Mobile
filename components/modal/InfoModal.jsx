@@ -63,6 +63,9 @@ export default function InfoModal({ visible, setVisible, t, type }) {
               contentContainerStyle={styles.infoContainer}
               showsVerticalScrollIndicator={false}>
               {Object.entries(getStrings()).map(([k, v]) => {
+                if (k === 'NB_STEP') {
+                  return;
+                }
                 const isNB = getStrings()['NB_STEP'] === k;
                 return (
                   <View key={k} style={styles.singleStepContainer}>

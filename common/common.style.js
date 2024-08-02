@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { COLORS, FONT, SIZES, height, width } from '~/constants/theme';
+import { COLORS, FONT, SIZES } from '~/constants/theme';
 
 export const commonStyles = StyleSheet.create({
   largeImage: {
@@ -20,8 +20,6 @@ export const commonStyles = StyleSheet.create({
     };
   },
   headerLeft: {
-    // marginTop: SIZES.medium,
-    // marginHorizontal: SIZES.medium,
     borderRadius: SIZES.largePicture,
     borderWidth: StyleSheet.hairlineWidth,
     height: SIZES.xxLarge * 1.5,

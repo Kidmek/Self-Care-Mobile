@@ -55,28 +55,28 @@ export default function ContactUs() {
         <View style={styles.card}>
           <Text style={styles.cardHeader}>{t(INFO_STRINGS.SOCIAL_MEDIA)}</Text>
           {renderSingleCard(
-            `mailto:${INFO.EMAIL_ADDRESS}`,
+            `https://www.instagram.com/${INFO.INSTAGRAM}`,
             t(INFO_STRINGS.INSTAGRAM),
             INFO.INSTAGRAM,
             'logo-instagram'
           )}
 
           {renderSingleCard(
-            `mailto:${INFO.EMAIL_ADDRESS}`,
+            `https://www.x.com/${INFO.TWITTER}`,
             t(INFO_STRINGS.TWITTER),
             INFO.TWITTER,
             'logo-twitter'
           )}
 
           {renderSingleCard(
-            `mailto:${INFO.EMAIL_ADDRESS}`,
+            `https://www.facebook.com/${INFO.FACEBOOK}`,
             t(INFO_STRINGS.FACEBOOK),
             INFO.FACEBOOK,
             'logo-facebook'
           )}
 
           {renderSingleCard(
-            `mailto:${INFO.EMAIL_ADDRESS}`,
+            `https://t.me/${INFO.TELEGRAM}`,
             t(INFO_STRINGS.TELEGRAM),
             INFO.TELEGRAM,
             null,

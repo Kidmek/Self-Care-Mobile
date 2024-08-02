@@ -48,14 +48,13 @@ export const emailRegEx = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 export const INFO = {
   PHONE_NUM: '+241920202020',
   EMAIL_ADDRESS: 'test@gmail.com',
-  INSTAGRAM: '@testtest',
-  FACEBOOK: '@testtest',
+  INSTAGRAM: 'testtest',
+  FACEBOOK: 'testtest',
   TWITTER: '@testtest',
-  TELEGRAM: '@testtest',
+  TELEGRAM: 'testtest',
 };
 
 export const languages = [
   { value: 'en', label: 'English' },
   { value: 'am', label: 'Amharic' },
-  { value: 'af', label: 'Afargna' },
 ];

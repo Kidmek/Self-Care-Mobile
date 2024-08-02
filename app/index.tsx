@@ -60,9 +60,11 @@ export default function Auth() {
   }, []);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      // @ts-ignore
-      router.replace('/(drawer)/(tabs)');
+    if (isLoggedIn !== undefined) {
+      if (isLoggedIn || true) {
+        // @ts-ignore
+        router.replace('/(drawer)/(tabs)');
+      }
     }
   }, [isLoggedIn, rootNavigationState?.key]);
 

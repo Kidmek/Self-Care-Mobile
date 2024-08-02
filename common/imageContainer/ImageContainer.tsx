@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, Platform } from 'react-native';
 
 import { SIZES, width, height } from '~/constants/theme';
 
@@ -19,7 +19,11 @@ export default function ImageContainer({
       style={{
         flex: 1,
         paddingTop: SIZES.navHeight,
-        paddingBottom: hasTab ? SIZES.tabHeight : 0,
+        paddingBottom: hasTab
+          ? Platform.OS === 'android'
+            ? SIZES.tabHeight
+            : SIZES.tabHeight * 1.6
+          : 0,
         // position: 'absolute',
         width,
         height,

@@ -31,15 +31,6 @@ export default function TabLayout() {
         options={{
           title: i18n(HOME_STRINGS.HOME),
           tabBarIcon: ({ color }) => <TabIcon name="home" color={color} />,
-          // headerRight: () => (
-          //   <HeaderIcon
-          //     name={hasNotification ? 'notifications' : 'notifications-outline'}
-          //     margin
-          //     onPress={() => {
-          //       router.push('/notification');
-          //     }}
-          //   />
-          // ),
         }}
       />
       <Tabs.Screen
@@ -62,13 +53,6 @@ export default function TabLayout() {
           },
         })}
       />
-      <Tabs.Screen
-        name="notification"
-        options={{
-          tabBarItemStyle: { display: 'none' },
-          headerLeft: () => <HeaderIcon type={HEADER_TYPES.BACK} margin />,
-        }}
-      />
     </Tabs>
   );
 }
@@ -78,7 +62,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: 'transparent',
     elevation: 0,
-    borderTopColor: COLORS.uiElementColors.iconsAndButtons.lightBlue,
     borderTopWidth: 0,
   },
 });
