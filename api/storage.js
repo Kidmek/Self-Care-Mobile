@@ -53,6 +53,7 @@ export const setRole = async (role) => {
 
 export const logout = async () => {
   await AsyncStorage.clear();
+  await initilizeSettings();
 };
 
 //
@@ -90,12 +91,19 @@ export const getLocalJournals = async () => {
 };
 export const addLocalJournal = async (data) => {
   const prev = (await getLocalJournals()) ?? [];
-  setLocalJournals([...prev, data]);
+  setLocalJournals([data, ...prev]);
 };
 
 export const editLocalJournal = async (data) => {
   const prev = (await getLocalJournals()) ?? [];
-  setLocalJournals([...prev.filter((j) => j.time !== data.time), data]);
+
+  setLocalJournals([
+    ...prev.map((j) => {
+      if (j.time === data.time) {
+        return data;
+      } else return j;
+    }),
+  ]);
 };
 
 //
@@ -115,6 +123,22 @@ export const addLocalReminder = async (data) => {
 };
 
 //
+
+export const initilizeSettings = async () => {
+  const initSettings = {};
+  // @ts-ignore
+  initSettings[SETTING_STRINGS.ALLOW_NOTIFIACTION] = true;
+  // @ts-ignore
+  initSettings[SETTING_STRINGS.PIN_LOCK] = false;
+  // @ts-ignore
+  initSettings[SETTING_STRINGS.SOUND] = true;
+  // @ts-ignore
+  initSettings[SETTING_STRINGS.VIBRATION] = true;
+  // @ts-ignore
+  initSettings[SETTING_STRINGS.AWAT_FOR] = 30;
+  setLocalSettings(initSettings);
+  console.log('Initialized Settings', initSettings);
+};
 
 export const setLocalSettings = async (data) => {
   await AsyncStorage.setItem(HOME_STRINGS.SETTING, JSON.stringify(data));
@@ -160,7 +184,7 @@ export const getReminderResult = async () => {
 };
 export const addReminderResult = async (data) => {
   const prev = (await getReminderResult()) ?? [];
-  setReminderResult([...prev, data]);
+  setReminderResult([data, ...prev]);
 };
 
 //
@@ -175,7 +199,7 @@ export const setAnalytics = async (data) => {
 
 export const addAnalytic = async (data) => {
   const prev = (await getAnalytics()) ?? {};
-  setAnalytics({ ...prev, data });
+  setAnalytics({ data, ...prev });
 };
 //
 

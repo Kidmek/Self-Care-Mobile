@@ -20,7 +20,6 @@ export type Reminder = {
 };
 
 export async function scheduleNotification(
-  now: boolean,
   day: string | null,
   time: string,
   title: string,
@@ -56,22 +55,18 @@ export async function scheduleNotification(
 
   const [timeString, AM_PM] = time ? time?.trim()?.split(/(\s+)/) : ['', ''];
   const [hour, minute] = time ? timeString?.split(':').map(Number) : [0, 0];
-  const trigger = now
+  const trigger = day
     ? {
-        seconds: 5,
+        hour: hour + (AM_PM === 'AM' ? 0 : 12),
+        minute,
+        weekday: Object.keys(DAYS).indexOf(day) + 2,
+        repeats: true,
       }
-    : day
-      ? {
-          hour: hour + (AM_PM === 'AM' ? 0 : 12),
-          minute,
-          weekday: Object.keys(DAYS).indexOf(day) + 2,
-          repeats: true,
-        }
-      : {
-          hour: hour + (AM_PM === 'AM' ? 0 : 12),
-          minute,
-          repeats: true,
-        };
+    : {
+        hour: hour + (AM_PM === 'AM' ? 0 : 12),
+        minute,
+        repeats: true,
+      };
   const channelId =
     vibrate && sound
       ? 'default'
@@ -116,7 +111,6 @@ export async function changeAllType(vibration: boolean, sound: boolean, t: any) 
     if (REMINDER_FREQUENCY[data.frequency] === REMINDER_FREQUENCY.DAILY) {
       notificationId = [
         await scheduleNotification(
-          false,
           null,
           data?.time,
           t(REMINDER_STRINGS.SELF_CARE_REMINDER),
@@ -130,7 +124,6 @@ export async function changeAllType(vibration: boolean, sound: boolean, t: any) 
       for (const day in days) {
         notificationId.push(
           await scheduleNotification(
-            false,
             day,
             data?.time,
             t(REMINDER_STRINGS.SELF_CARE_REMINDER),

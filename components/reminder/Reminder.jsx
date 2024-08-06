@@ -78,7 +78,6 @@ export default function Reminder() {
             notificationId = [
               // TEST
               await scheduleNotification(
-                true,
                 null,
                 data?.time,
                 t(REMINDER_STRINGS.SELF_CARE_REMINDER),
@@ -92,7 +91,6 @@ export default function Reminder() {
             for (const day in days) {
               notificationId.push(
                 await scheduleNotification(
-                  true,
                   day,
                   data?.time,
                   t(REMINDER_STRINGS.SELF_CARE_REMINDER),

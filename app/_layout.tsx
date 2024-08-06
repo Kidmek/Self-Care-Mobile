@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ToastProvider } from 'react-native-toast-notifications';
 
-import { getLanguage, getLocalSettings, setLocalSettings } from '~/api/storage';
+import { getLanguage, getLocalSettings, initilizeSettings, setLocalSettings } from '~/api/storage';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import Loader from '~/common/loader/Loader';
 import { store } from '~/common/store';
@@ -37,19 +37,7 @@ export default function RootLayout() {
     });
     getLocalSettings().then(async (s) => {
       if (s === null) {
-        const initSettings = {};
-        // @ts-ignore
-        initSettings[SETTING_STRINGS.ALLOW_NOTIFIACTION] = true;
-        // @ts-ignore
-        initSettings[SETTING_STRINGS.PIN_LOCK] = false;
-        // @ts-ignore
-        initSettings[SETTING_STRINGS.SOUND] = true;
-        // @ts-ignore
-        initSettings[SETTING_STRINGS.VIBRATION] = true;
-        // @ts-ignore
-        initSettings[SETTING_STRINGS.AWAT_FOR] = 30;
-        setLocalSettings(initSettings);
-        console.log('Initialized Settings', initSettings);
+        await initilizeSettings();
       }
     });
   }, []);
