@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Dimensions, Text, Pressable } from 'react-native';
+import { View, Dimensions, Text } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
 import { TRACKING, TRACKING_EMOJIS } from '~/constants/strings/home/assessment/tracking';
@@ -29,8 +29,8 @@ const LineGraph: React.FC<LineGraphProps> = ({ data, onPress }) => {
         width={Dimensions.get('window').width - SIZES.large * 2} // from react-native
         height={450}
         chartConfig={{
-          backgroundColor: COLORS.primary,
-          backgroundGradientFrom: COLORS.primary,
+          backgroundColor: '#7BA9AA',
+          backgroundGradientFrom: '#7BA9AA',
           backgroundGradientTo: COLORS.secondary,
           decimalPlaces: 0,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,

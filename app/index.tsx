@@ -61,7 +61,7 @@ export default function Auth() {
 
   useEffect(() => {
     if (isLoggedIn !== undefined) {
-      if (isLoggedIn || true) {
+      if (isLoggedIn) {
         // @ts-ignore
         router.replace('/(drawer)/(tabs)');
       }

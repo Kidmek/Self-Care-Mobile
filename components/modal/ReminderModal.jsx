@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Modal, TouchableOpacity } from 'react-native';
 
 import { modalStyles } from './modal.style';
@@ -51,6 +51,18 @@ const ReminderModal = ({ visible, setVisible, save, t }) => {
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
+  useEffect(() => {
+    if (visible) {
+      setValue({
+        type: '',
+        frequency: '',
+        day: '',
+        time: '',
+      });
+    }
+  }, [visible]);
+
   return (
     <Modal
       animationType="slide"

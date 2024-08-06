@@ -75,9 +75,9 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
     }
   };
 
-  const handleAuthenticated = () => {
+  const handleAuthenticated = async () => {
+    await setLastLoggedIn(new Date());
     setVisible(false);
-    setLastLoggedIn(new Date());
   };
 
   const renderSingle = (i: number) => {
@@ -142,13 +142,17 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
   }, [focused]);
 
   useEffect(() => {
-    const entered = pin.join('').trim();
-    if (entered.length === 4 && !savePin) {
-      if (settings?.[SETTING_STRINGS.CHANGE_PIN] === entered) {
-        handleAuthenticated();
-      } else {
-        setError(true);
+    try {
+      const entered = pin?.join('').trim();
+      if (entered.length === 4 && !savePin) {
+        if (settings?.[SETTING_STRINGS.CHANGE_PIN] === entered) {
+          handleAuthenticated();
+        } else {
+          setError(true);
+        }
       }
+    } catch (err: any) {
+      alert(err);
     }
   }, [pin]);
 
@@ -164,6 +168,7 @@ export default function PinModal({ visible, setVisible, t, savePin, settings }: 
 
     setPin(['', '', '', '']);
     setFocused(0);
+    setError(false);
   }, [visible]);
 
   return (

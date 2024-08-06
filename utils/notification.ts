@@ -1,4 +1,5 @@
 import * as Notifications from 'expo-notifications';
+import { Platform } from 'react-native';
 
 import { getLocalReminders, setLocalReminders } from '~/api/storage';
 import {
@@ -25,21 +26,44 @@ export async function scheduleNotification(
   title: string,
   body: string,
   vibrate: boolean,
-  sound: boolean,
-  reminderId: string
+  sound: boolean
 ) {
+  Notifications.setNotificationHandler({
+    handleNotification: async (notification) => {
+      // Manually display the notification for Android - till foreground issue is resolved
+
+      const isManualAndroidNotification =
+        Platform.OS === 'android' && !notification.request.trigger;
+      if (Platform.OS === 'android' && notification.request.trigger) {
+        const appNotification = notification.request.content;
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: appNotification?.title || '',
+            body: appNotification?.body || '',
+          },
+          trigger: null,
+        });
+      }
+
+      return {
+        shouldShowAlert: Platform.OS === 'ios' || isManualAndroidNotification,
+        shouldPlaySound: Platform.OS === 'ios' || isManualAndroidNotification,
+        shouldSetBadge: false,
+      };
+    },
+  });
+
   const [timeString, AM_PM] = time ? time?.trim()?.split(/(\s+)/) : ['', ''];
   const [hour, minute] = time ? timeString?.split(':').map(Number) : [0, 0];
   const trigger = now
     ? {
         seconds: 5,
-        // repeats: true,
       }
     : day
       ? {
           hour: hour + (AM_PM === 'AM' ? 0 : 12),
           minute,
-          weekday: day ? Object.keys(DAYS).indexOf(day) + 2 : undefined,
+          weekday: Object.keys(DAYS).indexOf(day) + 2,
           repeats: true,
         }
       : {
@@ -47,44 +71,44 @@ export async function scheduleNotification(
           minute,
           repeats: true,
         };
-
+  const channelId =
+    vibrate && sound
+      ? 'default'
+      : !vibrate && sound
+        ? 'no-vibration'
+        : !sound && vibrate
+          ? 'no-sound'
+          : 'no-sound-vibration';
   const id = await Notifications.scheduleNotificationAsync({
     content: {
       title,
       body,
-      data: {
-        reminderId,
-      },
     },
-
-    trigger,
-    // @ts-ignore
-    channelId:
-      vibrate && sound
-        ? 'default'
-        : !vibrate && sound
-          ? 'no-vibrations'
-          : !sound && vibrate
-            ? 'no-sound'
-            : 'no-sound-vibration',
+    trigger: {
+      ...trigger,
+      channelId,
+    },
   });
-  // console.log('Notification Id', id);
+  console.log('Notification Sent ', {
+    id,
+    vibrate,
+    sound,
+    channelId,
+  });
   return id;
 }
 
 export async function cancelNotification(notifId?: string) {
   if (notifId) {
     await Notifications.cancelScheduledNotificationAsync(notifId);
-    // console.log('Canceled ', notifId);
   } else {
-    // await Notifications.dismissAllNotificationsAsync();
     await Notifications.cancelAllScheduledNotificationsAsync();
-    // console.log('Canceled All ', notifId);
   }
 }
 
 export async function changeAllType(vibration: boolean, sound: boolean, t: any) {
   await cancelNotification();
+
   const reminders = await getLocalReminders();
   let notificationId: string[] = [];
   const newReminderPromises = await reminders?.map(async (data: Reminder) => {
@@ -97,8 +121,7 @@ export async function changeAllType(vibration: boolean, sound: boolean, t: any) 
           t(REMINDER_STRINGS.SELF_CARE_REMINDER),
           REMINDER_TYPES[data.type],
           vibration,
-          sound,
-          data.createdAt
+          sound
         ),
       ];
     } else {
@@ -112,8 +135,7 @@ export async function changeAllType(vibration: boolean, sound: boolean, t: any) 
             t(REMINDER_STRINGS.SELF_CARE_REMINDER),
             REMINDER_TYPES[data.type],
             vibration,
-            sound,
-            data.createdAt
+            sound
           )
         );
       }
@@ -123,4 +145,25 @@ export async function changeAllType(vibration: boolean, sound: boolean, t: any) 
   });
   const newReminders = await Promise.all(newReminderPromises);
   setLocalReminders(newReminders);
+}
+
+export async function requestNotificationPermissions() {
+  const settings = await Notifications.getPermissionsAsync();
+
+  if (
+    settings.granted ||
+    settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL
+  ) {
+    return true;
+  } else {
+    const { status } = await Notifications.requestPermissionsAsync({
+      ios: {
+        allowAlert: true,
+        allowBadge: true,
+        allowSound: true,
+        allowAnnouncements: true,
+      },
+    });
+    return status;
+  }
 }

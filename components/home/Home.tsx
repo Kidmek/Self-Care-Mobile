@@ -1,19 +1,26 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { homeStyle } from './home.style';
+import PinModal from '../modal/PinModal';
 
+import { getLastLoggedIn, getLocalSettings } from '~/api/storage';
 import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { TECHNIQUES_STRINGS, TipType } from '~/constants/strings/home/self care/techniques';
+import { SETTING_STRINGS } from '~/constants/strings/setting';
 import { COLORS, height, SIZES } from '~/constants/theme';
+import { getMinutes } from '~/utils/helper';
 
 export default function Home() {
+  const [visible, setVisible] = useState(false);
+  const [settings, setSettings] = useState({});
+
   const { t } = useTranslation();
   const [closed, setClosed] = useState<string[]>([]);
 
@@ -87,8 +94,22 @@ export default function Home() {
     );
   };
 
+  useEffect(() => {
+    getLocalSettings().then(async (s) => {
+      const last = (await getLastLoggedIn()) ?? new Date().setFullYear(2000);
+      if (
+        s?.[SETTING_STRINGS.PIN_LOCK] === true &&
+        getMinutes(new Date(last), new Date()) > s?.[SETTING_STRINGS.AWAT_FOR]
+      ) {
+        setVisible(true);
+      }
+      setSettings(s);
+    });
+  }, []);
+
   return (
     <ImageContainer hasTab>
+      <PinModal visible={visible} setVisible={setVisible} t={t} settings={settings} />
       <ScrollView
         // @ts-ignore
         style={commonStyles.container()}

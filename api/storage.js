@@ -138,6 +138,18 @@ export const getLastLoggedIn = async () => {
 
 //
 
+export const setReminderId = async (id) => {
+  await AsyncStorage.setItem(REMINDER_STRINGS.SELF_CARE_REMINDER, id);
+};
+
+export const getReminderId = async () => {
+  return await AsyncStorage.getItem(REMINDER_STRINGS.SELF_CARE_REMINDER);
+};
+
+export const removeReminderId = async () => {
+  await AsyncStorage.removeItem(REMINDER_STRINGS.SELF_CARE_REMINDER);
+};
+
 export const setReminderResult = async (data) => {
   await AsyncStorage.setItem(REMINDER_STRINGS.HISTORY, JSON.stringify(data));
 };

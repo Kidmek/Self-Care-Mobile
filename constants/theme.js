@@ -73,7 +73,7 @@ export const SIZES = {
   tabIcons: 25,
   inputIcons: 30,
   welcomeTabIcons: 28,
-  tabHeight: height * 0.06,
+  tabHeight: height * 0.07,
   navHeight: height * 0.13,
 };
 

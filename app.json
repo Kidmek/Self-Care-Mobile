@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Self Care",
+    "name": "እኔ ለእኔ",
     "slug": "SelfCare",
     "version": "1.0.0",
     "scheme": "selfcare",
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "plugins": [
       "expo-router",
@@ -40,8 +40,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#f3e3cb"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -49,8 +48,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#f3e3cb"
       },
       "package": "com.bandaw.SelfCare"
     },

@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useStoreActions } from 'easy-peasy';
-import { router, useLocalSearchParams, useNavigation } from 'expo-router';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useFocusEffect, useNavigation } from 'expo-router';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
@@ -17,7 +17,9 @@ import {
   addReminderResult,
   getLocalReminders,
   getLocalSettings,
+  getReminderId,
   getReminderResult,
+  removeReminderId,
   setLocalReminders,
 } from '~/api/storage';
 import { commonStyles } from '~/common/common.style';
@@ -36,7 +38,6 @@ import { cancelNotification, scheduleNotification } from '~/utils/notification';
 
 export default function Reminder() {
   const navigation = useNavigation();
-  const params = useLocalSearchParams();
   const [selected, setSelected] = useState();
   const [visible, setVisible] = useState(false);
   const [isHistory, setIsHistory] = useState(false);
@@ -45,7 +46,6 @@ export default function Reminder() {
   const [history, setHistory] = useState([]);
   const { t } = useTranslation();
   const toast = useToast();
-  const checkedParams = useRef(false);
   const setLoading = useStoreActions((actions) => actions.setLoading);
 
   const fetch = async () => {
@@ -84,8 +84,7 @@ export default function Reminder() {
                 t(REMINDER_STRINGS.SELF_CARE_REMINDER),
                 t(REMINDER_TYPES[data.type]),
                 settings[SETTING_STRINGS.VIBRATION],
-                settings[SETTING_STRINGS.SOUND],
-                data.createdAt
+                settings[SETTING_STRINGS.SOUND]
               ),
             ];
           } else {
@@ -99,8 +98,7 @@ export default function Reminder() {
                   t(REMINDER_STRINGS.SELF_CARE_REMINDER),
                   t(REMINDER_TYPES[data.type]),
                   settings[SETTING_STRINGS.VIBRATION],
-                  settings[SETTING_STRINGS.SOUND],
-                  data.createdAt
+                  settings[SETTING_STRINGS.SOUND]
                 )
               );
             }
@@ -164,10 +162,7 @@ export default function Reminder() {
       addAnalyticApi({
         type: done === HOME_STRINGS.YES ? AnalyticField.REMINDER_YES : AnalyticField.REMINDER_NO,
       });
-      fetch();
       setDoneVisible(false);
-      checkedParams.current = false;
-      router.replace('/(drawer)/(tabs)/reminders');
     }
   };
 
@@ -180,6 +175,7 @@ export default function Reminder() {
       <SingleReminderResult data={item} onPressDelete={hanldeDelete} onPress={() => {}} t={t} />
     );
   };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
@@ -206,34 +202,34 @@ export default function Reminder() {
     fetch();
   }, [isHistory]);
 
-  useEffect(() => {
-    if (params.id && !checkedParams.current) {
-      const reminder = reminders.find((r) => r.createdAt === params.id);
-      if (reminder) {
-        setSelected(reminder);
-        setDoneVisible(true);
-        checkedParams.current = true;
+  useFocusEffect(() => {
+    getReminderId().then(async (id) => {
+      if (id) {
+        console.log('Reminder Not Id', id);
+        const reminder = reminders.find((r) => r.notificationId?.includes(id));
+        if (reminder) {
+          setSelected(reminder);
+          setDoneVisible(true);
+        }
+      } else {
+        if (doneVisible) {
+          setDoneVisible(false);
+        }
       }
-    }
-  }, [reminders, params]);
-
+      await removeReminderId();
+    });
+  });
   return (
-    <ImageContainer hasTab={isHistory}>
-      <ReminderModal
-        visible={visible}
-        setVisible={setVisible}
-        t={t}
-        save={handleSave}
-        // selected={selected}
-      />
+    <ImageContainer hasTab>
+      <ReminderModal visible={visible} setVisible={setVisible} t={t} save={handleSave} />
       <DoneReminderModal
         visible={doneVisible}
         setVisible={setDoneVisible}
         t={t}
         save={handleDone}
         selected={selected}
-        // selected={selected}
       />
+
       <View
         style={[
           commonStyles.container(),
@@ -264,20 +260,23 @@ export default function Reminder() {
                     textAlign: 'center',
                     ...assessmentStyle.headerQns,
                   }}>
-                  {t(REMINDER_STRINGS.NO_REMINDER_RESULTS)}
+                  {t(REMINDER_STRINGS.EMPTY_HISTORY)}
                 </Text>
               );
             }}
-            // contentContainerStyle={{ ' }}
           />
         ) : (
           <>
             <FlatList
+              showsVerticalScrollIndicator={false}
               data={reminders}
               renderItem={renderItem}
-              contentContainerStyle={{
+              style={{
                 ...assessmentStyle.historyContainer,
                 paddingHorizontal: 0,
+              }}
+              contentContainerStyle={{
+                gap: SIZES.small,
               }}
               keyExtractor={(item) => item.createdAt}
               ListEmptyComponent={() => {
@@ -288,11 +287,10 @@ export default function Reminder() {
                       textAlign: 'center',
                       ...assessmentStyle.headerQns,
                     }}>
-                    {t(REMINDER_STRINGS.EMPTY_HISTORY)}
+                    {t(REMINDER_STRINGS.NO_REMINDER_RESULTS)}
                   </Text>
                 );
               }}
-              // contentContainerStyle={{ ' }}
             />
             <Pressable
               style={styles.addButton}
@@ -311,7 +309,7 @@ export default function Reminder() {
 const styles = StyleSheet.create({
   addButton: {
     position: 'absolute',
-    bottom: SIZES.xxLarge + SIZES.tabHeight,
+    bottom: SIZES.xxLarge,
     right: SIZES.xxLarge,
     borderRadius: SIZES.medium,
     backgroundColor: COLORS.primaryColors.lightBlue,

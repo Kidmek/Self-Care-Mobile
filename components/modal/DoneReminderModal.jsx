@@ -6,7 +6,7 @@ import { modalStyles } from './modal.style';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { REMINDER_TYPES_QNS } from '~/constants/strings/home/reminder';
 
-const ReminderModal = ({ visible, setVisible, save, t, selected }) => {
+const DoneReminderModal = ({ visible, setVisible, save, t, selected }) => {
   return (
     <Modal
       animationType="slide"
@@ -47,4 +47,4 @@ const ReminderModal = ({ visible, setVisible, save, t, selected }) => {
   );
 };
 
-export default ReminderModal;
+export default DoneReminderModal;

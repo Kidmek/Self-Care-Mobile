@@ -14,12 +14,12 @@ export const store = createStore({
   //
 
   //   Modal
-  modalShown: undefined,
+  logoutShown: false,
   hideModal: action((state) => {
-    state.modalShown = null;
+    state.logoutShown = false;
   }),
-  showModal: action((state, payload) => {
-    state.modalShown = payload;
+  showModal: action((state) => {
+    state.logoutShown = true;
   }),
   //
 

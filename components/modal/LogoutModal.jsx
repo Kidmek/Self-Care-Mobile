@@ -7,19 +7,18 @@ import { View, Text, Modal, TouchableOpacity } from 'react-native';
 import { modalStyles } from './modal.style';
 
 import { logout } from '~/api/storage';
-import { MODAL_TYPES } from '~/constants/strings/common';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 
 const LogoutModal = () => {
   const { t: i18n } = useTranslation();
 
-  const modalShown = useStoreState((state) => state.modalShown);
+  const logoutShown = useStoreState((state) => state.logoutShown);
   const hideModal = useStoreActions((action) => action.hideModal);
   return (
     <Modal
       animationType="slide"
       transparent
-      visible={Object.values(MODAL_TYPES).includes(modalShown)}
+      visible={logoutShown}
       onRequestClose={() => {
         hideModal();
       }}>
