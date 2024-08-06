@@ -37,6 +37,7 @@ export async function scheduleNotification(
       if (Platform.OS === 'android' && notification.request.trigger) {
         const appNotification = notification.request.content;
         await Notifications.scheduleNotificationAsync({
+          identifier: notification.request.identifier,
           content: {
             title: appNotification?.title || '',
             body: appNotification?.body || '',
