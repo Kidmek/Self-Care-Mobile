@@ -23,19 +23,11 @@ export default function Journaling() {
   const toast = useToast();
   const { t } = useTranslation();
   const fetch = async () => {
-    if (false) {
-      // Fetch from backend and save locally
-    } else {
-      //
-      const data = (await getLocalJournals()) ?? [];
-      setJournals([...data]);
-    }
+    const data = (await getLocalJournals()) ?? [];
+    setJournals([...data]);
   };
 
   const hanldeDelete = (id) => {
-    if (false) {
-      // delete from backend
-    }
     Alert.alert('', t(TECHNIQUES_STRINGS.DELETE_PROMPT), [
       {
         text: 'No',

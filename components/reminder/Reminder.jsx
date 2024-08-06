@@ -49,75 +49,62 @@ export default function Reminder() {
   const setLoading = useStoreActions((actions) => actions.setLoading);
 
   const fetch = async () => {
-    if (false) {
-      // Fetch from backend and save locally
-    } else {
-      //
-
-      setLoading(true);
-      const data = (await getLocalReminders()) ?? [];
-      const savedHistory = (await getReminderResult()) ?? [];
-      setReminders([...data]);
-      setHistory([...savedHistory]);
-      setLoading(false);
-    }
+    setLoading(true);
+    const data = (await getLocalReminders()) ?? [];
+    const savedHistory = (await getReminderResult()) ?? [];
+    setReminders([...data]);
+    setHistory([...savedHistory]);
+    setLoading(false);
   };
   const handleSave = async (data) => {
     if (!data.frequency || !data.type) {
       return;
     }
     let notificationId = [];
-    if (false) {
-      // Fetch from backend and save locally
-    } else {
-      //
-      setLoading(true);
-      getLocalSettings().then(async (settings) => {
-        if (settings[SETTING_STRINGS.ALLOW_NOTIFIACTION] === true) {
-          if (REMINDER_FREQUENCY[data.frequency] === REMINDER_FREQUENCY.DAILY) {
-            notificationId = [
-              // TEST
+
+    setLoading(true);
+    getLocalSettings().then(async (settings) => {
+      if (settings[SETTING_STRINGS.ALLOW_NOTIFIACTION] === true) {
+        if (REMINDER_FREQUENCY[data.frequency] === REMINDER_FREQUENCY.DAILY) {
+          notificationId = [
+            // TEST
+            await scheduleNotification(
+              null,
+              data?.time,
+              t(REMINDER_STRINGS.SELF_CARE_REMINDER),
+              t(REMINDER_TYPES[data.type]),
+              settings[SETTING_STRINGS.VIBRATION],
+              settings[SETTING_STRINGS.SOUND]
+            ),
+          ];
+        } else {
+          const days = data.day ? [data?.day] : data?.days;
+          for (const day in days) {
+            notificationId.push(
               await scheduleNotification(
-                null,
+                day,
                 data?.time,
                 t(REMINDER_STRINGS.SELF_CARE_REMINDER),
                 t(REMINDER_TYPES[data.type]),
                 settings[SETTING_STRINGS.VIBRATION],
                 settings[SETTING_STRINGS.SOUND]
-              ),
-            ];
-          } else {
-            const days = data.day ? [data?.day] : data?.days;
-            for (const day in days) {
-              notificationId.push(
-                await scheduleNotification(
-                  day,
-                  data?.time,
-                  t(REMINDER_STRINGS.SELF_CARE_REMINDER),
-                  t(REMINDER_TYPES[data.type]),
-                  settings[SETTING_STRINGS.VIBRATION],
-                  settings[SETTING_STRINGS.SOUND]
-                )
-              );
-            }
+              )
+            );
           }
-          data.notificationId = notificationId;
         }
-        await setLocalReminders([data, ...reminders]);
+        data.notificationId = notificationId;
+      }
+      await setLocalReminders([data, ...reminders]);
 
-        setVisible(false);
-        fetch();
-      });
-      setLoading(false);
-    }
+      setVisible(false);
+      fetch();
+    });
+    setLoading(false);
     addAnalyticApi({
       type: AnalyticField.REMINDER,
     });
   };
   const hanldeDelete = (id) => {
-    if (false) {
-      // delete from backend
-    }
     Alert.alert('', t(REMINDER_STRINGS.DELETE_PROMPT), [
       {
         text: 'No',

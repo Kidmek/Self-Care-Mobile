@@ -30,13 +30,8 @@ export default function Tracking() {
   const toast = useToast();
 
   const fetch = async () => {
-    if (false) {
-      // Fetch from backend and save locally
-    } else {
-      //
-      const data = (await getTrackingInfo()) ?? [];
-      setHistory([...data]);
-    }
+    const data = (await getTrackingInfo()) ?? [];
+    setHistory([...data]);
   };
 
   const renderSingle = (name, emoji) => {
@@ -68,9 +63,6 @@ export default function Tracking() {
   };
 
   const handleSave = (description) => {
-    if (false) {
-      // save to backend
-    }
     const newData = [
       {
         time: new Date(),
@@ -92,9 +84,6 @@ export default function Tracking() {
   };
 
   const hanldeDelete = (id) => {
-    if (false) {
-      // delete from backend
-    }
     Alert.alert('', t(TRACKING_STRINGS.DELETE_PROMPT), [
       {
         text: t(HOME_STRINGS.NO),

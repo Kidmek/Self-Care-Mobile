@@ -6,14 +6,13 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ToastProvider } from 'react-native-toast-notifications';
 
-import { getLanguage, getLocalSettings, initilizeSettings, setLocalSettings } from '~/api/storage';
+import { getLanguage, getLocalSettings, initilizeSettings } from '~/api/storage';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import Loader from '~/common/loader/Loader';
 import { store } from '~/common/store';
 import Toast from '~/common/toast/Toast';
 import { useNotifications } from '~/common/useNotifications';
 import { HEADER_TYPES } from '~/constants/strings/common';
-import { SETTING_STRINGS } from '~/constants/strings/setting';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.

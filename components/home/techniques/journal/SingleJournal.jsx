@@ -26,9 +26,6 @@ export default function SingleJournal() {
   const toast = useToast();
   const ref = useRef();
   const handleSave = () => {
-    if (false) {
-      // save to backend
-    }
     const newData = {
       time: new Date(),
       title: journey.title.trim(),
