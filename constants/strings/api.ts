@@ -1,5 +1,5 @@
-export let API = 'http:/192.168.1.108:3000/';
-export const MEDIA_URL = `${API}uploads`;
+export let API = 'https://selfcare.org.et/api/';
+export const MEDIA_URL = `${API}../uploads`;
 export const ADMIN = 'ADMIN';
 export const LOGIN_API = 'auth/login';
 export const REGISTER_API = 'auth/register';

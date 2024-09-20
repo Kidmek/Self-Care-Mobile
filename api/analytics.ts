@@ -6,7 +6,6 @@ import { API, TIMEOUT } from '~/constants/strings/api';
 import { AnalyticField } from '~/constants/strings/common';
 
 export const addAnalyticApi = async ({ type }: { type: AnalyticField }) => {
-  return;
   const token = await getToken();
   const prevAnalytics = await getAnalytics();
   prevAnalytics[type] = prevAnalytics[type] ? prevAnalytics[type] + 1 : 1;

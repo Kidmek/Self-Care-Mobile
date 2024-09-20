@@ -31,7 +31,7 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
     code,
     setCode,
   });
-  const [isEmail, setIsEmail] = useState(false);
+  const [isEmail, setIsEmail] = useState(true);
 
   const setLoading = useStoreActions((actions) => actions.setLoading);
   const isForgotPass = useStoreState((state) => state.isForgotPass);
@@ -44,7 +44,7 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
         url: 'auth/verify-otp',
         dataToSend: { email: user?.email, otp: code, save: !isForgotPass, newEmail: email },
         errorMsg: t(AUTH_STRINGS.UNABLE_TO_VERIFY),
-        successMsg: '',
+        successMsg: 'Successfully Verified',
         onSuccess: () => {
           // setTimer(WAIT_TIME);
           if (onSuccess) {
