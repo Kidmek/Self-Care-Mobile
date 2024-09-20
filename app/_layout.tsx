@@ -62,11 +62,15 @@ export default function RootLayout() {
         renderToast={(toast) => <Toast toast={toast} />}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Loader />
-          <Stack>
+          <Stack initialRouteName="terms">
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             <Stack.Screen name="assessment" options={{ headerShown: false }} />
             <Stack.Screen name="techniques" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="terms"
+              options={{ headerShown: true, presentation: 'modal', title: 'Terms and Conditions' }}
+            />
             <Stack.Screen
               name="password"
               options={{

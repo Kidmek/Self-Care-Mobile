@@ -1,5 +1,6 @@
 import { useStoreActions } from 'easy-peasy';
 import Checkbox from 'expo-checkbox';
+import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
@@ -199,7 +200,10 @@ export default function SignUp({ setStep }) {
                 setAgree(v);
               }}
             />
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                router.push('/terms');
+              }}>
               <Text style={authStyles.forgetTxt}>{t(AUTH_STRINGS.AGREE_TO_TERMS)}</Text>
             </TouchableOpacity>
           </View>
