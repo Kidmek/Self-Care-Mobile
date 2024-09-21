@@ -1,5 +1,5 @@
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { useNavigation } from 'expo-router';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
@@ -18,7 +18,6 @@ import { COLORS, SIZES } from '~/constants/theme';
 export default function Login({ setStep }) {
   const { t } = useTranslation();
   const toast = useToast();
-  const navigate = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
@@ -56,7 +55,7 @@ export default function Login({ setStep }) {
 
           if (data.token) {
             setToken(data.token);
-            navigate.navigate('(drawer)');
+            router.replace('(drawer)');
           } else if (data.user?.isActive === false) {
             postSkeleton({
               url: 'auth/resend-otp',

@@ -16,7 +16,7 @@ import { HEADER_TYPES } from '~/constants/strings/common';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'index',
+  initialRouteName: '',
 };
 
 export default function RootLayout() {
@@ -62,7 +62,7 @@ export default function RootLayout() {
         renderToast={(toast) => <Toast toast={toast} />}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Loader />
-          <Stack initialRouteName="terms">
+          <Stack>
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             <Stack.Screen name="assessment" options={{ headerShown: false }} />

@@ -53,7 +53,7 @@ export const setRole = async (role) => {
 
 export const logout = async () => {
   await AsyncStorage.clear();
-  await initilizeSettings();
+  // await initilizeSettings();
 };
 
 //

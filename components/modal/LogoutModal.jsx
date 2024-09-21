@@ -1,5 +1,5 @@
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { router } from 'expo-router';
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, Modal, TouchableOpacity } from 'react-native';
@@ -11,6 +11,7 @@ import { HOME_STRINGS } from '~/constants/strings/home/home';
 
 const LogoutModal = () => {
   const { t: i18n } = useTranslation();
+  const navigation = useNavigation();
 
   const logoutShown = useStoreState((state) => state.logoutShown);
   const hideModal = useStoreActions((action) => action.hideModal);
@@ -42,10 +43,15 @@ const LogoutModal = () => {
               onPress={async () => {
                 await logout();
                 hideModal();
-                // console.log(navigation.getParent());
-                // navigation.goBack();
-                // navigation.navigate('auth');
-                router.replace('/');
+                navigation.reset({
+                  index: 0,
+                  routeNames: ['index'],
+                  routes: [
+                    {
+                      name: 'index',
+                    },
+                  ],
+                });
               }}
               style={[modalStyles.declineBtn, modalStyles.btn]}>
               <Text style={modalStyles.textStyle}>{i18n(HOME_STRINGS.LOGOUT)}</Text>
