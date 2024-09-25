@@ -8,7 +8,7 @@ import { useToast } from 'react-native-toast-notifications';
 
 import { authStyles } from './auth.style';
 
-import { postSkeleton } from '~/api/apiConfig';
+import { requestSkeleton } from '~/api/apiConfig';
 import { setUserData } from '~/api/storage';
 import CustomButton from '~/common/button/CustomButton';
 import CustomInput from '~/common/input/CustomInput';
@@ -71,7 +71,8 @@ export default function SignUp({ setStep }) {
         });
         return;
       }
-      postSkeleton({
+      requestSkeleton({
+        method: 'POST',
         url: 'auth/register',
         dataToSend: { ...user, age: 10 },
         errorMsg: t(AUTH_STRINGS.REG_ERR),

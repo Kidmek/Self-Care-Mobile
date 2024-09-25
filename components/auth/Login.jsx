@@ -7,7 +7,7 @@ import { useToast } from 'react-native-toast-notifications';
 
 import { authStyles } from './auth.style';
 
-import { postSkeleton } from '~/api/apiConfig';
+import { requestSkeleton } from '~/api/apiConfig';
 import { setUserData, setToken } from '~/api/storage';
 import CustomButton from '~/common/button/CustomButton';
 import CustomInput from '~/common/input/CustomInput';
@@ -44,7 +44,8 @@ export default function Login({ setStep }) {
 
     setErrors(errors);
     if (!Object.keys(errors).length) {
-      postSkeleton({
+      requestSkeleton({
+        method: 'POST',
         url: 'auth/login',
         dataToSend: { username, password },
         errorMsg: t(AUTH_STRINGS.UNABLE_TO_LOGIN),
@@ -57,7 +58,8 @@ export default function Login({ setStep }) {
             setToken(data.token);
             router.replace('(drawer)');
           } else if (data.user?.isActive === false) {
-            postSkeleton({
+            requestSkeleton({
+              method: 'POST',
               url: 'auth/resend-otp',
               params: {
                 email: data.user?.email,
@@ -89,7 +91,8 @@ export default function Login({ setStep }) {
       setErrors({ username: t(AUTH_STRINGS.INVALID_EMAIL) });
     } else {
       setErrors({});
-      postSkeleton({
+      requestSkeleton({
+        method: 'POST',
         url: 'auth/reset-pass',
         params: { emailOrPhone: username },
         errorMsg: t(AUTH_STRINGS.UNABLE_TO_VERIFY),

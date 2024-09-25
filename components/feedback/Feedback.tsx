@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View, Text, TextInput, ScrollView } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 
-import { postSkeleton } from '~/api/apiConfig';
+import { requestSkeleton } from '~/api/apiConfig';
 import CustomButton from '~/common/button/CustomButton';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { INFO_STRINGS } from '~/constants/strings/info';
@@ -20,18 +20,21 @@ export default function Feedback() {
   const setLoading = useStoreActions((actions) => actions.setLoading);
 
   const handleSubmit = () => {
-    // @ts-ignore
-    postSkeleton({
+    requestSkeleton({
+      method: 'POST',
       url: 'feedbacks',
+      //@ts-ignore
       dataToSend: {
         improvement,
         feedback,
       },
+      //@ts-ignore
       onSuccess: () => {
         setImprovement('');
         setFeedback('');
         router.back();
       },
+      //@ts-ignore
       toast,
       setLoading,
     });

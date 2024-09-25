@@ -7,7 +7,7 @@ import { useToast } from 'react-native-toast-notifications';
 
 import { authStyles } from '../auth/auth.style';
 
-import { getSkeleton, putSkeleton } from '~/api/apiConfig';
+import { requestSkeleton } from '~/api/apiConfig';
 import { setUserData } from '~/api/storage';
 import CustomButton from '~/common/button/CustomButton';
 import HeaderIcon from '~/common/header/HeaderIcon';
@@ -18,6 +18,7 @@ import { AUTH_STRINGS } from '~/constants/strings/auth';
 import { HEADER_TYPES, INPUT_TYPE } from '~/constants/strings/common';
 import { PROFILE_STRINGS } from '~/constants/strings/profile';
 import { SIZES } from '~/constants/theme';
+import { shallowEqual } from '~/utils/helper';
 
 export default function Profile() {
   const { t } = useTranslation();
@@ -53,12 +54,14 @@ export default function Profile() {
       }
     });
     setErrors({ ...errors });
+    console.log(newUser);
     if (Object.keys(errors).length) {
       toast.show(t(AUTH_STRINGS.INVALID_FIELDS), {
         type: 'danger',
       });
     } else {
-      putSkeleton({
+      requestSkeleton({
+        method: 'PUT',
         url: 'users',
         dataToSend: {
           ...newUser,
@@ -76,37 +79,43 @@ export default function Profile() {
   };
 
   const fetch = () => {
-    getSkeleton({
+    requestSkeleton({
+      method: 'GET',
       url: 'auth/self',
-      setData: (data) => {
+      onSuccess: (data) => {
         const { isActive, id, role, ...rest } = data;
+        rest.phone = '0' + rest.phone;
         setUser({ ...rest });
         setNewUser({ ...rest });
         setUserData(rest);
       },
       toast,
       setLoading,
+      noSuccessToast: true,
     });
   };
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <HeaderIcon
-          name={edit ? 'checkmark' : 'pencil-sharp'}
-          onPress={() => {
-            if (edit) {
-              onEdit();
-            } else {
-              setEdit(true);
-            }
-          }}
-          margin
-        />
-      ),
+      headerRight: () =>
+        (!edit || !shallowEqual(user, newUser)) && (
+          <HeaderIcon
+            name={edit ? 'checkmark' : 'pencil-sharp'}
+            color={edit ? 'green' : 'gray'}
+            onPress={() => {
+              if (edit) {
+                onEdit();
+              } else {
+                setEdit(true);
+              }
+            }}
+            margin
+          />
+        ),
       headerLeft: () => (
         <HeaderIcon
           name={edit ? 'close' : undefined}
+          color={edit ? 'red' : undefined}
           onPress={
             edit
               ? () => {
@@ -119,7 +128,7 @@ export default function Profile() {
         />
       ),
     });
-  }, [edit]);
+  }, [edit, newUser]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -163,8 +172,8 @@ export default function Profile() {
           <CustomInput
             state={user.phone}
             setState={handleChange}
-            label={t(AUTH_STRINGS.USERNAME)}
-            placeholder={t(AUTH_STRINGS.USERNAME_LABEL)}
+            label={t(AUTH_STRINGS.PHONE)}
+            placeholder={t(AUTH_STRINGS.PHONE_LABEL)}
             name="phone"
             error={errors['phone']}
             disabled

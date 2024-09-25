@@ -54,11 +54,13 @@ export const en_auth_translations = {
   PASS_LEN_ERR: 'Password must be atleast 5 characters',
   PASS_NO_MATCH: 'Passwords dont match',
   REG_SUCCESS: 'Successfully registered',
+  VER_SUCCESS: 'Successfully verified',
   REG_ERR: 'Unable to register',
   AGREE_TO_TERMS_ERR: 'Agree to terms and conditions',
   INVALID_FIELDS: 'Invalid fields',
   INVALID_PHONE: 'Invalid phone',
   PASS_CHANGED_SUC: 'Password changed',
+  EMAIL_CHANGED_SUC: 'Email changed',
   PASS_CHANGE_ERR: 'Unable to change password',
 };
 
@@ -129,4 +131,6 @@ export const am_auth_translations: { [placeholder in AuthStringsKeys]: string } 
   INVALID_PHONE: 'ልክ ያልሆነ ስልክ',
   PASS_CHANGED_SUC: 'ፕስወርድ ተቀይሯል',
   PASS_CHANGE_ERR: 'ፕስወርድ መቀየር አልተቻለም',
+  EMAIL_CHANGED_SUC: 'ኢሜል ተለውጧል',
+  VER_SUCCESS: 'በተሳካ ሁኔታ ተረጋግጧል',
 };

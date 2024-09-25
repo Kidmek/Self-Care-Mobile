@@ -6,7 +6,7 @@ import { useToast } from 'react-native-toast-notifications';
 
 import { authStyles } from './auth.style';
 
-import { postSkeleton } from '~/api/apiConfig';
+import { requestSkeleton } from '~/api/apiConfig';
 import { getUserData } from '~/api/storage';
 import CustomButton from '~/common/button/CustomButton';
 import CustomInput from '~/common/input/CustomInput';
@@ -30,7 +30,8 @@ export default function NewPass({ setStep, otp }) {
       setErrors({});
       const user = await getUserData();
 
-      postSkeleton({
+      requestSkeleton({
+        method: 'POST',
         url: 'auth/change-pass',
         dataToSend: { email: user.email, otp, password },
         errorMsg: t(AUTH_STRINGS.PASS_CHANGE_ERR),

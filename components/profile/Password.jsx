@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { View, StyleSheet } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 
-import { postSkeleton } from '~/api/apiConfig';
+import { requestSkeleton } from '~/api/apiConfig';
 import CustomButton from '~/common/button/CustomButton';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import CustomInput from '~/common/input/CustomInput';
@@ -28,7 +28,8 @@ export default function Password() {
     }
     setErrors(newErrors);
     if (!newErrors.password) {
-      postSkeleton({
+      requestSkeleton({
+        method: 'POST',
         url: 'auth/checkPassword',
         params: { password },
         onSuccess: () => {

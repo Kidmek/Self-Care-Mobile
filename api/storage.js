@@ -6,7 +6,7 @@ import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { REMINDER_STRINGS } from '~/constants/strings/home/reminder';
 import { TECHNIQUES_STRINGS } from '~/constants/strings/home/self care/techniques';
 import { SETTING_STRINGS } from '~/constants/strings/setting';
-import { cancelNotification } from '~/utils/notification';
+import { cancelNotification } from '~/utils/cancelNotifications';
 
 export const setToken = async (token) => {
   if (token) {

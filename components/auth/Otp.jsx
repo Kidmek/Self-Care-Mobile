@@ -12,7 +12,7 @@ import { useToast } from 'react-native-toast-notifications';
 
 import { authStyles } from './auth.style';
 
-import { postSkeleton } from '~/api/apiConfig';
+import { requestSkeleton } from '~/api/apiConfig';
 import { getUserData } from '~/api/storage';
 import CustomButton from '~/common/button/CustomButton';
 import { AUTH_STRINGS } from '~/constants/strings/auth';
@@ -40,11 +40,12 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
     if (code && code.length === OTP_LENGTH) {
       setErrortext(null);
       const user = await getUserData();
-      postSkeleton({
+      requestSkeleton({
+        method: 'POST',
         url: 'auth/verify-otp',
         dataToSend: { email: user?.email, otp: code, save: !isForgotPass, newEmail: email },
         errorMsg: t(AUTH_STRINGS.UNABLE_TO_VERIFY),
-        successMsg: 'Successfully Verified',
+        successMsg: !email ? t(AUTH_STRINGS.VER_SUCCESS) : t(AUTH_STRINGS.EMAIL_CHANGED_SUC),
         onSuccess: () => {
           // setTimer(WAIT_TIME);
           if (onSuccess) {
@@ -68,7 +69,8 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
   };
   const resend = async (changeVal) => {
     const user = await getUserData();
-    postSkeleton({
+    requestSkeleton({
+      method: 'POST',
       url: 'auth/resend-otp',
       params: {
         email: user?.email,

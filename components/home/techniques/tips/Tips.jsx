@@ -12,7 +12,7 @@ import TipVideo from './TipVideo';
 import { assessmentStyle } from '../../assessment/assessment.style';
 
 import { addAnalyticApi } from '~/api/analytics';
-import { getSkeleton } from '~/api/apiConfig';
+import { requestSkeleton } from '~/api/apiConfig';
 import { commonStyles } from '~/common/common.style';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { MEDIA_URL } from '~/constants/strings/api';
@@ -34,7 +34,8 @@ export default function Tips() {
   const [activeIndexes, setActiveIndexes] = useState({});
 
   const fetch = () => {
-    getSkeleton({
+    requestSkeleton({
+      mehod: 'GET',
       url: `tips/type/${params?.type}`,
       toast,
       setLoading: (loading) => {

@@ -1,6 +1,8 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
+import { cancelNotification } from './cancelNotifications';
+
 import { getLocalReminders, setLocalReminders } from '~/api/storage';
 import {
   DAYS,
@@ -92,14 +94,6 @@ export async function scheduleNotification(
     channelId,
   });
   return id;
-}
-
-export async function cancelNotification(notifId?: string) {
-  if (notifId) {
-    await Notifications.cancelScheduledNotificationAsync(notifId);
-  } else {
-    await Notifications.cancelAllScheduledNotificationsAsync();
-  }
 }
 
 export async function changeAllType(vibration: boolean, sound: boolean, t: any) {

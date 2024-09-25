@@ -8,7 +8,7 @@ import { useToast } from 'react-native-toast-notifications';
 import OTP from '../auth/Otp';
 import { authStyles } from '../auth/auth.style';
 
-import { postSkeleton } from '~/api/apiConfig';
+import { requestSkeleton } from '~/api/apiConfig';
 import { getUserData } from '~/api/storage';
 import CustomButton from '~/common/button/CustomButton';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
@@ -47,7 +47,8 @@ export default function Change() {
       if (!Object.keys(newErrors).length) {
         setErrors({});
 
-        postSkeleton({
+        requestSkeleton({
+          method: 'POST',
           url: 'auth/new-email',
           params: { email },
           errorMsg: t(AUTH_STRINGS.UNABLE_TO_SEND_VERIFICATION),
@@ -65,7 +66,8 @@ export default function Change() {
       if (!Object.keys(errors).length) {
         setErrors({});
 
-        postSkeleton({
+        requestSkeleton({
+          method: 'POST',
           url: 'auth/new-pass',
           params: { password },
           errorMsg: t(AUTH_STRINGS.PASS_CHANGE_ERR),
@@ -98,7 +100,6 @@ export default function Change() {
       headerTitle: t(params?.type),
       headerTitleAlign: 'center',
     });
-    setStep(AUTH_STAGE.LOGIN);
   }, [params]);
 
   return (

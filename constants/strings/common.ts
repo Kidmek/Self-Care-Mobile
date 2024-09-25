@@ -38,8 +38,8 @@ export enum AnalyticField {
 export const OTP_LENGTH = 6;
 
 export const WAIT_TIME = {
-  second: 9,
-  minute: 0,
+  second: 0,
+  minute: 1,
 };
 
 export const phoneRegEx = /^(?:\+251|0)\d{9}$/;
