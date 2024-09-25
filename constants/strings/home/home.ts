@@ -10,7 +10,8 @@ export const en_home_translations = {
   SKIP: 'Skip',
   SAVE: 'Save',
   LOGOUT: 'Logout',
-  LOGOUT_QNS: 'Are you sure you want to log out?',
+  LOGOUT_QNS:
+    'Are you sure you want to log out?\n\nYou will lose all your data! Consider locking the app in settings instead.',
   HOME: 'Home',
   REMINDER: 'Reminder',
   PROFILE: 'Profile',
@@ -26,6 +27,7 @@ export const en_home_translations = {
   CREATED_AT: 'Created At',
   EDITTED_AT: 'Editted At',
   NO_DESCRIPTION: 'No Description',
+  TERMS_AND_CONDITIONS: 'Terms and conditions',
 };
 
 type HomeStringsKeys = keyof typeof en_home_translations;
@@ -44,7 +46,8 @@ export const am_home_translations: { [placeholder in HomeStringsKeys]: string } 
   SKIP: 'ዝለል',
   SAVE: 'አስቀምጥ',
   LOGOUT: 'ውጣ',
-  LOGOUT_QNS: 'እርግጠኛ ነዎት መውጣት ይፈልጋሉ?',
+  LOGOUT_QNS:
+    'እርግጠኛ ነዎት መውጣት ይፈልጋሉ?\n\nሁሉንም የተከማቸ መረጃዎን ያጣሉ! በምትኩ መተግበሪያውን በቅንብሮች ውስጥ መቆለፉን ያስቡበት።',
   HOME: 'መነሻ',
   REMINDER: 'አስታዋሽ',
   PROFILE: 'መገለጫ',
@@ -60,4 +63,5 @@ export const am_home_translations: { [placeholder in HomeStringsKeys]: string } 
   EDITTED_AT: 'የተቀየረበት ጊዜ',
   NO_DESCRIPTION: 'መግለጫ የለም',
   ABOUT_APP: 'ስለ መተግበሪያው',
+  TERMS_AND_CONDITIONS: 'ሁኔታዎችን እና ውሎችን',
 };

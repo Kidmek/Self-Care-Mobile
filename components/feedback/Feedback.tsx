@@ -50,7 +50,7 @@ export default function Feedback() {
             onChangeText={setImprovement}
             placeholder={t(INFO_STRINGS.EXPERIENCE_PLACEHOLDER)}
             multiline
-            numberOfLines={5}
+            numberOfLines={7}
           />
         </View>
         <View style={styles.singleContainer}>
@@ -61,15 +61,22 @@ export default function Feedback() {
             onChangeText={setFeedback}
             placeholder={t(INFO_STRINGS.FEEDBACK_PLACEHOLDER)}
             multiline
-            numberOfLines={10}
+            numberOfLines={7}
           />
         </View>
 
-        <CustomButton
-          title={t(INFO_STRINGS.SUBMIT_FEEDBACK)}
-          onPress={handleSubmit}
-          disabled={!feedback || !improvement}
-        />
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'flex-end',
+            paddingBottom: SIZES.large,
+          }}>
+          <CustomButton
+            title={t(INFO_STRINGS.SUBMIT_FEEDBACK)}
+            onPress={handleSubmit}
+            disabled={!feedback || !improvement}
+          />
+        </View>
       </ScrollView>
     </ImageContainer>
   );
@@ -84,12 +91,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: SIZES.large,
-    justifyContent: 'space-between',
     gap: SIZES.large,
   },
   question: {
     fontSize: SIZES.large,
     fontFamily: FONT.bold,
+    color: COLORS.secondary,
   },
   input: {
     borderColor: COLORS.black,
@@ -97,8 +104,9 @@ const styles = StyleSheet.create({
     padding: SIZES.medium,
     fontSize: SIZES.medium,
     textAlignVertical: 'top',
-    borderRadius: SIZES.small,
+    borderRadius: SIZES.xxSmall,
     fontFamily: FONT.regular,
+    backgroundColor: COLORS.white + '9F',
   },
   singleContainer: {
     gap: SIZES.large,

@@ -67,10 +67,7 @@ export default function RootLayout() {
             <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             <Stack.Screen name="assessment" options={{ headerShown: false }} />
             <Stack.Screen name="techniques" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="terms"
-              options={{ headerShown: true, presentation: 'modal', title: 'Terms and Conditions' }}
-            />
+
             <Stack.Screen
               name="password"
               options={{

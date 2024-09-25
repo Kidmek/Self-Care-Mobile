@@ -75,6 +75,19 @@ const DrawerLayout = () => {
           headerTitle: t(HOME_STRINGS.STATISTICS),
         }}
       />
+      <Drawer.Screen
+        name="terms"
+        options={{
+          headerShown: true,
+          headerTransparent: false,
+          title: t(HOME_STRINGS.TERMS_AND_CONDITIONS),
+          drawerLabel: t(HOME_STRINGS.TERMS_AND_CONDITIONS),
+          drawerIcon: ({ size, color }) => (
+            <Ionicons name="shield-checkmark" size={size} color={color} />
+          ),
+          headerTitle: t(HOME_STRINGS.TERMS_AND_CONDITIONS),
+        }}
+      />
     </Drawer>
   );
 };
