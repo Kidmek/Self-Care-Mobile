@@ -14,7 +14,7 @@ import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessme
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { TECHNIQUES_STRINGS, TipType } from '~/constants/strings/home/self care/techniques';
 import { SETTING_STRINGS } from '~/constants/strings/setting';
-import { COLORS, height, SIZES } from '~/constants/theme';
+import { COLORS, SIZES } from '~/constants/theme';
 import { getMinutes } from '~/utils/helper';
 
 export default function Home() {

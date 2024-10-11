@@ -15,7 +15,7 @@ import WheelDescriptionModal from '~/components/modal/WheelDescriptionModal';
 import WheelModal from '~/components/modal/WheelModal';
 import { AnalyticField } from '~/constants/strings/common';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
-import { WHEEL_SECTIONS, WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
+import { WHEEL_SECTIONS } from '~/constants/strings/home/assessment/wheel';
 import { COLORS, FONT, SIZES, WHEEL_COLORS } from '~/constants/theme';
 import { checkIfAmh } from '~/utils/helper';
 

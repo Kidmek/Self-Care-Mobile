@@ -3,7 +3,6 @@ import { View, Text, Modal, TouchableOpacity } from 'react-native';
 
 import { modalStyles } from './modal.style';
 
-import CustomInput from '~/common/input/CustomInput';
 import CustomDateTimeInput from '~/common/input/DateTimeInput';
 import Dropdown from '~/common/input/Dropdown';
 import { INPUT_TYPE } from '~/constants/strings/common';
