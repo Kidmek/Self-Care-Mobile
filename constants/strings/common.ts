@@ -46,8 +46,8 @@ export const phoneRegEx = /^(?:\+251|0)\d{9}$/;
 export const emailRegEx = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 export const vibrationPattern = [0, 250, 250, 250];
 export const INFO = {
-  PHONE_NUM: '+241920202020',
-  EMAIL_ADDRESS: 'test@gmail.com',
+  PHONE_NUM: '+251975005508',
+  EMAIL_ADDRESS: 'psychologyassociation1@gmail.com',
   INSTAGRAM: 'testtest',
   FACEBOOK: 'testtest',
   TWITTER: '@testtest',

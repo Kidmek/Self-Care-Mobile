@@ -4,6 +4,7 @@ import { View, Text, Modal, TouchableOpacity } from 'react-native';
 import { modalStyles } from './modal.style';
 
 import CustomInput from '~/common/input/CustomInput';
+import CustomDateTimeInput from '~/common/input/DateTimeInput';
 import Dropdown from '~/common/input/Dropdown';
 import { INPUT_TYPE } from '~/constants/strings/common';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
@@ -133,7 +134,7 @@ const ReminderModal = ({ visible, setVisible, save, t }) => {
                 error={errors['days']}
               />
             )}
-            <CustomInput
+            <CustomDateTimeInput
               state={value.time}
               setState={(selected) => setValue({ ...value, time: selected })}
               label={t(REMINDER_STRINGS.TIME)}

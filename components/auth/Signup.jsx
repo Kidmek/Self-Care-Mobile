@@ -12,6 +12,7 @@ import { requestSkeleton } from '~/api/apiConfig';
 import { setUserData } from '~/api/storage';
 import CustomButton from '~/common/button/CustomButton';
 import CustomInput from '~/common/input/CustomInput';
+import CustomDateTimeInput from '~/common/input/DateTimeInput';
 import Dropdown from '~/common/input/Dropdown';
 import { AUTH_STRINGS } from '~/constants/strings/auth';
 import { AUTH_STAGE, INPUT_TYPE, emailRegEx, phoneRegEx } from '~/constants/strings/common';
@@ -43,6 +44,11 @@ export default function SignUp({ setStep }) {
 
   const register = () => {
     const errors = {};
+
+    const bd = new Date(user.birthDate);
+    if (bd.getTime() >= new Date().getTime()) {
+      errors.birthDate = t(AUTH_STRINGS.INVALID_BIRTHDATE);
+    }
     Object.entries(user).forEach(([k, v]) => {
       if (!v.length) {
         errors[k] = true;
@@ -125,14 +131,6 @@ export default function SignUp({ setStep }) {
             name="lastName"
             error={errors['lastName']}
           />
-          {/* <CustomInput
-            state={user.username}
-            setState={handleChange}
-            label={t(AUTH_STRINGS.USERNAME)}
-            placeholder={t(AUTH_STRINGS.USERNAME_LABEL)}
-            name="username"
-            error={errors['username']}
-          /> */}
 
           <CustomInput
             state={user.phone}
@@ -166,7 +164,7 @@ export default function SignUp({ setStep }) {
             label={t(AUTH_STRINGS.GENDER)}
             error={errors['gender']}
           />
-          <CustomInput
+          <CustomDateTimeInput
             state={user.birthDate}
             setState={handleChange}
             label={t(AUTH_STRINGS.BIRTH_DATE)}

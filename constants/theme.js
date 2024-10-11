@@ -4,6 +4,10 @@ export const width = Dimensions.get('screen').width;
 export const height = Dimensions.get('screen').height;
 
 export const COLORS = {
+  // red:#b71307,
+  // yellow: #fdf500,
+  // green: #51ad0c,
+  // primary: #7acafc,
   primary: '#1d4ed8',
   secondary: '#444262',
   circleAndInfo: '#2E81D3',

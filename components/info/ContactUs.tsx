@@ -46,8 +46,8 @@ export default function ContactUs() {
 
           {renderSingleCard(
             `mailto:${INFO.EMAIL_ADDRESS}`,
-            INFO.EMAIL_ADDRESS,
             t(INFO_STRINGS.EMAIL_ADDRESS),
+            INFO.EMAIL_ADDRESS,
             'mail'
           )}
         </View>
@@ -117,7 +117,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: SIZES.large,
   },
-  singleInfoContainer: {},
+  singleInfoContainer: {
+    flex: 1,
+  },
   singleInfoHeader: {
     fontFamily: FONT.regular,
     lineHeight: SIZES.large,

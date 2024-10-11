@@ -13,6 +13,7 @@ import CustomButton from '~/common/button/CustomButton';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import CustomInput from '~/common/input/CustomInput';
+import CustomDateTimeInput from '~/common/input/DateTimeInput';
 import Dropdown from '~/common/input/Dropdown';
 import { AUTH_STRINGS } from '~/constants/strings/auth';
 import { HEADER_TYPES, INPUT_TYPE } from '~/constants/strings/common';
@@ -204,7 +205,7 @@ export default function Profile() {
               disabled={!edit}
             />
           )}
-          <CustomInput
+          <CustomDateTimeInput
             state={edit ? newUser.birthDate : user.birthDate}
             setState={handleChange}
             label={t(AUTH_STRINGS.BIRTH_DATE)}

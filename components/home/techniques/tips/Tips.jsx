@@ -34,6 +34,7 @@ export default function Tips() {
   const [activeIndexes, setActiveIndexes] = useState({});
 
   const fetch = () => {
+    console.log(`tips/type/${params?.type}`);
     requestSkeleton({
       mehod: 'GET',
       url: `tips/type/${params?.type}`,
@@ -45,9 +46,12 @@ export default function Tips() {
           setFetching(loading);
         }
       },
-      setData: (data) => {
+      onSuccess: (data) => {
+        console.log(data);
+
         setTips(data);
       },
+      noSuccessToast: true,
     });
   };
 

@@ -2,54 +2,14 @@ import { makeObjects } from '~/utils/helper';
 
 export const WHEEL_SECTIONS = [
   {
-    shortName: 'FINANCIAL',
-    longName: 'Financial Stability',
+    shortName: 'PHYSICAL',
+    longName: 'Physical Health',
     description:
-      'This component relates to financial management, budgeting, savings, debt management, and overall financial security.',
-    am_shortName: 'ፋይናንስ',
-    am_longName: 'ፋይናንስ',
+      'This includes aspects such as exercise, nutrition, sleep, and overall physical well-being.',
+    am_shortName: 'አካላዊ',
+    am_longName: 'አካላዊ ጤንነት',
     am_description:
-      'ይህ አካል ከፋይናንሺያል አስተዳደር፣ በጀት ማውጣት፣ ቁጠባ፣ የዕዳ አስተዳደር እና አጠቃላይ የፋይናንስ ደህንነት ጋር ይዛመዳል።',
-  },
-  {
-    shortName: 'PERSONAL',
-    longName: 'Personal Growth and Learning',
-    description:
-      'This includes continuous learning, personal development, setting and achieving goals, and pursuing new experiences and challenges.',
-    am_shortName: 'ግል',
-    am_longName: 'የግል እድገት እና ትምህርት',
-    am_description:
-      'ይህ ቀጣይነት ያለው ትምህርትን፣ የግል እድገትን፣ ግቦችን ማውጣት እና ማሳካትን፣ እና አዳዲስ ልምዶችን እና ፈተናዎችን መከተልን ያካትታል።',
-  },
-  {
-    shortName: 'SPIRITUALITY',
-    longName: 'Spirituality and Meaning',
-    description:
-      'This component focuses on personal beliefs, values, purpose, meaning in life, and a sense of connection to something greater than oneself.',
-    am_shortName: 'መንፈሳዊነት',
-    am_longName: 'መንፈሳዊነት',
-    am_description:
-      'ይህ ክፍል የሚያተኩረው በግላዊ እምነቶች፣ እሴቶች፣ ዓላማ፣ የህይወት ትርጉም እና ከራሳችን ከሚበልጥ ነገር ጋር የሚኖር ግንኙነት ላይ ነው።',
-  },
-  {
-    shortName: 'RECREATION',
-    longName: 'Recreation and Leisure',
-    description:
-      'This involves activities that bring joy, relaxation, and a sense of fulfilment, such as hobbies, creative pursuits, and recreational activities.',
-    am_shortName: 'መዝናኛ',
-    am_longName: 'መዝናኛ እና እረፍት',
-    am_description:
-      'ይህ እንደ የትርፍ ጊዜ ማሳለፊያዎች፣ የፈጠራ ስራዎች እና መዝናኛዎች ያሉ ደስታን፣ መዝናናትን እና እርካታን የሚያመጡ እንቅስቃሴዎችን ያካትታል።',
-  },
-  {
-    shortName: 'RELATIONSHIP',
-    longName: 'Relationships and Social Connections',
-    description:
-      'This component focuses on the quality of relationships, social support, communication skills, and the ability to establish and maintain meaningful connections with others.',
-    am_shortName: 'ማህበራዊ',
-    am_longName: 'ማህበራዊ ግንኙነቶች',
-    am_description:
-      'ይህ ክፍል  አንድ ሰው ስለሚኖሩት ግንኙነቶች ጥንካሬ ፣ ስለሚኖሩት ማህበራዊ ድጋፎች፣ የመግባባት ችሎታ እና ከሌሎች ጋር ትርጉም ያለው ግንኙነት የመመስረት እና የማቆየት ችሎታ ላይ ያተኩራል።',
+      'ይህ ክፍል  እንደ የአካል ብቃት እንቅስቃሴ፣ አመጋገብ  እና  እንቅልፍ  የመሳሰሉትን አጠቃላይ የአካል ደህንነት ገጽታዎችን ያጠቃልላል',
   },
   {
     shortName: 'MENTAL',
@@ -61,6 +21,17 @@ export const WHEEL_SECTIONS = [
     am_description: 'ይህ  ክፍል  የአእምሮ ጤናን፣ ስሜታዊ ልህቀትን፣ እራስን ማወቅን፣ ጭንቀትን መቆጣጠር  እና መቻልን ያካትታል።',
   },
   {
+    shortName: 'RELATIONSHIP',
+    longName: 'Relationships and Social Connections',
+    description:
+      'This component focuses on the quality of relationships, social support, communication skills, and the ability to establish and maintain meaningful connections with others.',
+    am_shortName: 'ማህበራዊ',
+    am_longName: 'ማህበራዊ ግንኙነቶች',
+    am_description:
+      'ይህ ክፍል  አንድ ሰው ስለሚኖሩት ግንኙነቶች ጥንካሬ ፣ ስለሚኖሩት ማህበራዊ ድጋፎች፣ የመግባባት ችሎታ እና ከሌሎች ጋር ትርጉም ያለው ግንኙነት የመመስረት እና የማቆየት ችሎታ ላይ ያተኩራል።',
+  },
+
+  {
     shortName: 'CAREER',
     longName: 'Career and Work Life',
     description:
@@ -68,67 +39,49 @@ export const WHEEL_SECTIONS = [
     am_shortName: 'ስራ',
     am_longName: 'የስራ ህይወት',
     am_description:
-      'ይህ በሙያው ወይም በተመረጠው የስራ ጎዳና፣ በስራ-ህይወት ሚዛን፣ በግላዊ እድገት እና ሙያዊ እድገት ውስጥ እርካታን እና እርካታን ይመለከታል።',
+      'ይህ አንድ ሰው በሙያው ወይም በመረጠው የስራ ጎዳና ጋር ተያይዞ  የስራ እና ህይወት ሚዛናዊነቱን እንዲሁም በግላዊ እድገት እና ሙያዊ እድገቱን አስመልክቶ ምን ያህል እርካታ አለውየሚለውን  ይመለከታል።',
   },
-  {
-    shortName: 'PHYSICAL',
-    longName: 'Physical Health',
-    description:
-      'This includes aspects such as exercise, nutrition, sleep, and overall physical well-being.',
-    am_shortName: 'አካላዊ',
-    am_longName: 'አካላዊ ጤንነት',
-    am_description:
-      'ይህ ክፍል  እንደ የአካል ብቃት እንቅስቃሴ፣ አመጋገብ  እና  እንቅልፍ  የመሳሰሉትን አጠቃላይ የአካል ደህንነት ገጽታዎችን ያጠቃልላል',
-  },
-];
 
-export const WHEEL_SECTIONS_AMH = [
   {
-    shortName: 'ፋይናንስ',
-    longName: 'ፋይናንስ',
+    shortName: 'FINANCIAL',
+    longName: 'Financial Stability',
     description:
-      'ይህ አካል ከፋይናንሺያል አስተዳደር፣ በጀት ማውጣት፣ ቁጠባ፣ የዕዳ አስተዳደር እና አጠቃላይ የፋይናንስ ደህንነት ጋር ይዛመዳል።',
+      'This component relates to financial management, budgeting, savings, debt management, and overall financial security.',
+    am_shortName: 'ፋይናንስ',
+    am_longName: 'ፋይናንስ',
+    am_description:
+      'ይህ ክፍል አንድሰው  ከገንዘብ አያያዝ፣ ከበጀት አመዳደብ፣ ከቁጠባ፣ ከዕዳ አከፋፈል እና አጠቃላይ ከገንዘብ ጋር በተያያዘ ሁኔታ ያለበትን ክፈተት ያመለክታል፡፡',
   },
   {
-    shortName: 'ግል',
-    longName: 'የግል እድገት እና ትምህርት',
+    shortName: 'PERSONAL',
+    longName: 'Personal Growth and Learning',
     description:
+      'This includes continuous learning, personal development, setting and achieving goals, and pursuing new experiences and challenges.',
+    am_shortName: 'ግል',
+    am_longName: 'የግል እድገት እና ትምህርት',
+    am_description:
       'ይህ ቀጣይነት ያለው ትምህርትን፣ የግል እድገትን፣ ግቦችን ማውጣት እና ማሳካትን፣ እና አዳዲስ ልምዶችን እና ፈተናዎችን መከተልን ያካትታል።',
   },
+
   {
-    shortName: 'መንፈሳዊነት',
-    longName: 'መንፈሳዊነት',
+    shortName: 'RECREATION',
+    longName: 'Recreation and Leisure',
     description:
-      'ይህ ክፍል የሚያተኩረው በግላዊ እምነቶች፣ እሴቶች፣ ዓላማ፣ የህይወት ትርጉም እና ከራሳችን ከሚበልጥ ነገር ጋር የሚኖር ግንኙነት ላይ ነው።',
-  },
-  {
-    shortName: 'መዝናኛ',
-    longName: 'መዝናኛ እና እረፍት',
-    description:
+      'This involves activities that bring joy, relaxation, and a sense of fulfilment, such as hobbies, creative pursuits, and recreational activities.',
+    am_shortName: 'መዝናኛ',
+    am_longName: 'መዝናኛ እና እረፍት',
+    am_description:
       'ይህ እንደ የትርፍ ጊዜ ማሳለፊያዎች፣ የፈጠራ ስራዎች እና መዝናኛዎች ያሉ ደስታን፣ መዝናናትን እና እርካታን የሚያመጡ እንቅስቃሴዎችን ያካትታል።',
   },
   {
-    shortName: 'ማህበራዊ',
-    longName: 'ማህበራዊ ግንኙነቶች',
+    shortName: 'SPIRITUALITY',
+    longName: 'Spirituality and Meaning',
     description:
-      'ይህ ክፍል  አንድ ሰው ስለሚኖሩት ግንኙነቶች ጥንካሬ ፣ ስለሚኖሩት ማህበራዊ ድጋፎች፣ የመግባባት ችሎታ እና ከሌሎች ጋር ትርጉም ያለው ግንኙነት የመመስረት እና የማቆየት ችሎታ ላይ ያተኩራል።',
-  },
-  {
-    shortName: 'አዕምሯዊ',
-    longName: 'አዕምሯዊ እና ስሜታዊ ደህንነት',
-    description: 'ይህ  ክፍል  የአእምሮ ጤናን፣ ስሜታዊ ልህቀትን፣ እራስን ማወቅን፣ ጭንቀትን መቆጣጠር  እና መቻልን ያካትታል።',
-  },
-  {
-    shortName: 'ስራ',
-    longName: 'የስራ ህይወት',
-    description:
-      'ይህ በሙያው ወይም በተመረጠው የስራ ጎዳና፣ በስራ-ህይወት ሚዛን፣ በግላዊ እድገት እና ሙያዊ እድገት ውስጥ እርካታን እና እርካታን ይመለከታል።',
-  },
-  {
-    shortName: 'አካላዊ',
-    longName: 'አካላዊ ጤንነት',
-    description:
-      'ይህ ክፍል  እንደ የአካል ብቃት እንቅስቃሴ፣ አመጋገብ  እና  እንቅልፍ  የመሳሰሉትን አጠቃላይ የአካል ደህንነት ገጽታዎችን ያጠቃልላል',
+      'This component focuses on personal beliefs, values, purpose, meaning in life, and a sense of connection to something greater than oneself.',
+    am_shortName: 'መንፈሳዊነት',
+    am_longName: 'መንፈሳዊነት',
+    am_description:
+      'ይህ ክፍል የሚያተኩረው በግላዊ እምነቶች፣ እሴቶች፣ ዓላማ፣ የህይወት ትርጉም እና ከራሳችን ከሚበልጥ ነገር ጋር የሚኖር ግንኙነት ላይ ነው።',
   },
 ];
 

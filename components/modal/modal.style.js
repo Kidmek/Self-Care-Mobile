@@ -34,14 +34,13 @@ export const modalStyles = StyleSheet.create({
 
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: FONT.bold,
     textAlign: 'center',
   },
   modalText: {
     marginBottom: SIZES.large,
-    textAlign: 'center',
-    fontFamily: FONT.bold,
-    fontSize: SIZES.large,
+    fontFamily: FONT.medium,
+    fontSize: SIZES.medium,
   },
   declineBtn: {
     backgroundColor: COLORS.red,

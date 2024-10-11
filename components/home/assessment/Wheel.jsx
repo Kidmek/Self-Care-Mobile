@@ -1,7 +1,8 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import LifeWheel from './LifeWheel';
 
@@ -10,11 +11,12 @@ import { addWheelHistory, getWheelData, setWheelData } from '~/api/storage';
 import HeaderIcon from '~/common/header/HeaderIcon';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import InfoModal from '~/components/modal/InfoModal';
+import WheelDescriptionModal from '~/components/modal/WheelDescriptionModal';
 import WheelModal from '~/components/modal/WheelModal';
 import { AnalyticField } from '~/constants/strings/common';
 import { ASSESSMENT_STRINGS } from '~/constants/strings/home/assessment/assessment';
 import { WHEEL_SECTIONS, WHEEL_STRINGS } from '~/constants/strings/home/assessment/wheel';
-import { FONT, SIZES, WHEEL_COLORS } from '~/constants/theme';
+import { COLORS, FONT, SIZES, WHEEL_COLORS } from '~/constants/theme';
 import { checkIfAmh } from '~/utils/helper';
 
 export default function Wheel() {
@@ -23,6 +25,7 @@ export default function Wheel() {
   const navigation = useNavigation();
 
   const [visible, setVisible] = useState(false);
+  const [selectedDiscription, setSelectedDiscription] = useState();
   const [infoVisible, setInfoVisible] = useState(false);
   const [selected, setSelected] = useState();
   const changed = useRef(null);
@@ -104,6 +107,14 @@ export default function Wheel() {
         save={handleChange}
         t={t}
       />
+      <WheelDescriptionModal
+        description={selectedDiscription?.description}
+        title={selectedDiscription?.title}
+        visible={!!selectedDiscription}
+        hide={() => {
+          setSelectedDiscription(null);
+        }}
+      />
       <InfoModal
         visible={infoVisible}
         setVisible={setInfoVisible}
@@ -113,16 +124,23 @@ export default function Wheel() {
       <ScrollView style={{ flex: 1 }}>
         <LifeWheel segments={wheels} handlePress={handlePress} />
         <View style={styles.descContainer}>
-          <Text style={styles.descHeader}>{t(WHEEL_STRINGS.DESCRIPTION)}</Text>
+          {/* <Text style={styles.descHeader}>{t(WHEEL_STRINGS.DESCRIPTION)}</Text> */}
           {WHEEL_SECTIONS.map((s, i) => {
             const longName = checkIfAmh() ? s.am_longName : s.longName;
             const description = checkIfAmh() ? s.am_description : s.description;
             return (
-              <View key={i} style={styles.singleDesc}>
-                <Text style={styles.descTitle}>
-                  {longName}: <Text style={styles.descBody}>{description}</Text>
-                </Text>
-              </View>
+              <TouchableOpacity
+                key={i}
+                style={styles.singleDesc}
+                onPress={() => {
+                  setSelectedDiscription({
+                    title: longName,
+                    description,
+                  });
+                }}>
+                <Text style={styles.descTitle}>{longName}</Text>
+                <Ionicons name="help-circle" size={SIZES.inputIcons} />
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -135,6 +153,15 @@ const styles = StyleSheet.create({
   descContainer: {
     padding: SIZES.small,
     gap: SIZES.small,
+  },
+  singleDesc: {
+    padding: SIZES.small,
+    borderWidth: StyleSheet.hairlineWidth,
+    backgroundColor: COLORS.primaryColors.lightBlue + '8A',
+    borderRadius: SIZES.xxSmall,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   descHeader: {
     fontFamily: FONT.bold,

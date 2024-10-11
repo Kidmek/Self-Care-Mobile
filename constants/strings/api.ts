@@ -1,5 +1,5 @@
-// export const API = 'https://selfcare.org.et/api/';
-export const API = 'http://192.168.1.14:3000/api/';
+export const API = 'https://selfcare.org.et/api/';
+// export const API = 'http://192.168.1.14:3000/api/';
 export const MEDIA_URL = `${API}../uploads`;
 export const ADMIN = 'ADMIN';
 export const LOGIN_API = 'auth/login';
