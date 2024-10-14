@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 
+import Description from './Description';
 import SingleHistory from './SingleHistory';
 import { assessmentStyle } from './assessment.style';
 
@@ -60,6 +61,22 @@ export default function Tracking() {
         onPressDelete={hanldeDelete}
       />
     );
+  };
+
+  const renderRows = () => {
+    const moodItems = Object.entries(TRACKING_EMOJIS);
+    const rows = [];
+
+    for (let i = 0; i < moodItems.length; i += 2) {
+      const rowItems = moodItems.slice(i, i + 2); // Get two items per row
+      rows.push(
+        <View key={i} style={assessmentStyle.moodRow}>
+          {rowItems.map(([name, emoji]) => renderSingle(name, emoji))}
+        </View>
+      );
+    }
+
+    return rows;
   };
 
   const handleSave = (description) => {
@@ -172,15 +189,19 @@ export default function Tracking() {
               </Text>
             );
           }}
-          // contentContainerStyle={{ ' }}
         />
       ) : (
         <View style={assessmentStyle.container}>
+          <Description
+            description={t(ASSESSMENT_STRINGS.MOOD_TRACKING_DESC)}
+            padding={SIZES.small}
+          />
           <Text style={assessmentStyle.headerQns}>{t(TRACKING_STRINGS.FEELING_QNS)}</Text>
           <ScrollView contentContainerStyle={assessmentStyle.moodsContainer}>
-            {Object.entries(TRACKING_EMOJIS).map(([k, v]) => {
+            {renderRows()}
+            {/* {Object.entries(TRACKING_EMOJIS).map(([k, v]) => {
               return renderSingle(k, v);
-            })}
+            })} */}
           </ScrollView>
         </View>
       )}

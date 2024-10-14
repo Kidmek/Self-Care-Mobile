@@ -4,6 +4,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import Description from './Description';
 import LifeWheel from './LifeWheel';
 
 import { addAnalyticApi } from '~/api/analytics';
@@ -122,6 +123,7 @@ export default function Wheel() {
         type={ASSESSMENT_STRINGS.LIFE_WHEEL}
       />
       <ScrollView style={{ flex: 1 }}>
+        <Description description={t(ASSESSMENT_STRINGS.LIFE_WHEEL_DESC)} padding={SIZES.small} />
         <LifeWheel segments={wheels} handlePress={handlePress} />
         <View style={styles.descContainer}>
           {/* <Text style={styles.descHeader}>{t(WHEEL_STRINGS.DESCRIPTION)}</Text> */}

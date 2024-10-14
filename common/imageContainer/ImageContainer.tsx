@@ -14,7 +14,7 @@ export default function ImageContainer({
 }) {
   return (
     <ImageBackground
-      source={noImage ? undefined : require('~/assets/images/bg.png')}
+      source={noImage ? undefined : require('~/assets/images/background.png')}
       resizeMode="cover"
       style={{
         flex: 1,

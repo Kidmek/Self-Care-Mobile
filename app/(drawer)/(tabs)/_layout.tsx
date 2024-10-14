@@ -65,10 +65,29 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   tabBar: {
     position: 'absolute',
+    // backgroundColor: COLORS.primary + '2F',
     backgroundColor: 'transparent',
     elevation: 0,
     borderTopWidth: 0,
     height: SIZES.tabHeight,
     paddingBottom: SIZES.xSmall,
+    borderTopEndRadius: SIZES.small,
+    borderTopStartRadius: SIZES.small,
   },
+  // blurContainer: {
+  //   position: 'absolute',
+  //   bottom: 0, // Position at the bottom
+  //   left: 0,
+  //   right: 0,
+  //   height: SIZES.tabHeight, // Match height of the tab bar
+
+  //   // Add border to top left and top right
+  //   borderColor: COLORS.uiElementColors.iconsAndButtons.lightBlue, // Adjust border color
+  //   borderTopLeftRadius: 20, // Adjust corner radius
+  //   borderTopRightRadius: 20,
+  // },
+  // innerBlurContainer: {
+  //   flex: 1,
+  //   backgroundColor: 'rgba(255, 255, 255, 0.1)', // Optional: Add a slight tint to the blur
+  // },
 });

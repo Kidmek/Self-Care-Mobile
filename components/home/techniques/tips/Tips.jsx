@@ -47,8 +47,6 @@ export default function Tips() {
         }
       },
       onSuccess: (data) => {
-        console.log(data);
-
         setTips(data);
       },
       noSuccessToast: true,
@@ -56,8 +54,9 @@ export default function Tips() {
   };
 
   const renderItem = ({ item, index }) => {
-    const pictures = item?.media?.filter((m) => m.type === MEDIA_TYPE.PIC);
-    const title = checkIfAmh() ? item.amh_title : item.title;
+    const pictures = item.media?.filter((m) => m.type === MEDIA_TYPE.PIC);
+    // const title = checkIfAmh() ? item.amh_title : item.title;
+    const length = item.media?.length;
     const description = checkIfAmh() ? item.amh_description : item.description;
     return (
       <View style={styles.singleContainer}>
@@ -100,10 +99,10 @@ export default function Tips() {
               }}
             />
 
-            <Pagination length={item?.media?.length} active={activeIndexes?.[index] ?? 0} />
+            {length > 1 && <Pagination length={length} active={activeIndexes?.[index] ?? 0} />}
           </View>
         )}
-        <Text style={styles.title}>{title}</Text>
+        {/* <Text style={styles.title}>{title}</Text> */}
 
         {description && <Text style={styles.description}>{description}</Text>}
         <View style={commonStyles.divider(COLORS.black)} />
@@ -160,6 +159,7 @@ export default function Tips() {
                 </Text>
               );
           }}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </ImageContainer>
@@ -186,9 +186,8 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   description: {
-    fontFamily: FONT.regular,
-    fontSize: SIZES.large,
-    textTransform: 'capitalize',
-    // color: COLORS.circleAndInfo,
+    marginTop: SIZES.xxSmall,
+    fontFamily: FONT.medium,
+    fontSize: SIZES.medium,
   },
 });

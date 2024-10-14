@@ -5,7 +5,6 @@ import { Animated, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'r
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import { commonStyles } from '~/common/common.style';
-import { TRACKING_EMOJIS } from '~/constants/strings/home/assessment/tracking';
 import { HOME_STRINGS } from '~/constants/strings/home/home';
 import { DAYS, REMINDER_FREQUENCY, REMINDER_TYPES } from '~/constants/strings/home/reminder';
 import { COLORS, FONT, SIZES } from '~/constants/theme';

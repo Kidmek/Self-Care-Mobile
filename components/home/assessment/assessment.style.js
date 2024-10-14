@@ -7,7 +7,7 @@ export const assessmentStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    paddingTop: SIZES.medium,
+    // paddingTop: SIZES.medium,
   },
   outerWheel: {
     textAnchor: 'middle',
@@ -31,6 +31,10 @@ export const assessmentStyle = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  moodRow: {
+    flexDirection: 'row',
+    gap: SIZES.small,
+  },
   singleMood: {
     gap: SIZES.small,
     borderWidth: StyleSheet.hairlineWidth,
@@ -38,7 +42,7 @@ export const assessmentStyle = StyleSheet.create({
     borderRadius: SIZES.large,
     backgroundColor: COLORS.primaryColors.lightBlue + '5A',
     alignItems: 'center',
-    width: '50%',
+    flex: 1,
   },
   moodName: {
     fontFamily: FONT.bold,

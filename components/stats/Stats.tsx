@@ -36,7 +36,7 @@ export default function Stats() {
   };
 
   const fetchTracking = async () => {
-    const test = true;
+    const test = false;
     let history = (await getTrackingInfo()) ?? [];
     const converted: any[] = [];
     converted.push({

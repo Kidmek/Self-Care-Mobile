@@ -45,7 +45,7 @@ const LifeWheel = ({ segments, handlePress }) => {
   };
 
   return (
-    <View style={assessmentStyle.wheelContainer}>
+    <View>
       <Svg height={height} width={width}>
         <G>
           {segments.map((segment, index) => (

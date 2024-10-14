@@ -14,10 +14,42 @@ export default function About() {
       <ScrollView contentContainerStyle={styles.body}>
         <Text style={styles.cardHeader}>{t(INFO_STRINGS.APP_DESCRIPTION_LABEL)}</Text>
         <Text style={styles.singleInfoValue}>{t(INFO_STRINGS.APP_DESCRIPTION)}</Text>
-        {/* @ts-ignore */}
-        <View style={commonStyles.divider(COLORS.secondary)} />
+        <View
+          style={[
+            // @ts-ignore
+            commonStyles.divider(COLORS.secondary),
+            {},
+          ]}
+        />
 
-        <Image source={require('~/assets/GIZ.png')} style={styles.image} resizeMethod="scale" />
+        <Text style={[styles.cardHeader, styles.partnerText]}>
+          This self-care application is prepared by EPA in collaboration with GIZ.
+        </Text>
+        <View style={styles.imgContainer}>
+          <View style={styles.singleImgContainer}>
+            <Image
+              source={require('~/assets/images/GIZ.png')}
+              style={[
+                styles.image,
+                {
+                  width: '100%',
+                },
+              ]}
+            />
+          </View>
+
+          <View style={styles.singleImgContainer}>
+            <Image
+              source={require('~/assets/images/EPA.png')}
+              style={[
+                styles.image,
+                {
+                  width: '50%',
+                },
+              ]}
+            />
+          </View>
+        </View>
       </ScrollView>
     </ImageContainer>
   );
@@ -31,9 +63,12 @@ const styles = StyleSheet.create({
   },
   cardHeader: {
     fontFamily: FONT.bold,
+
     lineHeight: SIZES.large,
+
     fontSize: SIZES.large,
     color: COLORS.dark,
+
     textAlign: 'center',
   },
 
@@ -43,9 +78,24 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     textAlign: 'center',
   },
+  partnerText: {
+    marginTop: -SIZES.xxLarge,
+    fontSize: SIZES.xSmall,
+  },
+
+  imgContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 0,
+  },
+
+  singleImgContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width * 0.5,
+    height: width * 0.1,
+  },
   image: {
-    width,
     resizeMode: 'contain',
-    marginTop: -2 * SIZES.xxLarge,
   },
 });
