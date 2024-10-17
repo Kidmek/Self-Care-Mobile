@@ -55,17 +55,10 @@ export default function ContactUs() {
         <View style={styles.card}>
           <Text style={styles.cardHeader}>{t(INFO_STRINGS.SOCIAL_MEDIA)}</Text>
           {renderSingleCard(
-            `https://www.instagram.com/${INFO.INSTAGRAM}`,
-            t(INFO_STRINGS.INSTAGRAM),
-            INFO.INSTAGRAM,
-            'logo-instagram'
-          )}
-
-          {renderSingleCard(
-            `https://www.x.com/${INFO.TWITTER}`,
-            t(INFO_STRINGS.TWITTER),
-            INFO.TWITTER,
-            'logo-twitter'
+            `https://www.linkedin.com/company/${INFO.LINKEDIN}`,
+            t(INFO_STRINGS.LINKEDIN),
+            INFO.LINKEDIN,
+            'logo-linkedin'
           )}
 
           {renderSingleCard(
@@ -76,9 +69,16 @@ export default function ContactUs() {
           )}
 
           {renderSingleCard(
-            `https://t.me/${INFO.TELEGRAM}`,
-            t(INFO_STRINGS.TELEGRAM),
-            INFO.TELEGRAM,
+            `https://t.me/${INFO.TELEGRAM_CHANNEL}`,
+            t(INFO_STRINGS.TELEGRAM_CHANNEL),
+            INFO.TELEGRAM_CHANNEL,
+            null,
+            <FontAwesome name="telegram" size={SIZES.tabIcons} />
+          )}
+          {renderSingleCard(
+            `https://t.me/${INFO.TELEGRAM_GROUP}`,
+            t(INFO_STRINGS.TELEGRAM_GROUP),
+            INFO.TELEGRAM_GROUP,
             null,
             <FontAwesome name="telegram" size={SIZES.tabIcons} />
           )}

@@ -49,9 +49,11 @@ export const INFO = {
   PHONE_NUM: '+251975005508',
   EMAIL_ADDRESS: 'psychologyassociation1@gmail.com',
   INSTAGRAM: 'testtest',
-  FACEBOOK: 'testtest',
+  FACEBOOK: 'ethiopianpsychologistsassociation25',
   TWITTER: '@testtest',
-  TELEGRAM: 'testtest',
+  LINKEDIN: 'ethiopia-psychologists-association',
+  TELEGRAM_GROUP: 'EPAMembers',
+  TELEGRAM_CHANNEL: 'ethiopsychologistsassociation',
 };
 
 export const languages = [

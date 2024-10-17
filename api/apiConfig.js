@@ -100,7 +100,6 @@ const handleSuccess = (response, toast, onSuccess, successMsg, setLoading, langu
   if (setLoading) setLoading(false);
 
   const responseData = response?.data;
-  console.log(responseData);
   if (responseData?.status === false) {
     if (toast?.show) {
       toast?.show(responseData.description || Messages[language].failure, { type: 'danger' });

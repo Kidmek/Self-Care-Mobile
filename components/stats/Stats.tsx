@@ -119,7 +119,6 @@ export default function Stats() {
     if (total > 0) {
       calculated.forEach((c) => {
         c.value = Math.ceil(c.value / total);
-        console.log(c.value);
       });
     }
     setWheels(calculated);

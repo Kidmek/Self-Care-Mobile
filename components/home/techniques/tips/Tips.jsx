@@ -34,7 +34,6 @@ export default function Tips() {
   const [activeIndexes, setActiveIndexes] = useState({});
 
   const fetch = () => {
-    console.log(`tips/type/${params?.type}`);
     requestSkeleton({
       mehod: 'GET',
       url: `tips/type/${params?.type}`,
@@ -102,7 +101,6 @@ export default function Tips() {
             {length > 1 && <Pagination length={length} active={activeIndexes?.[index] ?? 0} />}
           </View>
         )}
-        {/* <Text style={styles.title}>{title}</Text> */}
 
         {description && <Text style={styles.description}>{description}</Text>}
         <View style={commonStyles.divider(COLORS.black)} />

@@ -52,7 +52,7 @@ export const COLORS = {
       softTeal: '#81C7B9',
     },
     text: {
-      primary: '#707070',
+      primary: '#424242',
       secondary: '#B0B0B0',
     },
     bordersAndDividers: '#F0F0F0',

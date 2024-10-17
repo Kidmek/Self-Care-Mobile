@@ -44,6 +44,18 @@ const DrawerLayout = () => {
           drawerIcon: ({ size, color }) => (
             <Ionicons name="information" size={size} color={color} />
           ),
+          drawerItemStyle: {
+            display: 'none',
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="partner"
+        options={{
+          drawerLabel: t(HOME_STRINGS.ABOUT_APP),
+          drawerIcon: ({ size, color }) => (
+            <Ionicons name="information" size={size} color={color} />
+          ),
           headerTitle: '',
         }}
       />

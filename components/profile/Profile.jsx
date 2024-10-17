@@ -55,7 +55,6 @@ export default function Profile() {
       }
     });
     setErrors({ ...errors });
-    console.log(newUser);
     if (Object.keys(errors).length) {
       toast.show(t(AUTH_STRINGS.INVALID_FIELDS), {
         type: 'danger',
@@ -71,7 +70,6 @@ export default function Profile() {
         toast,
         setLoading,
         onSuccess: (data) => {
-          console.log('New User:', data);
           fetch();
           setEdit(false);
         },

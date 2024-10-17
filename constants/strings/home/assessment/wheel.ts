@@ -57,7 +57,7 @@ export const WHEEL_SECTIONS = [
     longName: 'Personal Growth and Learning',
     description:
       'This includes continuous learning, personal development, setting and achieving goals, and pursuing new experiences and challenges.',
-    am_shortName: 'ግል',
+    am_shortName: 'የግል እድገት',
     am_longName: 'የግል እድገት እና ትምህርት',
     am_description:
       'ይህ ቀጣይነት ያለው ትምህርትን፣ የግል እድገትን፣ ግቦችን ማውጣት እና ማሳካትን፣ እና አዳዲስ ልምዶችን እና ፈተናዎችን መከተልን ያካትታል።',

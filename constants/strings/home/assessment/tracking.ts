@@ -99,7 +99,7 @@ export const am_tracking_translations: {
   [TRACKING.Sad]: 'ተከፍቻለሁ ',
   [TRACKING.Irritated]: 'ተበሳጭቻለሁ',
   [TRACKING.Neutral]: 'ምንም አልል',
-  FEELING_QNS: 'አሁን ምን ይሰማሃል?',
+  FEELING_QNS: 'አሁን ምን ይሰማዎታል?',
   ADDITIONAL_INFO: 'ተጭማሪ መረጃ',
   MOOD: 'ስሜት',
   DESCRIPTION: 'መግለጫ',
