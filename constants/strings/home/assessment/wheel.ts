@@ -16,7 +16,7 @@ export const WHEEL_SECTIONS = [
     longName: 'Mental and Emotional Well-being',
     description:
       'This involves mental health, emotional intelligence, self-awareness, stress management, and resilience.',
-    am_shortName: 'አዕምሯዊ',
+    am_shortName: 'አዕምሯዊ...',
     am_longName: 'አዕምሯዊ እና ስሜታዊ ደህንነት',
     am_description: 'ይህ  ክፍል  የአእምሮ ጤናን፣ ስሜታዊ ልህቀትን፣ እራስን ማወቅን፣ ጭንቀትን መቆጣጠር  እና መቻልን ያካትታል።',
   },
@@ -57,7 +57,7 @@ export const WHEEL_SECTIONS = [
     longName: 'Personal Growth and Learning',
     description:
       'This includes continuous learning, personal development, setting and achieving goals, and pursuing new experiences and challenges.',
-    am_shortName: 'የግል እድገት',
+    am_shortName: 'የግል እድገት...',
     am_longName: 'የግል እድገት እና ትምህርት',
     am_description:
       'ይህ ቀጣይነት ያለው ትምህርትን፣ የግል እድገትን፣ ግቦችን ማውጣት እና ማሳካትን፣ እና አዳዲስ ልምዶችን እና ፈተናዎችን መከተልን ያካትታል።',

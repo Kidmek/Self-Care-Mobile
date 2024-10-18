@@ -7,7 +7,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/icon.jpg"
+      "favicon": "./assets/images/icon.png"
     },
     "plugins": [
       "expo-router",
@@ -36,11 +36,11 @@
       "tsconfigPaths": true
     },
     "orientation": "portrait",
-    "icon": "./assets/images/icon.jpg",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/splash.jpg",
-      "backgroundColor": "#add1d2"
+      "image": "./assets/images/splash.png",
+      "backgroundColor": "#DFAF8E"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -48,8 +48,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.jpg",
-        "backgroundColor": "#add1d2"
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#DFAF8E"
       },
       "package": "com.bandaw.SelfCare"
     },

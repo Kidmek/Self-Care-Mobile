@@ -47,7 +47,7 @@ export const JOURNALING_STRINGS: { [placeholder in JournalingStringsKeys]: strin
 );
 export const am_journaling_translations: { [placeholder in JournalingStringsKeys]: string } = {
   TITLE: 'ርዕስ',
-  JOURNAL: 'መጽሔት',
+  JOURNAL: 'ፅሁፍ',
   DELETE_PROMPT: 'እርግጠኛ ነዎት ይህን መሰረዝ ይፈልጋሉ?',
-  EMPTY_JOURNAL_HISTORY: 'እስካሁን ምንም መጽሔት አልተመዘገበም።',
+  EMPTY_JOURNAL_HISTORY: 'እስካሁን ምንም ፅሁፍ አልተመዘገበም።',
 };

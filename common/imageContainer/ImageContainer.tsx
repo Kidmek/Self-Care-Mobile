@@ -14,6 +14,7 @@ export default function ImageContainer({
 }) {
   return (
     <ImageBackground
+      blurRadius={5}
       source={noImage ? undefined : require('~/assets/images/background.png')}
       resizeMode="cover"
       style={{
@@ -24,7 +25,6 @@ export default function ImageContainer({
             ? SIZES.tabHeight
             : SIZES.tabHeight * 1.6
           : 0,
-        // position: 'absolute',
         width,
         height,
         top: 0,

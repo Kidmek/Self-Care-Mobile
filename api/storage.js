@@ -137,9 +137,10 @@ export const initilizeSettings = async () => {
   // @ts-ignore
   initSettings[SETTING_STRINGS.VIBRATION] = true;
   // @ts-ignore
-  initSettings[SETTING_STRINGS.AWAT_FOR] = 30;
+  initSettings[SETTING_STRINGS.AWAY_FOR] = 30;
   setLocalSettings(initSettings);
   console.log('Initialized Settings', initSettings);
+  return initSettings;
 };
 
 export const setLocalSettings = async (data) => {

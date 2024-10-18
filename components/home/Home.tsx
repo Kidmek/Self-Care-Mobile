@@ -99,7 +99,7 @@ export default function Home() {
       const last = (await getLastLoggedIn()) ?? new Date().setFullYear(2000);
       if (
         s?.[SETTING_STRINGS.PIN_LOCK] === true &&
-        getMinutes(new Date(last), new Date()) > s?.[SETTING_STRINGS.AWAT_FOR]
+        getMinutes(new Date(last), new Date()) > s?.[SETTING_STRINGS.AWAY_FOR]
       ) {
         setVisible(true);
       }

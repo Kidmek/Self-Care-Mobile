@@ -7,7 +7,13 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 import PinModal from '../modal/PinModal';
 
-import { getLanguage, getLocalSettings, setLanguage, setLocalSettings } from '~/api/storage';
+import {
+  getLanguage,
+  getLocalSettings,
+  initilizeSettings,
+  setLanguage,
+  setLocalSettings,
+} from '~/api/storage';
 import CustomButton from '~/common/button/CustomButton';
 import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { languages } from '~/constants/strings/common';
@@ -113,8 +119,13 @@ export default function Setting() {
 
   useEffect(() => {
     fetch();
-    getLocalSettings().then((s) => {
-      setSettings(s);
+    getLocalSettings().then(async (s) => {
+      if (s) {
+        setSettings(s);
+      } else {
+        const initilized = await initilizeSettings();
+        setSettings(initilized);
+      }
     });
     getLanguage().then((l) => {
       setSelectedLanguage(l);
@@ -173,60 +184,65 @@ export default function Setting() {
         <View style={styles.category}>
           <Text style={styles.categoryHeader}>{t(SETTING_STRINGS.SECURITY)}</Text>
           {renderSingle(SETTING_STRINGS.PIN_LOCK)}
-          <View style={styles.singleSetting}>
-            <Text style={[styles.singleSettingHeader]}>{t(SETTING_STRINGS.AWAT_FOR)}</Text>
+          {checkPin() && (
+            <>
+              <View style={styles.singleSetting}>
+                <Text style={[styles.singleSettingHeader]}>{t(SETTING_STRINGS.AWAY_FOR)}</Text>
 
-            <DropDownPicker
-              style={{
-                backgroundColor: 'transparent',
-              }}
-              containerStyle={{
-                width: '35%',
-                alignSelf: 'flex-end',
-                backgroundColor: 'transparent',
-                zIndex: 100,
-              }}
-              value={settings[SETTING_STRINGS.AWAT_FOR]}
-              items={[
-                {
-                  value: 30,
-                  label: '30 minute',
-                },
-                {
-                  value: 60,
-                  label: '1 hour',
-                },
-                {
-                  value: 24,
-                  label: '1 day',
-                },
-              ]}
-              setOpen={setAwayForOpen}
-              open={awayForOpen}
-              onSelectItem={(v) => {
-                setSettings({ ...settings, [SETTING_STRINGS.AWAT_FOR]: v.value });
-              }}
-              placeholder=""
-            />
-          </View>
-          {renderSingle(
-            SETTING_STRINGS.ENABLE_BIOMETRICS,
-            !checkPin() || !LocalAuthentication.hasHardwareAsync()
+                <DropDownPicker
+                  style={{
+                    backgroundColor: 'transparent',
+                  }}
+                  containerStyle={{
+                    width: '35%',
+                    alignSelf: 'flex-end',
+                    backgroundColor: 'transparent',
+                    zIndex: 100,
+                  }}
+                  value={settings[SETTING_STRINGS.AWAY_FOR]}
+                  items={[
+                    {
+                      value: 30,
+                      label: '30 minute',
+                    },
+                    {
+                      value: 60,
+                      label: '1 hour',
+                    },
+                    {
+                      value: 24,
+                      label: '1 day',
+                    },
+                  ]}
+                  setOpen={setAwayForOpen}
+                  open={awayForOpen}
+                  onSelectItem={(v) => {
+                    setSettings({ ...settings, [SETTING_STRINGS.AWAY_FOR]: v.value });
+                  }}
+                  placeholder=""
+                />
+              </View>
+              {renderSingle(
+                SETTING_STRINGS.ENABLE_BIOMETRICS,
+                !LocalAuthentication.hasHardwareAsync()
+              )}
+
+              <View
+                style={{
+                  paddingHorizontal: SIZES.large,
+                  marginVertical: SIZES.medium,
+                }}>
+                <CustomButton
+                  title={t(SETTING_STRINGS.CHANGE_PIN)}
+                  disabled={!checkPin()}
+                  pressable
+                  onPress={() => {
+                    setVisible(true);
+                  }}
+                />
+              </View>
+            </>
           )}
-          <View
-            style={{
-              paddingHorizontal: SIZES.large,
-              marginVertical: SIZES.medium,
-            }}>
-            <CustomButton
-              title={t(SETTING_STRINGS.CHANGE_PIN)}
-              disabled={!checkPin()}
-              pressable
-              onPress={() => {
-                setVisible(true);
-              }}
-            />
-          </View>
         </View>
       </View>
     </ImageContainer>
