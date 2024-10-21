@@ -1,4 +1,5 @@
-import { Video, ResizeMode, VideoFullscreenUpdateEvent } from 'expo-av';
+import { useStoreState } from 'easy-peasy';
+import { Video, ResizeMode, Audio, VideoFullscreenUpdateEvent } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useRef } from 'react';
 import { Platform, StyleSheet } from 'react-native';
@@ -7,6 +8,9 @@ import { SIZES } from '~/constants/theme';
 
 export default function TipVideo({ uri }: { uri: string }) {
   const videoRef = useRef<Video>(null);
+
+  // @ts-ignore
+  const sound: Audio.Sound = useStoreState((state) => state.sound);
 
   const onFullscreenUpdate = async ({ fullscreenUpdate }: VideoFullscreenUpdateEvent) => {
     if (Platform.OS === 'android') {
@@ -20,6 +24,7 @@ export default function TipVideo({ uri }: { uri: string }) {
       }
     }
   };
+
   return (
     <Video
       ref={videoRef}
@@ -30,6 +35,14 @@ export default function TipVideo({ uri }: { uri: string }) {
       }}
       useNativeControls
       resizeMode={ResizeMode.CONTAIN}
+      onPlaybackStatusUpdate={async (status) => {
+        // @ts-ignore
+        if (status.isPlaying) {
+          sound.stopAsync();
+        } else {
+          sound.playAsync();
+        }
+      }}
     />
   );
 }

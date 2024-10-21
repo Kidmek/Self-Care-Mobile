@@ -1,3 +1,4 @@
+import { useStoreState } from 'easy-peasy';
 import * as LocalAuthentication from 'expo-local-authentication';
 import i18next from 'i18next';
 import React, { useEffect, useState } from 'react';
@@ -23,6 +24,8 @@ import { cancelNotification, changeAllType } from '~/utils/notification';
 
 export default function Setting() {
   const { t } = useTranslation();
+  // @ts-ignore
+  const sound = useStoreState((state) => state.sound);
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [languageOpen, setLanguageOpen] = useState(false);
   const [awayForOpen, setAwayForOpen] = useState(false);
@@ -61,15 +64,19 @@ export default function Setting() {
     const prev = { ...settings };
     prev[name] = !prev[name];
 
-    if (name === SETTING_STRINGS.SOUND || name === SETTING_STRINGS.VIBRATION) {
+    if (name === SETTING_STRINGS.BACKGOUND_MUSIC) {
+      if (prev[name]) {
+        sound.playAsync();
+      } else {
+        sound.stopAsync();
+      }
+    } else if (name === SETTING_STRINGS.SOUND || name === SETTING_STRINGS.VIBRATION) {
       changeAllType(
         prev[SETTING_STRINGS.VIBRATION] === true,
         prev[SETTING_STRINGS.SOUND] === true,
         t
       );
-    }
-
-    if (name === SETTING_STRINGS.ALLOW_NOTIFIACTION) {
+    } else if (name === SETTING_STRINGS.ALLOW_NOTIFIACTION) {
       if (prev[name]) {
         changeAllType(
           prev[SETTING_STRINGS.VIBRATION] === true,
@@ -81,8 +88,7 @@ export default function Setting() {
         await cancelNotification();
         console.log('notifications disabled');
       }
-    }
-    if (name === SETTING_STRINGS.PIN_LOCK) {
+    } else if (name === SETTING_STRINGS.PIN_LOCK) {
       if (prev[name]) {
         if (settings[SETTING_STRINGS.CHANGE_PIN]?.length !== 4) {
           setVisible(true);
@@ -174,6 +180,7 @@ export default function Setting() {
               placeholder="Language"
             />
           </View>
+          {renderSingle(SETTING_STRINGS.BACKGOUND_MUSIC, !checkNotification())}
         </View>
         <View style={styles.category}>
           <Text style={styles.categoryHeader}>{t(SETTING_STRINGS.NOTIFICATION)}</Text>

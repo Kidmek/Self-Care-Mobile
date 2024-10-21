@@ -29,4 +29,11 @@ export const store = createStore({
     state.isForgotPass = payload;
   }),
   //
+
+  //
+  sound: null,
+  setSound: action((state, payload) => {
+    state.sound = payload;
+  }),
+  //
 });
