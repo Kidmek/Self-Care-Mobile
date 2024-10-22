@@ -33,7 +33,7 @@ export default function Partners() {
               style={[
                 styles.image,
                 {
-                  width: '40%',
+                  width: '60%',
                 },
               ]}
             />

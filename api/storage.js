@@ -140,6 +140,8 @@ export const initilizeSettings = async () => {
   initSettings[SETTING_STRINGS.AWAY_FOR] = 30;
   // @ts-ignore
   initSettings[SETTING_STRINGS.BACKGOUND_MUSIC] = true;
+  // @ts-ignore
+  initSettings[SETTING_STRINGS.BACKGOUND_MUSIC_VOLUME] = 30;
   setLocalSettings(initSettings);
   console.log('Initialized Settings', initSettings);
   return initSettings;

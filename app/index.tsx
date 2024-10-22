@@ -1,5 +1,3 @@
-import { useStoreActions, useStoreState } from 'easy-peasy';
-import { Audio } from 'expo-av';
 import { router, useRootNavigationState } from 'expo-router';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';

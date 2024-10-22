@@ -21,6 +21,7 @@ export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '',
 };
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   useNotifications();
@@ -41,21 +42,23 @@ export default function RootLayout() {
     });
     getLocalSettings().then(async (s) => {
       try {
+        if (s === null) {
+          s = await initilizeSettings();
+        }
+        console.log('Music Volume ', s?.[SETTING_STRINGS.BACKGOUND_MUSIC_VOLUME]);
+        console.log('Music Play ', s?.[SETTING_STRINGS.BACKGOUND_MUSIC] === true);
         const { sound } = await Audio.Sound.createAsync(
           require('~/assets/bg-sound.mp3'), // Path to your audio file
-          { shouldPlay: true, isLooping: true, volume: 0.5 }
+          {
+            shouldPlay: s[SETTING_STRINGS.BACKGOUND_MUSIC],
+            isLooping: true,
+            volume: s[SETTING_STRINGS.BACKGOUND_MUSIC_VOLUME] / 100,
+          }
         );
         setSoundLoaded(sound);
-
-        if (!s || s[SETTING_STRINGS.BACKGOUND_MUSIC]) {
-          await sound.playAsync();
-        }
       } catch (error) {
         console.log('Error loading sound', error);
         setSoundLoaded(null);
-      }
-      if (s === null) {
-        await initilizeSettings();
       }
     });
   }, []);
@@ -64,9 +67,9 @@ export default function RootLayout() {
     if (fontsLoaded && soundLoaded !== undefined) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, soundLoaded]);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || soundLoaded === undefined) {
     return null;
   }
 

@@ -6,6 +6,8 @@ export const en_setting_translations = {
   SECURITY: 'Security',
   SOUND: 'Sound',
   BACKGOUND_MUSIC: 'Background Music',
+  BACKGOUND_MUSIC_VOLUME: 'Background Volume',
+
   VIBRATION: 'Vibration',
   ALLOW_NOTIFIACTION: 'Allow Notifications',
   PIN_LOCK: 'PIN Lock',
@@ -34,6 +36,7 @@ export const am_setting_translations: { [placeholder in SettingStringsKeys]: str
   SECURITY: 'ደህንነት',
   SOUND: 'ድምጽ',
   BACKGOUND_MUSIC: 'የበስተጀርባ ሙዚቃ',
+  BACKGOUND_MUSIC_VOLUME: 'የበስተጀርባ ሙዚቃ ድምጽ',
   VIBRATION: 'መንቀጥቀጥ',
   ALLOW_NOTIFIACTION: 'ማሳወቂያዎችን ይፍቀዱ',
   PIN_LOCK: 'ፒን መቆለፊያ',

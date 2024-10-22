@@ -4,6 +4,8 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import { useRef } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 
+import { getLocalSettings } from '~/api/storage';
+import { SETTING_STRINGS } from '~/constants/strings/setting';
 import { SIZES } from '~/constants/theme';
 
 export default function TipVideo({ uri }: { uri: string }) {
@@ -37,10 +39,13 @@ export default function TipVideo({ uri }: { uri: string }) {
       resizeMode={ResizeMode.CONTAIN}
       onPlaybackStatusUpdate={async (status) => {
         // @ts-ignore
-        if (status.isPlaying) {
-          sound.stopAsync();
-        } else {
-          sound.playAsync();
+        if ((await getLocalSettings())[SETTING_STRINGS.BACKGOUND_MUSIC]) {
+          // @ts-ignore
+          if (status.isPlaying) {
+            sound.stopAsync();
+          } else {
+            sound.playAsync();
+          }
         }
       }}
     />

@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useStoreState } from 'easy-peasy';
 import * as LocalAuthentication from 'expo-local-authentication';
 import i18next from 'i18next';
@@ -43,6 +44,10 @@ export default function Setting() {
   const checkNotification = () => {
     return settings[SETTING_STRINGS.ALLOW_NOTIFIACTION] === true;
   };
+
+  const checkBackgroundMusic = () => {
+    return settings[SETTING_STRINGS.BACKGOUND_MUSIC] === true;
+  };
   const checkPin = () => {
     return settings[SETTING_STRINGS.PIN_LOCK] === true;
   };
@@ -55,9 +60,19 @@ export default function Setting() {
     const prev = settings;
     prev[SETTING_STRINGS.CHANGE_PIN] = pin;
     prev[SETTING_STRINGS.PIN_LOCK] = true;
-    setLocalSettings(prev);
     setSettings({ ...prev });
     setVisible(false);
+  };
+
+  const changeBackgroundVolume = async (plus) => {
+    const change = plus ? 10 : -10;
+    const prev = { ...settings };
+    prev[SETTING_STRINGS.BACKGOUND_MUSIC_VOLUME] =
+      prev[SETTING_STRINGS.BACKGOUND_MUSIC_VOLUME] + change;
+    if (sound?.setVolumeAsync) {
+      await sound.setVolumeAsync(prev[SETTING_STRINGS.BACKGOUND_MUSIC_VOLUME] / 100);
+    }
+    setSettings({ ...prev });
   };
 
   const changeValue = async (name) => {
@@ -114,11 +129,33 @@ export default function Setting() {
           ]}>
           {t(name)}
         </Text>
-        <Switch
-          value={checkValue(name)}
-          onValueChange={() => changeValue(name)}
-          disabled={disabled}
-        />
+        {name === SETTING_STRINGS.BACKGOUND_MUSIC_VOLUME ? (
+          <View style={styles.volumeContainer}>
+            <Ionicons
+              name="remove-circle"
+              style={[styles.volumeIcon, disabled && { color: COLORS.gray }]}
+              onPress={() => changeBackgroundVolume(false)}
+              size={SIZES.xxLarge}
+            />
+            <Text style={[styles.volumeText, disabled && { color: COLORS.gray }]}>
+              {settings[SETTING_STRINGS.BACKGOUND_MUSIC_VOLUME]}%
+            </Text>
+            <Ionicons
+              name="add-circle"
+              style={[styles.volumeIcon, disabled && { color: COLORS.gray }]}
+              onPress={() => changeBackgroundVolume(true)}
+              size={SIZES.xxLarge}
+            />
+          </View>
+        ) : (
+          <Switch
+            value={checkValue(name)}
+            onValueChange={() => changeValue(name)}
+            disabled={disabled}
+            thumbColor={disabled ? COLORS.gray : COLORS.circleAndInfo}
+            trackColor={{ false: COLORS.gray, true: COLORS.circleAndInfo }}
+          />
+        )}
       </View>
     );
   };
@@ -180,7 +217,8 @@ export default function Setting() {
               placeholder="Language"
             />
           </View>
-          {renderSingle(SETTING_STRINGS.BACKGOUND_MUSIC, !checkNotification())}
+          {renderSingle(SETTING_STRINGS.BACKGOUND_MUSIC)}
+          {renderSingle(SETTING_STRINGS.BACKGOUND_MUSIC_VOLUME, !checkBackgroundMusic())}
         </View>
         <View style={styles.category}>
           <Text style={styles.categoryHeader}>{t(SETTING_STRINGS.NOTIFICATION)}</Text>
@@ -276,6 +314,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.large,
   },
   singleSettingHeader: {
+    fontFamily: FONT.regular,
+    fontSize: SIZES.large,
+  },
+  volumeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: SIZES.xxSmall,
+  },
+  volumeIcon: {
+    color: COLORS.circleAndInfo,
+  },
+  volumeText: {
     fontFamily: FONT.regular,
     fontSize: SIZES.large,
   },
