@@ -80,10 +80,12 @@ export default function Setting() {
     prev[name] = !prev[name];
 
     if (name === SETTING_STRINGS.BACKGOUND_MUSIC) {
-      if (prev[name]) {
-        sound.playAsync();
-      } else {
-        sound.stopAsync();
+      if (sound) {
+        if (prev[name]) {
+          sound.playAsync();
+        } else {
+          sound.stopAsync();
+        }
       }
     } else if (name === SETTING_STRINGS.SOUND || name === SETTING_STRINGS.VIBRATION) {
       changeAllType(

@@ -40,7 +40,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/splash.png",
-      "backgroundColor": "#DFAF8E"
+      "backgroundColor": "#F0AB82"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
