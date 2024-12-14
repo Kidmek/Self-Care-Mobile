@@ -21,7 +21,8 @@ import ImageContainer from '~/common/imageContainer/ImageContainer';
 import { languages } from '~/constants/strings/common';
 import { SETTING_STRINGS } from '~/constants/strings/setting';
 import { COLORS, FONT, SIZES } from '~/constants/theme';
-import { cancelNotification, changeAllType } from '~/utils/notification';
+import { cancelNotification } from '~/utils/cancelNotifications';
+import { changeAllType } from '~/utils/notification';
 
 export default function Setting() {
   const { t } = useTranslation();

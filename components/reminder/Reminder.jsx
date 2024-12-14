@@ -34,7 +34,8 @@ import {
 } from '~/constants/strings/home/reminder';
 import { SETTING_STRINGS } from '~/constants/strings/setting';
 import { COLORS, SIZES } from '~/constants/theme';
-import { cancelNotification, scheduleNotification } from '~/utils/notification';
+import { cancelNotification } from '~/utils/cancelNotifications';
+import { scheduleNotification } from '~/utils/notification';
 
 export default function Reminder() {
   const navigation = useNavigation();

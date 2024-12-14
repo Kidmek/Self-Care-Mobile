@@ -179,7 +179,7 @@ export default function OTP({ setStep, setOtp, email, onSuccess }) {
               </Text>
             )}
           </Text>
-          {timer.second === 0 && timer.minute === 0 && (
+          {timer.second < 0 && timer.minute < 0 && (
             <Text
               style={[authStyles.registerTextStyle, authStyles.redirectTextStyle]}
               onPress={() => {

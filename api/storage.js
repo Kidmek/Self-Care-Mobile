@@ -116,7 +116,7 @@ export const setLocalReminders = async (data) => {
 
 export const getLocalReminders = async () => {
   const data = await AsyncStorage.getItem(HOME_STRINGS.REMINDER);
-  return JSON.parse(data);
+  return data ? JSON.parse(data) : [];
 };
 
 export const addLocalReminder = async (data) => {
